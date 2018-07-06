@@ -16,16 +16,16 @@
 #
 
 require "spec_helper"
-require "chef-run/errors/ccr_failure_mapper"
+require "chef_apply/errors/ccr_failure_mapper"
 
-RSpec.describe ChefRun::Errors::CCRFailureMapper do
+RSpec.describe ChefApply::Errors::CCRFailureMapper do
   let(:cause_line) { nil }
   let(:resource) { "apt_package" }
   let(:params) do
     { resource: resource, resource_name: "a-test-thing",
       stderr: "an error", stdout: "other output" }
   end
-  subject { ChefRun::Errors::CCRFailureMapper.new(cause_line, params) }
+  subject { ChefApply::Errors::CCRFailureMapper.new(cause_line, params) }
 
   describe "#exception_args_from_cause" do
     context "when resource properties have valid names but invalid values" do
@@ -79,7 +79,7 @@ RSpec.describe ChefRun::Errors::CCRFailureMapper do
     context "when no cause is provided" do
       let(:cause_line) { nil }
       it "raises a RemoteChefRunFailedToResolveError" do
-        expect { subject.raise_mapped_exception! }.to raise_error(ChefRun::Errors::CCRFailureMapper::RemoteChefRunFailedToResolveError)
+        expect { subject.raise_mapped_exception! }.to raise_error(ChefApply::Errors::CCRFailureMapper::RemoteChefRunFailedToResolveError)
 
       end
     end
@@ -88,14 +88,14 @@ RSpec.describe ChefRun::Errors::CCRFailureMapper do
       context "but can't resolve it" do
         let(:cause_line) { "unparseable mess" }
         it "raises a RemoteChefClientRunFailedUnknownReason" do
-          expect { subject.raise_mapped_exception! }.to raise_error(ChefRun::Errors::CCRFailureMapper::RemoteChefClientRunFailedUnknownReason)
+          expect { subject.raise_mapped_exception! }.to raise_error(ChefApply::Errors::CCRFailureMapper::RemoteChefClientRunFailedUnknownReason)
         end
       end
 
       context "and can resolve the cause" do
         let(:cause_line) { "NoMethodError: undefined method `badresourceprop' for Chef::Resource::User::LinuxUser" }
         it "raises a RemoteChefClientRunFailed" do
-          expect { subject.raise_mapped_exception! }.to raise_error(ChefRun::Errors::CCRFailureMapper::RemoteChefClientRunFailed)
+          expect { subject.raise_mapped_exception! }.to raise_error(ChefApply::Errors::CCRFailureMapper::RemoteChefClientRunFailed)
         end
       end
     end

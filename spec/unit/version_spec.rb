@@ -16,11 +16,11 @@
 #
 
 require "spec_helper"
-require "chef-run/version"
+require "chef_apply/version"
 
-RSpec.describe ChefRun::VERSION do
+RSpec.describe ChefApply::VERSION do
   subject(:version) do
-    ChefRun::VERSION
+    ChefApply::VERSION
   end
 
   context "VERSION" do

@@ -16,10 +16,10 @@
 #
 
 require "spec_helper"
-require "chef-run/ui/terminal"
+require "chef_apply/ui/terminal"
 
-RSpec.describe ChefRun::UI::Terminal do
-  Terminal = ChefRun::UI::Terminal
+RSpec.describe ChefApply::UI::Terminal do
+  Terminal = ChefApply::UI::Terminal
   # Lets send our Terminal output somewhere so it does not clutter the
   # test output
   Terminal.location = StringIO.new
@@ -53,14 +53,14 @@ RSpec.describe ChefRun::UI::Terminal do
     end
   end
 
-  describe ChefRun::UI::Terminal::Job do
-    subject { ChefRun::UI::Terminal::Job }
+  describe ChefApply::UI::Terminal::Job do
+    subject { ChefApply::UI::Terminal::Job }
     context "#exception" do
       context "when no exception occurs in execution" do
         context "and it's been invoked directly" do
           it "exception is nil" do
             job = subject.new("", nil) { 0 }
-            job.run(ChefRun::MockReporter.new)
+            job.run(ChefApply::MockReporter.new)
             expect(job.exception).to eq nil
           end
         end
@@ -69,8 +69,8 @@ RSpec.describe ChefRun::UI::Terminal do
             job1 = subject.new("", nil) { 0 }
             job2 = subject.new("", nil) { 0 }
             threads = []
-            threads << Thread.new { job1.run(ChefRun::MockReporter.new) }
-            threads << Thread.new { job2.run(ChefRun::MockReporter.new) }
+            threads << Thread.new { job1.run(ChefApply::MockReporter.new) }
+            threads << Thread.new { job2.run(ChefApply::MockReporter.new) }
             threads.each(&:join)
             expect(job1.exception).to eq nil
             expect(job2.exception).to eq nil
@@ -83,7 +83,7 @@ RSpec.describe ChefRun::UI::Terminal do
           it "captures the exception in #exception" do
             expected_exception = StandardError.new("exception 1")
             job = subject.new("", nil) { |arg| raise expected_exception }
-            job.run(ChefRun::MockReporter.new)
+            job.run(ChefApply::MockReporter.new)
             expect(job.exception).to eq expected_exception
           end
         end
@@ -96,8 +96,8 @@ RSpec.describe ChefRun::UI::Terminal do
             job1 = subject.new("", nil) { |_| raise e1 }
             job2 = subject.new("", nil) { |_| raise e2 }
             threads = []
-            threads << Thread.new { job1.run(ChefRun::MockReporter.new) }
-            threads << Thread.new { job2.run(ChefRun::MockReporter.new) }
+            threads << Thread.new { job1.run(ChefApply::MockReporter.new) }
+            threads << Thread.new { job2.run(ChefApply::MockReporter.new) }
             threads.each(&:join)
             expect(job1.exception).to eq e1
             expect(job2.exception).to eq e2

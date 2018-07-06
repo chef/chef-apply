@@ -17,10 +17,10 @@
 
 require "spec_helper"
 require "integration/spec_helper"
-require "chef-run/cli"
-require "chef-run/version"
+require "chef_apply/cli"
+require "chef_apply/version"
 
-RSpec.describe "chef-run" do
+RSpec.describe "chef_appl" do
   context "help output" do
     context "at the top level" do
       ["-h", "--help", ""].each do |arg|

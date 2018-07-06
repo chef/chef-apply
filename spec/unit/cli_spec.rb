@@ -16,23 +16,23 @@
 #
 
 require "spec_helper"
-require "chef-run/cli"
-require "chef-run/error"
-require "chef-run/telemeter"
-require "chef-run/telemeter/sender"
-require "chef-run/ui/terminal"
+require "chef_apply/cli"
+require "chef_apply/error"
+require "chef_apply/telemeter"
+require "chef_apply/telemeter/sender"
+require "chef_apply/ui/terminal"
 
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
 require "chef-dk/policyfile_services/install"
 
-RSpec.describe ChefRun::CLI do
+RSpec.describe ChefApply::CLI do
   let(:argv) { [] }
 
   subject(:cli) do
-    ChefRun::CLI.new(argv)
+    ChefApply::CLI.new(argv)
   end
-  let(:telemetry) { ChefRun::Telemeter.instance }
+  let(:telemetry) { ChefApply::Telemeter.instance }
 
   before do
     # Avoid messy object dumps in failures because subject is an object instance
@@ -60,11 +60,11 @@ RSpec.describe ChefRun::CLI do
     end
 
     context "perform_run raises WrappedError" do
-      let(:e) { ChefRun::WrappedError.new(RuntimeError.new("Test"), "host") }
+      let(:e) { ChefApply::WrappedError.new(RuntimeError.new("Test"), "host") }
 
       it "prints the error and exits" do
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefRun::UI::ErrorPrinter).to receive(:show_error).with(e)
+        expect(ChefApply::UI::ErrorPrinter).to receive(:show_error).with(e)
         expect { subject.run }.to exit_with_code(1)
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe ChefRun::CLI do
 
       it "exits with code 64" do
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefRun::UI::ErrorPrinter).to receive(:dump_unexpected_error).with(e)
+        expect(ChefApply::UI::ErrorPrinter).to receive(:dump_unexpected_error).with(e)
         expect { subject.run }.to exit_with_code(64)
       end
     end
@@ -147,7 +147,7 @@ RSpec.describe ChefRun::CLI do
         allow(subject).to receive(:create_local_policy).and_return(archive)
         allow(subject).to receive(:run_single_target)
         allow(subject).to receive(:run_multi_target)
-        allow_any_instance_of(ChefRun::TargetResolver).to receive(:targets).and_return(["host"])
+        allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(["host"])
       end
 
       it "validates parameters" do
@@ -158,17 +158,17 @@ RSpec.describe ChefRun::CLI do
       it "performs the steps required to create the local policy" do
         expect(subject).to receive(:configure_chef).ordered
         expect(subject).to receive(:generate_temp_cookbook).ordered.and_return([mock_cb, "test"])
-        generating = ChefRun::Text.status.generate_policyfile.generating
-        expect(ChefRun::UI::Terminal).to receive(:render_job).with(generating).and_yield(reporter)
+        generating = ChefApply::Text.status.generate_policyfile.generating
+        expect(ChefApply::UI::Terminal).to receive(:render_job).with(generating).and_yield(reporter)
         expect(subject).to receive(:create_local_policy).with(mock_cb).ordered
-        success = ChefRun::Text.status.generate_policyfile.success
+        success = ChefApply::Text.status.generate_policyfile.success
         expect(reporter).to receive(:success).with(success)
         subject.perform_run
       end
 
       context "and there is a single target host" do
         before do
-          allow_any_instance_of(ChefRun::TargetResolver).to receive(:targets).and_return(["host"])
+          allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(["host"])
         end
 
         it "calls run_single_target" do
@@ -179,7 +179,7 @@ RSpec.describe ChefRun::CLI do
 
       context "and there are multiple target hosts" do
         before do
-          allow_any_instance_of(ChefRun::TargetResolver).to receive(:targets).and_return(%w{host host2})
+          allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(%w{host host2})
         end
 
         it "calls run_multi_target" do
@@ -192,7 +192,7 @@ RSpec.describe ChefRun::CLI do
   end
 
   describe "#validate_params" do
-    OptionValidationError = ChefRun::CLI::OptionValidationError
+    OptionValidationError = ChefApply::CLI::OptionValidationError
     it "raises an error if not enough params are specified" do
       params = [
         [],
@@ -280,16 +280,16 @@ RSpec.describe ChefRun::CLI do
   end
 
   describe "#generate_temp_cookbook" do
-    let(:tc) { instance_double(ChefRun::TempCookbook) }
+    let(:tc) { instance_double(ChefApply::TempCookbook) }
 
     before do
-      expect(ChefRun::TempCookbook).to receive(:new).and_return(tc)
+      expect(ChefApply::TempCookbook).to receive(:new).and_return(tc)
     end
 
     context "when trying to converge a recipe" do
       let(:cli_arguments) { [p] }
-      let(:recipe_lookup) { instance_double(ChefRun::RecipeLookup) }
-      let(:status_msg) { ChefRun::Text.status.converge.converging_recipe(p) }
+      let(:recipe_lookup) { instance_double(ChefApply::RecipeLookup) }
+      let(:status_msg) { ChefApply::Text.status.converge.converging_recipe(p) }
       let(:cookbook) { double("cookbook") }
       let(:recipe_path) { "/recipe/path" }
 
@@ -308,7 +308,7 @@ RSpec.describe ChefRun::CLI do
         let(:p) { "cb_name" }
         it "returns the recipe path" do
           expect(File).to receive(:file?).with(p).and_return false
-          expect(ChefRun::RecipeLookup).to receive(:new).and_return(recipe_lookup)
+          expect(ChefApply::RecipeLookup).to receive(:new).and_return(recipe_lookup)
           expect(recipe_lookup).to receive(:split).with(p).and_return([p])
           expect(recipe_lookup).to receive(:load_cookbook).with(p).and_return(cookbook)
           expect(recipe_lookup).to receive(:find_recipe).with(cookbook, nil).and_return(recipe_path)
@@ -325,7 +325,7 @@ RSpec.describe ChefRun::CLI do
         let(:p) { cookbook_name + "::" + recipe_name }
         it "returns the recipe path" do
           expect(File).to receive(:file?).with(p).and_return false
-          expect(ChefRun::RecipeLookup).to receive(:new).and_return(recipe_lookup)
+          expect(ChefApply::RecipeLookup).to receive(:new).and_return(recipe_lookup)
           expect(recipe_lookup).to receive(:split).with(p).and_return([cookbook_name, recipe_name])
           expect(recipe_lookup).to receive(:load_cookbook).with(cookbook_name).and_return(cookbook)
           expect(recipe_lookup).to receive(:find_recipe).with(cookbook, recipe_name).and_return(recipe_path)
@@ -344,34 +344,34 @@ RSpec.describe ChefRun::CLI do
         expect(tc).to receive(:from_resource).with("directory", "foo", { "prop1" => "val1", "prop2" => "val2" })
         actual1, actual2 = subject.generate_temp_cookbook(cli_arguments)
         expect(actual1).to eq(tc)
-        msg = ChefRun::Text.status.converge.converging_resource("directory[foo]")
+        msg = ChefApply::Text.status.converge.converging_resource("directory[foo]")
         expect(actual2).to eq(msg)
       end
     end
   end
 
   describe "#configure_chef" do
-    it "sets ChefConfig.ogger to ChefRun.log" do
+    it "sets ChefConfig.logger to ChefApply.log" do
       subject.configure_chef
-      expect(ChefConfig.logger).to eq(ChefRun::Log)
+      expect(ChefConfig.logger).to eq(ChefApply::Log)
     end
 
     it "initializes Chef::Log" do
-      expect(Chef::Log).to receive(:init).with(ChefRun::Log)
+      expect(Chef::Log).to receive(:init).with(ChefApply::Log)
       subject.configure_chef
     end
 
-    it "sets ChefConfig.ogger to ChefRun.log" do
+    it "sets ChefConfig.logger to ChefApply.log" do
       subject.configure_chef
-      expect(ChefConfig.logger).to eq(ChefRun::Log)
+      expect(ChefConfig.logger).to eq(ChefApply::Log)
     end
   end
 
   describe "#run_single_target" do
-    let(:installer) { instance_double(ChefRun::Action::InstallChef::Linux) }
-    let(:converger) { instance_double(ChefRun::Action::ConvergeTarget) }
-    let(:reporter) { instance_double(ChefRun::StatusReporter) }
-    let(:host1) { ChefRun::TargetHost.new("ssh://host1") }
+    let(:installer) { instance_double(ChefApply::Action::InstallChef::Linux) }
+    let(:converger) { instance_double(ChefApply::Action::ConvergeTarget) }
+    let(:reporter) { instance_double(ChefApply::StatusReporter) }
+    let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
     it "connects, installs chef on and converges the target" do
       expect(subject).to receive(:connect_target).with(host1)
       expect(subject).to receive(:install).with(host1, anything())
@@ -381,9 +381,9 @@ RSpec.describe ChefRun::CLI do
   end
 
   describe "#run_multi_target" do
-    let(:reporter) { instance_double(ChefRun::StatusReporter) }
-    let(:host1) { ChefRun::TargetHost.new("ssh://host1") }
-    let(:host2) { ChefRun::TargetHost.new("ssh://host2") }
+    let(:reporter) { instance_double(ChefApply::StatusReporter) }
+    let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
+    let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
     it "connects, installs chef on and converges the targets" do
       expect(subject).to receive(:connect_target).with(host1, anything())
       expect(subject).to receive(:connect_target).with(host2, anything())
@@ -423,7 +423,7 @@ RSpec.describe ChefRun::CLI do
       it "reraises as PolicyfileInstallError" do
         expect(ChefDK::PolicyfileServices::Install).to receive(:new).and_return(installer)
         expect(installer).to receive(:run).and_raise(ChefDK::PolicyfileInstallError.new("", nil))
-        expect { subject.create_local_policy(cb) }.to raise_error(ChefRun::CLI::PolicyfileInstallError)
+        expect { subject.create_local_policy(cb) }.to raise_error(ChefApply::CLI::PolicyfileInstallError)
       end
     end
 
@@ -438,7 +438,7 @@ RSpec.describe ChefRun::CLI do
       #
       # This is here for documentation
       # 2018-05-18 mp addendum: this cna take upwards of 15s to run on ci nodes, pending
-      # for now since it's not testing any chef-run functionality.
+      # for now since it's not testing any Chef Apply functionality.
       xit "fails to create when there is a long path name" do
         err = ChefDK::PolicyfileExportRepoError
         expect { subject.create_local_policy(cb) }.to raise_error(err) do |e|

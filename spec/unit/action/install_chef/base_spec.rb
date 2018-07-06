@@ -16,10 +16,10 @@
 #
 
 require "spec_helper"
-require "chef-run/action/install_chef"
-require "chef-run/target_host"
+require "chef_apply/action/install_chef"
+require "chef_apply/target_host"
 
-RSpec.describe ChefRun::Action::InstallChef::Base do
+RSpec.describe ChefApply::Action::InstallChef::Base do
   let(:mock_os_name) { "mock" }
   let(:mock_os_family) { "mock" }
   let(:mock_os_release ) { "unknown" }
@@ -32,16 +32,16 @@ RSpec.describe ChefRun::Action::InstallChef::Base do
     }
   end
   let(:target_host) do
-    ChefRun::TargetHost.new("mock://user1:password1@localhost")
+    ChefApply::TargetHost.new("mock://user1:password1@localhost")
   end
 
   let(:reporter) do
-    ChefRun::MockReporter.new
+    ChefApply::MockReporter.new
   end
 
   subject(:install) do
-    ChefRun::Action::InstallChef::Base.new(target_host: target_host,
-                                           reporter: reporter) end
+    ChefApply::Action::InstallChef::Base.new(target_host: target_host,
+                                             reporter: reporter) end
   before do
     target_host.connect!
     target_host.backend.mock_os(mock_opts)
@@ -50,7 +50,7 @@ RSpec.describe ChefRun::Action::InstallChef::Base do
   context "#perform_action" do
     context "when chef is already installed on target at the correct minimum version" do
       before do
-        expect(install.target_host).to receive(:installed_chef_version).and_return ChefRun::Action::InstallChef::Base::MIN_CHEF_VERSION
+        expect(install.target_host).to receive(:installed_chef_version).and_return ChefApply::Action::InstallChef::Base::MIN_CHEF_VERSION
       end
       it "notifies of success and takes no further action" do
         expect(install).not_to receive(:perform_local_install)
@@ -73,7 +73,7 @@ RSpec.describe ChefRun::Action::InstallChef::Base do
     context "when chef is not already installed on target" do
       before do
         expect(install.target_host).to receive(:installed_chef_version).
-          and_raise ChefRun::TargetHost::ChefNotInstalled.new
+          and_raise ChefApply::TargetHost::ChefNotInstalled.new
       end
 
       context "on windows" do

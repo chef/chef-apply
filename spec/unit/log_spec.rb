@@ -16,10 +16,10 @@
 #
 
 require "spec_helper"
-require "chef-run/log"
+require "chef_apply/log"
 
-RSpec.describe ChefRun::Log do
-  Log = ChefRun::Log
+RSpec.describe ChefApply::Log do
+  Log = ChefApply::Log
   let(:output) { StringIO.new }
 
   before do

@@ -16,8 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "chef-run/startup"
+require "chef_apply/startup"
 
 # Perform initialization tasks then hand off control to
 # CLI to run the command.
-ChefRun::Startup.new(ARGV).run
+ChefApply::Startup.new(ARGV).run

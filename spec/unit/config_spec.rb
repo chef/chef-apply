@@ -16,15 +16,15 @@
 #
 
 require "spec_helper"
-require "chef-run/config"
+require "chef_apply/config"
 
-RSpec.describe ChefRun::Config do
+RSpec.describe ChefApply::Config do
   subject(:config) do
-    ChefRun::Config
+    ChefApply::Config
   end
 
   before(:each) do
-    ChefRun::Config.reset
+    ChefApply::Config.reset
   end
 
   it "raises an error when trying to specify non-existing config location" do

@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef-run/startup"
-require "chef-run/version"
+require "chef_apply/startup"
+require "chef_apply/version"
 
 # Create the chef configuration directory and touch the config
 # file.
@@ -41,7 +41,7 @@ FileUtils.touch(conf) unless File.exist?(conf)
 # usage:
 #   expect {run_with_cli("blah")}.to output("blah").to_stdout
 def run_cli_with(args)
-  ChefRun::Startup.new(args.split(" ")).run
+  ChefApply::Startup.new(args.split(" ")).run
 rescue SystemExit
 end
 
@@ -50,6 +50,6 @@ def fixture_content(name)
   # Replace $VERSION if present - this is updated automatically, so we can't include
   #                               the literal version value in the fixture without
   #                               having expeditor update it there too...
-  content.gsub("$VERSION", ChefRun::VERSION).
+  content.gsub("$VERSION", ChefApply::VERSION).
     gsub("$HOME", Dir.home)
 end

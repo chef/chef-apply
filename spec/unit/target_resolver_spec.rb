@@ -16,13 +16,13 @@
 #
 
 require "spec_helper"
-require "chef-run/target_resolver"
+require "chef_apply/target_resolver"
 
-RSpec.describe ChefRun::TargetResolver do
+RSpec.describe ChefApply::TargetResolver do
   let(:target_string) { "" }
   let(:default_protocol) { "ssh" }
   let(:connection_options) { {} }
-  subject { ChefRun::TargetResolver.new(target_string, default_protocol, connection_options) }
+  subject { ChefApply::TargetResolver.new(target_string, default_protocol, connection_options) }
 
   context "#targets" do
     context "when no target is provided" do
@@ -156,16 +156,16 @@ RSpec.describe ChefRun::TargetResolver do
     end
 
     it "raises InvalidRange if a range mixes alpha and numeric" do
-      expect { subject.expand_targets("host[a:9]") }.to raise_error(ChefRun::TargetResolver::InvalidRange)
+      expect { subject.expand_targets("host[a:9]") }.to raise_error(ChefApply::TargetResolver::InvalidRange)
     end
 
     it "raises TooManyRanges if more than two ranges are included" do
-      expect { subject.expand_targets("[0:1][5:10][10:11]") }.to raise_error(ChefRun::TargetResolver::TooManyRanges)
+      expect { subject.expand_targets("[0:1][5:10][10:11]") }.to raise_error(ChefApply::TargetResolver::TooManyRanges)
     end
 
-    context "when the target resolves to more than #{ChefRun::TargetResolver::MAX_EXPANDED_TARGETS} names" do
+    context "when the target resolves to more than #{ChefApply::TargetResolver::MAX_EXPANDED_TARGETS} names" do
       it "raises TooManyTargets" do
-        expect { subject.expand_targets("[0:99999]") }.to raise_error(ChefRun::TargetResolver::TooManyTargets)
+        expect { subject.expand_targets("[0:99999]") }.to raise_error(ChefApply::TargetResolver::TooManyTargets)
       end
     end
   end
@@ -181,7 +181,7 @@ RSpec.describe ChefRun::TargetResolver do
       opts = {}
       opts[:user] = default_user unless default_user.nil?
       opts[:password] = default_password unless default_password.nil?
-      resolver = ChefRun::TargetResolver.new("", default_protocol, opts)
+      resolver = ChefApply::TargetResolver.new("", default_protocol, opts)
       Proc.new { resolver.make_credentials(inline_user, inline_password) }
     end
 
@@ -371,7 +371,7 @@ RSpec.describe ChefRun::TargetResolver do
       context "and it is not valid" do
         it "raises an error" do
           expect { subject.prefix_from_target("bad://host.com") }.
-            to raise_error(ChefRun::TargetResolver::UnsupportedProtocol)
+            to raise_error(ChefApply::TargetResolver::UnsupportedProtocol)
         end
       end
     end

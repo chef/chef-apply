@@ -1,5 +1,5 @@
 require "rspec/matchers/built_in/output"
-require "chef-run/ui/terminal"
+require "chef_apply/ui/terminal"
 
 # Custom behavior for the builtin output matcher
 # to allow it to handle to_terminal, which integrates
@@ -22,12 +22,12 @@ module RSpec
 
           def self.capture(block)
             captured_stream = StringIO.new
-            original_stream = ::ChefRun::UI::Terminal.location
-            ::ChefRun::UI::Terminal.location = captured_stream
+            original_stream = ::ChefApply::UI::Terminal.location
+            ::ChefApply::UI::Terminal.location = captured_stream
             block.call
             captured_stream.string
           ensure
-            ::ChefRun::UI::Terminal.location = original_stream
+            ::ChefApply::UI::Terminal.location = original_stream
           end
         end
       end

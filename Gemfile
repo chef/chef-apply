@@ -18,9 +18,7 @@
 source "https://rubygems.org"
 gemspec
 
-# TODO when chef-dk 3.0 is released to Rubygems as 3.0 we can get rid of this
-gem "chef-dk", git: "https://github.com/chef/chef-dk.git", branch: "master"
-
+  # Pinning Train to 1.4.6 because newer versions cause healthcheck related build failures
 gem "train", git: "https://github.com/chef/train.git", branch: "v1.4.6"
 
 group :localdev do

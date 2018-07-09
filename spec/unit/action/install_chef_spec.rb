@@ -16,9 +16,9 @@
 #
 
 require "spec_helper"
-require "chef-run/action/install_chef"
+require "chef_apply/action/install_chef"
 
-RSpec.describe ChefRun::Action::InstallChef do
+RSpec.describe ChefApply::Action::InstallChef do
   let(:mock_os_name) { "mock" }
   let(:mock_os_family) { "mock" }
   let(:mock_os_release ) { "unknown" }
@@ -31,11 +31,11 @@ RSpec.describe ChefRun::Action::InstallChef do
     }
   end
   let(:target_host) do
-    ChefRun::TargetHost.new("mock://user1:password1@localhost")
+    ChefApply::TargetHost.new("mock://user1:password1@localhost")
   end
 
   subject(:installer) do
-    ChefRun::Action::InstallChef
+    ChefApply::Action::InstallChef
   end
 
   before do

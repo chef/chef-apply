@@ -15,12 +15,12 @@
 # limitations under the License.
 #
 
-require "chef-run/file_fetcher"
+require "chef_apply/file_fetcher"
 require "spec_helper"
 
-RSpec.describe ChefRun::FileFetcher do
-  let(:expected_local_location) { File.join(ChefRun::Config.cache.path, "example.txt") }
-  subject { ChefRun::FileFetcher }
+RSpec.describe ChefApply::FileFetcher do
+  let(:expected_local_location) { File.join(ChefApply::Config.cache.path, "example.txt") }
+  subject { ChefApply::FileFetcher }
   describe ".fetch" do
     it "returns the local path when the file is cached" do
       allow(FileUtils).to receive(:mkdir)

@@ -39,3 +39,4 @@ The gem is available as open source under the terms of the [Apache License, Vers
 ## Code of Conduct
 
 TODO: Write usage code of conduct here
+

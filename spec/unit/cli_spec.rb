@@ -145,8 +145,7 @@ RSpec.describe ChefApply::CLI do
         allow(subject).to receive(:configure_chef)
         allow(subject).to receive(:generate_temp_cookbook).and_return([mock_cb, "test"])
         allow(subject).to receive(:create_local_policy).and_return(archive)
-        allow(subject).to receive(:run_single_target)
-        allow(subject).to receive(:run_multi_target)
+        allow(subject).to receive(:render_converge)
         allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(["host"])
       end
 
@@ -158,34 +157,28 @@ RSpec.describe ChefApply::CLI do
       it "performs the steps required to create the local policy" do
         expect(subject).to receive(:configure_chef).ordered
         expect(subject).to receive(:generate_temp_cookbook).ordered.and_return([mock_cb, "test"])
-        generating = ChefApply::Text.status.generate_policyfile.generating
-        expect(ChefApply::UI::Terminal).to receive(:render_job).with(generating).and_yield(reporter)
+        status_text = ChefApply::Text.status
+        expect(ChefApply::UI::Terminal).to receive(:render_job).with(status_text.generate_cookbook.generating).and_yield(reporter)
+        expect(ChefApply::UI::Terminal).to receive(:render_job).with(status_text.generate_policyfile.generating).and_yield(reporter)
         expect(subject).to receive(:create_local_policy).with(mock_cb).ordered
-        success = ChefApply::Text.status.generate_policyfile.success
-        expect(reporter).to receive(:success).with(success)
+        expect(reporter).to receive(:success).with(status_text.generate_cookbook.success)
+        expect(reporter).to receive(:success).with(status_text.generate_policyfile.success)
         subject.perform_run
       end
 
-      context "and there is a single target host" do
+      context "converge execution" do
         before do
-          allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(["host"])
+          allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(targets)
         end
-
-        it "calls run_single_target" do
-          expect(subject).to receive(:run_single_target).with("test", "host", archive)
-          subject.perform_run
-        end
-      end
-
-      context "and there are multiple target hosts" do
-        before do
-          allow_any_instance_of(ChefApply::TargetResolver).to receive(:targets).and_return(%w{host host2})
-        end
-
-        it "calls run_multi_target" do
-          expect(subject).to receive(:run_multi_target).with("test", %w{host host2}, archive)
-          expect(mock_cb).to receive(:delete)
-          subject.perform_run
+        (1..3).each do |hostcount|
+          let(:targets) { targets = []; hostcount.downto(1) { |count|  targets << "host#{count}" }; targets }
+          context "for #{hostcount} hosts" do
+            it "calls render_converge" do
+              expect(subject).to receive(:render_converge).with("test", targets, archive)
+              expect(mock_cb).to receive(:delete)
+              subject.perform_run
+            end
+          end
         end
       end
     end
@@ -367,20 +360,7 @@ RSpec.describe ChefApply::CLI do
     end
   end
 
-  describe "#run_single_target" do
-    let(:installer) { instance_double(ChefApply::Action::InstallChef::Linux) }
-    let(:converger) { instance_double(ChefApply::Action::ConvergeTarget) }
-    let(:reporter) { instance_double(ChefApply::StatusReporter) }
-    let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
-    it "connects, installs chef on and converges the target" do
-      expect(subject).to receive(:connect_target).with(host1)
-      expect(subject).to receive(:install).with(host1, anything())
-      expect(subject).to receive(:converge)
-      subject.run_single_target("", host1, {})
-    end
-  end
-
-  describe "#run_multi_target" do
+  describe "#render_converge" do
     let(:reporter) { instance_double(ChefApply::StatusReporter) }
     let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
     let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
@@ -390,7 +370,7 @@ RSpec.describe ChefApply::CLI do
       expect(subject).to receive(:install).with(host1, anything())
       expect(subject).to receive(:install).with(host2, anything())
       expect(subject).to receive(:converge).exactly(2).times
-      subject.run_multi_target("", [host1, host2], {})
+      subject.render_converge("", [host1, host2], {})
     end
   end
 

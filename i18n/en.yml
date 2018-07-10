@@ -158,9 +158,12 @@ cli:
     connection_failed: "Connection failed: %1"
 
 status:
+  generate_cookbook:
+    generating: Packaging cookbook...
+    success: Packaging cookbook... done!
   generate_policyfile:
     generating:  Generating local policyfile...
-    success: Generated local policyfile
+    success: Generating local policyfile... done!
   install_chef:
     installing: Installing Chef client version %1.
     checking_for_client: Checking for Chef client.
@@ -173,7 +176,9 @@ status:
     upgrade_success: Successfully upgraded Chef client from version %1 to %2.
     failure: "An error occurred while installing Chef client: %1"
   converge:
-    multi_header: "Converging targets:"
+    header: !!pl
+      1: Converging target...
+      n: Converging targets...
     converging_recipe: Converging local recipe %1 on target...
     converging_resource: Converging %1 on target...
     creating_local_policy: Creating local policy...

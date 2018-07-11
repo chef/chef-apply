@@ -1,9 +1,5 @@
 # Documentation available at https://expeditor.chef.io/docs/getting-started/
 
-# The name of the product keys for this product
-product_key:
-  - chef-apply
-
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: chef-ws-notify
@@ -17,6 +13,9 @@ github:
   changelog_file: "CHANGELOG.md"
   # Delete the PR branch after successfully merged into release branch.
   delete_branch_on_merge: true
+
+rubygems:
+  - chef-apply
 
 # These actions are taken, in order they are specified, anytime a Pull Request is merged.
 merge_actions:
@@ -32,3 +31,10 @@ merge_actions:
         - "Meta: Exclude From Changelog"
         - "Expeditor: Exclude From Changelog"
         - "Expeditor: Skip All"
+  - built_in:build_gem:
+      only_if:
+        - built_in:bump_version
+
+promote:
+  action:
+    - built_in:publish_rubygems

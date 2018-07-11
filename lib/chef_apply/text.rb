@@ -39,6 +39,12 @@ module ChefApply
     def initialize(translation_tree)
       @tree = translation_tree
       @tree.translation_keys.each do |k|
+        # Integer keys are not translatable - they're quantity indicators in the key that
+        # are instead sent as arguments. If we see one here, it means it was not correctly
+        # labeled as plural with !!pl in the parent key
+        if k.class == Integer
+          raise MissingPlural.new(@tree.instance_variable_get(:@path), k)
+        end
         k = k.to_sym
         define_singleton_method k do |*args|
           subtree = @tree.send(k, *args)
@@ -56,18 +62,34 @@ module ChefApply
       raise InvalidKey.new(@tree.instance_variable_get(:@path), name)
     end
 
-    class InvalidKey < RuntimeError
-      def initialize(path, terminus)
-        line = caller(3, 1).first # 1 - TextWrapper.method_missing
-                                 # 2 - TextWrapper.initialize
-                                 # 3 - actual caller
-        if line =~ /.*\/lib\/(.*\.rb):(\d+)/
-          line = "File: #{$1} Line: #{$2}"
+    class TextError < RuntimeError
+      attr_accessor :line
+      def set_call_context
+        @line = caller(8, 1).first
+        if @line =~ /.*\/lib\/(.*\.rb):(\d+)/
+          @line = "File: #{$1} Line: #{$2}"
         end
+      end
+    end
 
+    class InvalidKey < TextError
+      def initialize(path, terminus)
+        set_call_context
         # Calling back into Text here seems icky, this is an error
         # that only engineering should see.
         message = "i18n key #{path}.#{terminus} does not exist.\n"
+        message << "Referenced from #{line}"
+        super(message)
+      end
+    end
+
+    class MissingPlural < TextError
+      def initialize(path, terminus)
+        set_call_context
+        # Calling back into Text here seems icky, this is an error
+        # that only engineering should see.
+        message = "i18n key #{path}.#{terminus} appears to reference a pluralization.\n"
+        message << "Please append the plural indicator '!!pl' to the end of #{path}.\n"
         message << "Referenced from #{line}"
         super(message)
       end

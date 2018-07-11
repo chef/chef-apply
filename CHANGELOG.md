@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.2 -->
++<!-- latest_release 0.1.3 -->
+## [0.1.3](https://github.com/chef/chef-apply/tree/0.1.3) (2018-07-11)
+
+#### Merged Pull Requests
+- Report i18n pluralizations that are not configured correctly [#3](https://github.com/chef/chef-apply/pull/3) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.2](https://github.com/chef/chef-apply/tree/0.1.2) (2018-07-11)
 
 #### Merged Pull Requests
 - We need to push to our private Gem repo [#7](https://github.com/chef/chef-apply/pull/7) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.1](https://github.com/chef/chef-apply/tree/0.1.1) (2018-07-11)
 

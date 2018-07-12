@@ -47,11 +47,6 @@ module ChefApply
 
         def init(location)
           @location = location
-          # In Ruby 2.5+ threads print out to stdout when they raise an exception. This is an agressive
-          # attempt to ensure debugging information is not lost, but in our case it is not necessary
-          # because we handle all the errors ourself. So we disable this to keep output clean.
-          # See https://ruby-doc.org/core-2.5.0/Thread.html#method-c-report_on_exception
-          Thread.report_on_exception = false
         end
 
         def write(msg)
@@ -63,9 +58,17 @@ module ChefApply
         end
 
         def render_parallel_jobs(header, jobs)
-          multispinner = TTY::Spinner::Multi.new("[:spinner] #{header}", output: @location)
+
+      # Do not indent the topmost 'parent' spinner, but do indent child spinners
+          indent_style = { top: '',
+                           middle: TTY::Spinner::Multi::DEFAULT_INSET[:middle],
+                           bottom: TTY::Spinner::Multi::DEFAULT_INSET[:bottom] }
+      # @option options [Hash] :style
+      #   keys :top :middle and :bottom can contain Strings that are used to
+      #   indent the spinners. Ignored if message is blank
+          multispinner = TTY::Spinner::Multi.new("[:spinner] #{header}", output: @location, hide_cursor: true, style: indent_style)
           jobs.each do |a|
-            multispinner.register(spinner_prefix(a.prefix)) do |spinner|
+            multispinner.register(spinner_prefix(a.prefix), hide_cursor: true) do |spinner|
               reporter = StatusReporter.new(spinner, prefix: a.prefix, key: :status)
               a.run(reporter)
             end
@@ -77,7 +80,7 @@ module ChefApply
         #      between render_job and render_parallel
         def render_job(msg, prefix: "", &block)
           klass = ChefApply::UI.const_get(ChefApply::Config.dev.spinner)
-          spinner = klass.new(spinner_prefix(prefix), output: @location)
+          spinner = klass.new(spinner_prefix(prefix), output: @location, hide_cursor: true)
           reporter = StatusReporter.new(spinner, prefix: prefix, key: :status)
           reporter.update(msg)
           spinner.run { yield(reporter) }

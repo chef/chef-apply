@@ -25,10 +25,7 @@ module ChefApply
   # it with various recipes, attributes, config, etc. and delete it when the
   # cookbook is no longer necessary
   class TempCookbook
-    attr_reader :path
-
-    # We expect name to come in as a list of strings - resource/resource_name
-    # or cookbook/recipe combination
+    attr_reader :path, :type, :name
     def initialize
       @path = Dir.mktmpdir("cw")
     end
@@ -37,6 +34,8 @@ module ChefApply
       ext_name = File.extname(existing_recipe_path)
       raise UnsupportedExtension.new(ext_name) unless ext_name == ".rb"
       cb = cookbook_for_recipe(existing_recipe_path)
+      @type = :recipe
+      @name = cb[:recipe_name]
       if cb
         # Full existing cookbook - only needs policyfile
         ChefApply::Log.debug("Found full cookbook at path '#{cb[:path]}' and using recipe '#{cb[:recipe_name]}'")
@@ -68,12 +67,15 @@ module ChefApply
       # Generate a cookbook containing a single default recipe with the specified
       # resource in it. Incloud the resource type in the cookbook name so hopefully
       # this gives us better reporting info in the future.
+      @type = :resource
+      @name = "#{resource_type}[#{resource_name}]"
+
       ChefApply::Log.debug("Generating cookbook for single resource '#{resource_type}[#{resource_name}]'")
       name = "cw_#{resource_type}"
       recipe_name = "default"
       recipes_dir = generate_recipes_dir
       File.open(File.join(recipes_dir, "#{recipe_name}.rb"), "w+") do |f|
-        f.print(create_resource(resource_type, resource_name, properties))
+        f.print(create_resource_definition(resource_type, resource_name, properties))
       end
       generate_metadata(name)
       generate_policyfile(name, recipe_name)
@@ -137,7 +139,7 @@ module ChefApply
       policy_file
     end
 
-    def create_resource(resource_type, resource_name, properties)
+    def create_resource_definition(resource_type, resource_name, properties)
       r = "#{resource_type} '#{resource_name}'"
       # lets format the properties into the correct syntax Chef expects
       unless properties.empty?
@@ -150,6 +152,13 @@ module ChefApply
       end
       r += "\n"
       r
+    end
+
+    def policyfile_lock_path
+      File.join(path, "Policyfile.lock.json")
+    end
+    def export_path
+      File.join(path, "export")
     end
 
     class UnsupportedExtension < ChefApply::ErrorNoLogs

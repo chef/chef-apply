@@ -29,10 +29,8 @@ require "chef_apply/action/install_chef"
 #   because the `Startup` class was invoked to start the program.
 module ChefApply
   module CLIOptions
-
     T = ChefApply::Text.cli
     TS = ChefApply::Text.status
-
     def self.included(klass)
       klass.banner T.description + "\n" + T.usage_full
 

@@ -237,20 +237,11 @@ RSpec.describe ChefApply::CLI do
 
   describe "#connect_target" do
     let(:host) { double("TargetHost", config: {}, user: "root" ) }
-    context "when simulating the multi-host path" do
       let(:reporter) { double("reporter", update: :ok, success: :ok) }
       it "invokes do_connect with correct options" do
         expect(subject).to receive(:do_connect).
           with(host, reporter, :update)
         subject.connect_target(host, reporter)
-      end
-    end
-
-    context "when simulating the single-host path" do
-      it "invokes do_connect with correct options" do
-        expect(subject).to receive(:do_connect).
-          with(host, anything(), :success)
-        subject.connect_target(host)
       end
     end
   end

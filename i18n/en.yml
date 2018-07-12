@@ -162,15 +162,16 @@ status:
     generating: Packaging cookbook...
     success: Packaging cookbook... done!
   generate_policyfile:
-    generating:  Generating local policyfile...
-    success: Generating local policyfile... done!
+    generating: Generating local policyfile...
+    exporting:  Generating local policyfile... exporting...
+    success: Generating local policyfile... exporting... done!
   install_chef:
-    installing: Installing Chef client version %1.
     checking_for_client: Checking for Chef client.
-    upgrading: Upgrading Chef client from version %1 to %2.
+    verifying: Verifying Chef client installation.
     downloading: Downloading Chef client installer into local cache.
     uploading: Uploading Chef client installer to target.
-    verifying: Verifying Chef client installation.
+    installing: Installing Chef client version %1.
+    upgrading: Upgrading Chef client from version %1 to %2.
     already_present: Chef client version %1 already installed on target.
     install_success: Successfully installed Chef client version %1
     upgrade_success: Successfully upgraded Chef client from version %1 to %2.

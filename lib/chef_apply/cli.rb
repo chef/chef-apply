@@ -98,8 +98,12 @@ module ChefApply
       # TODO move to startup
       configure_chef
       if @argv.empty? || parsed_options[:help]
+        require 'chef_apply/cli/help'
+        include ChefApply::CLIHelp
         show_help
       elsif parsed_options[:version]
+        require 'chef_apply/cli/help'
+        include ChefApply::CLIHelp
         show_version
       else
         validate_params(cli_arguments)
@@ -131,7 +135,7 @@ module ChefApply
         generate_cookbook(arguments, reporter)
       end
       UI::Terminal.render_job(TS.generate_cookbook.generating) do |reporter|
-        generate_policyfile(reporter)
+        generate_local_policy(reporter)
       end
     end
 
@@ -224,7 +228,7 @@ module ChefApply
 
     # Runs the GenerateLocalPolicy action and renders UI updates
     # as the action reports back
-    def generate_policyfile(reporter)
+    def generate_local_policy(reporter)
       if @temp_cookbook.nil?
         raise "Call out of order: make sure generate_cookbook is called first"
       end
@@ -233,11 +237,11 @@ module ChefApply
       action.run do |event, data|
         case event
         when :generating
-          reporter.update(TS.generate_policyfile.generating)
+          reporter.update(TS.generate_local_policy.generating)
         when :exporting
-          reporter.update(TS.generate_policyfile.exporting)
+          reporter.update(TS.generate_local_policy.exporting)
         when :success
-          reporter.update(TS.generate_policyfile.success)
+          reporter.success(TS.generate_local_policy.success)
           @archive_file_location = data.shift
         else
           handle_message(event, data, reporter)
@@ -308,9 +312,6 @@ module ChefApply
       UI::ErrorPrinter.write_backtrace(e, @argv)
     end
 
-    def show_help
-      UI::Terminal.output format_help
-    end
 
     def do_connect(target_host, reporter)
       target_host.connect!
@@ -321,54 +322,7 @@ module ChefApply
       raise
     end
 
-    def format_help
-      help_text = banner.clone # This prevents us appending to the banner text
-      help_text << "\n"
-      help_text << format_flags
-    end
-
-    def format_flags
-      flag_text = "FLAGS:\n"
-      justify_length = 0
-      options.each_value do |spec|
-        justify_length = [justify_length, spec[:long].length + 4].max
-      end
-      options.sort.to_h.each_value do |flag_spec|
-        short = flag_spec[:short] || "  "
-        short = short[0, 2] # We only want the flag portion, not the capture portion (if present)
-        if short == "  "
-          short = "    "
-        else
-          short = "#{short}, "
-        end
-        flags = "#{short}#{flag_spec[:long]}"
-        flag_text << "    #{flags.ljust(justify_length)}    "
-        ml_padding = " " * (justify_length + 8)
-        first = true
-        flag_spec[:description].split("\n").each do |d|
-          flag_text << ml_padding unless first
-          first = false
-          flag_text << "#{d}\n"
-        end
-      end
-      flag_text
-    end
-
-    def usage
-      T.usage
-    end
-
-    def show_version
-      require "chef_apply/version"
-      UI::Terminal.output T.version.show(ChefApply::VERSION)
-    end
-
     def configure_chef
-      ChefConfig.logger = ChefApply::Log
-      # Setting the config isn't enough, we need to ensure the logger is initialized
-      # or automatic initialization will still go to stdout
-      Chef::Log.init(ChefApply::Log)
-      Chef::Log.level = ChefApply::Log.level
     end
     class OptionValidationError < ChefApply::ErrorNoLogs
       attr_reader :command

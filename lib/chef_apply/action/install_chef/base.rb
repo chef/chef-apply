@@ -20,7 +20,7 @@ require "fileutils"
 
 module ChefApply::Action::InstallChef
   class Base < ChefApply::Action::Base
-    MIN_CHEF_VERSION = Gem::Version.new("13.0.0")
+    MIN_CHEF_VERSION = Gem::Version.new("14.1.1")
 
     def perform_action
       if target_host.installed_chef_version >= MIN_CHEF_VERSION

@@ -62,19 +62,28 @@ RSpec.describe ChefApply::Action::Base do
         expect(action.send(path)).to be_a(String)
       end
     end
-
-    it "correctly returns chef run string" do
-      expect(action.run_chef(nil, nil, nil)).to be_a(String)
-    end
   end
 
   describe "when connecting to a windows target" do
     include_examples "check path fetching"
+
+    it "correctly returns chef run string" do
+      expect(action.run_chef("a", "b", "c")).to eq(
+        "Set-Location -Path a; " \
+        "chef-client -z --config b --recipe-url c | Out-Null; " \
+        "Set-Location C:/; " \
+        "exit $LASTEXITCODE"
+      )
+    end
   end
 
   describe "when connecting to a non-windows target" do
     let(:family) { "linux" }
     include_examples "check path fetching"
+
+    it "correctly returns chef run string" do
+      expect(action.run_chef("a", "b", "c")).to eq("bash -c 'cd a; chef-client -z --config a/b --recipe-url a/c'")
+    end
   end
 
 end

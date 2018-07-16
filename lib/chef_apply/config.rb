@@ -135,7 +135,7 @@ module ChefApply
       # ~/.chef/knife.rb on the user's workstation. But because they could have
       # config that could mess up our Policyfile creation later we reset the
       # ChefConfig back to default after loading that.
-      ChefConfig::WorkstationConfigLoader.new(nil, nil).load # ::ChefApply::Log).load
+      ChefConfig::WorkstationConfigLoader.new(nil, ChefApply::Log).load
       default(:cookbook_repo_paths, [ChefConfig::Config[:cookbook_path]].flatten)
       default(:trusted_certs_dir, ChefConfig::Config[:trusted_certs_dir])
       ChefConfig::Config.reset

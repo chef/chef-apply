@@ -28,11 +28,9 @@ require "chef-dk/policyfile_services/export_repo"
 require "chef-dk/policyfile_services/install"
 
 RSpec.describe ChefApply::CLI do
+  subject { ChefApply::CLI.new(argv) }
   let(:argv) { [] }
-
-  subject(:cli) do
-    ChefApply::CLI.new(argv)
-  end
+  # TODO why isn't this mocked?
   let(:telemetry) { ChefApply::Telemeter.instance }
 
   before do
@@ -139,7 +137,13 @@ RSpec.describe ChefApply::CLI do
     context "when arguments are provided" do
       let(:argv) { ["hostname", "resourcetype", "resourcename", "someproperty=true"] }
       let(:target_hosts) { [double("TargetHost")] }
-      context "and they are valid", :focus do
+      before do
+        # parse_options sets `cli_argument` - because we stub out parse_options,
+        # later calls that rely on cli_arguments will fail without this.
+        allow(subject).to receive(:cli_arguments).and_return argv
+      end
+
+      context "and they are valid" do
         it "creates the cookbook locally and converges it" do
           expect(subject).to receive(:parse_options)
           expect(subject).to receive(:validate_params)
@@ -158,28 +162,24 @@ RSpec.describe ChefApply::CLI do
     let(:reporter) { double("reporter", update: :ok, success: :ok) }
     it "invokes do_connect with correct options" do
       expect(subject).to receive(:do_connect).
-        with(host, reporter, :update)
+        with(host, reporter)
       subject.connect_target(host, reporter)
     end
   end
 
   describe "#generate_temp_cookbook" do
-    let(:action) { double("generator") }
     let(:temp_cookbook) { double("TempCookbook") }
-
-    before do
-      allow(action).to receive(:temp_cookbook).and_return temp_cookbook
-    end
+    let(:action) { double("generator", generated_cookbook: temp_cookbook) }
 
     context "when a resource is provided" do
-      it "gets an action via GenerateTemporaryCookbook.from_options and executes it" do
+      it "gets an action via GenerateTemporaryCookbook.from_options and executes it " do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
           .with(resource_type: "user",
                 resource_name: "test", resource_properties: {})
           .and_return(action)
         expect(action).to receive(:run)
-        subject.generate_temp_cookbook(["user", "test"], nil)
+        expect(subject.generate_temp_cookbook(["user", "test"], nil)).to eq temp_cookbook
       end
     end
 
@@ -219,7 +219,8 @@ RSpec.describe ChefApply::CLI do
         it "indicates success via reporter and returns the cookbook" do
           expected_text = ChefApply::CLI::TS.generate_temp_cookbook.success
           expect(reporter).to receive(:success).with(expected_text)
-          expect(subject.generate_temp_cookbook(["user", "jimbo"], reporter)).to eq temp_cookbook
+          expect(subject.generate_temp_cookbook(["user", "jimbo"], reporter))
+            .to eq temp_cookbook
         end
       end
     end
@@ -229,7 +230,7 @@ RSpec.describe ChefApply::CLI do
   describe "#generate_local_policy" do
     let(:reporter) { double("reporter") }
     let(:action) { double("GenerateLocalPolicy") }
-    let(:temp_cookbook) { double("temp_cookbook") }
+    let(:temp_cookbook) { instance_double("TempCookbook") }
     let(:archive_file_location) { "/temp/archive.gz" }
 
     before do
@@ -288,21 +289,57 @@ RSpec.describe ChefApply::CLI do
 
   end
 
+  describe "#render_cookbook_setup" do
+    let(:reporter) { instance_double(ChefApply::StatusReporter) }
+    let(:temp_cookbook) { double(ChefApply::TempCookbook) }
+    let(:archive_file_location) { "/path/to/archive" }
+    let(:args) { [] }
+    before do
+      allow(ChefApply::UI::Terminal).to receive(:render_job).and_yield(reporter)
+    end
+
+    it "generates the cookbook and local policy" do
+      expect(subject).to receive(:generate_temp_cookbook)
+        .with(args, reporter).and_return temp_cookbook
+      expect(subject).to receive(:generate_local_policy)
+        .with(reporter).and_return archive_file_location
+      subject.render_cookbook_setup(args)
+    end
+
+
+  end
+
   describe "#render_converge" do
-    # TODO - status message check
 
     let(:reporter) { instance_double(ChefApply::StatusReporter) }
     let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
     let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
+    let(:cookbook_type) { :resource } # || :recipe
+    let(:temp_cookbook) { instance_double(ChefApply::TempCookbook,
+                                               type: cookbook_type,
+                                               name: "a cookbook") }
+    let(:converge_top_status_message) { "converging" }
+    let(:archive_file_location) { "/path/to/archive" }
+
+    before do
+      allow(subject).to receive(:temp_cookbook).and_return temp_cookbook
+      allow(subject).to receive(:archive_file_location).and_return archive_file_location
+      allow(subject).to receive(:converge_top_status_message).and_return converge_top_status_message
+      allow(ChefApply::UI::Terminal).to receive(:render_parallel_jobs) do |_header, jobs|
+        jobs.each { |j| j.run(reporter) }
+      end
+    end
+
     let(:target_hosts) { [host1, host2] }
-    it "connects, installs chef on and converges the targets" do
-      expect(subject).to receive(:connect_target).with(host1, anything())
-      expect(subject).to receive(:connect_target).with(host2, anything())
-      expect(subject).to receive(:install).with(host1, anything())
-      expect(subject).to receive(:install).with(host2, anything())
-      expect(subject).to receive(:converge).exactly(2).times
+    it "connects, installs chef, and converges for each target" do
+      target_hosts.each do |host|
+        expect(subject).to receive(:connect_target).with(host, reporter)
+        expect(reporter).to receive(:update).with(ChefApply::CLI::TS.install_chef.verifying)
+        expect(subject).to receive(:install).with(host, reporter)
+        expect(reporter).to receive(:update).with(converge_top_status_message)
+        expect(subject).to receive(:converge).with(reporter, archive_file_location, host)
+      end
       subject.render_converge(target_hosts)
     end
   end
-
 end

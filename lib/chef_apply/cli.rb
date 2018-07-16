@@ -37,7 +37,7 @@ require "chef_apply/ui/terminal"
 
 module ChefApply
   class CLI
-    attr_reader :temp_cookbook
+    attr_reader :temp_cookbook, :archive_file_location
 
     include Mixlib::CLI
     # Pulls in the options we have defined for this command.
@@ -96,7 +96,6 @@ module ChefApply
     end
 
     def perform_run
-      require 'pry'; binding.pry
       parse_options(@argv)
       # TODO move to startup
       if @argv.empty? || parsed_options[:help]
@@ -142,18 +141,13 @@ module ChefApply
     end
 
     def render_converge(target_hosts)
-      status_message = if temp_cookbook.type == :recipe
-                         TS.converge.converging_recipe(temp_cookbook.name)
-                       else
-                         TS.converge.converging_resource(temp_cookbook.name)
-                       end
       jobs = target_hosts.map do |target_host|
         # Each block will run in its own thread during render.
         UI::Terminal::Job.new("[#{target_host.hostname}]", target_host) do |reporter|
           connect_target(target_host, reporter)
           reporter.update(TS.install_chef.verifying)
           install(target_host, reporter)
-          reporter.update(status_message)
+          reporter.update(converge_top_status_message)
           converge(reporter, archive_file_location, target_host)
         end
       end
@@ -161,6 +155,16 @@ module ChefApply
       UI::Terminal.render_parallel_jobs(header, jobs)
       handle_job_failures(jobs)
     end
+
+    def converge_top_status_message
+      if temp_cookbook.type == :recipe
+        TS.converge.converging_recipe(temp_cookbook.name)
+      else
+        TS.converge.converging_resource(temp_cookbook.name)
+      end
+    end
+
+
 
     # Accepts a target_host and establishes the connection to that host
     # while providing visual feedback via the Terminal API.
@@ -212,7 +216,6 @@ module ChefApply
                  resource_properties: properties_from_string(arguments) }
              end
       action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
-
       action.run do |event, data|
         case event
         when :generating
@@ -223,7 +226,7 @@ module ChefApply
           handle_message(event, data, reporter)
         end
       end
-      action.temp_cookbook
+      action.generated_cookbook
     end
 
     # Runs the GenerateLocalPolicy action and renders UI updates

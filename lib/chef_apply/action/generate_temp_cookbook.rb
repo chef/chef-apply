@@ -39,7 +39,7 @@ module ChefApply::Action
     end
 
     def initialize(options)
-      super
+      super(options)
       @generated_cookbook ||= ChefApply::TempCookbook.new
     end
 

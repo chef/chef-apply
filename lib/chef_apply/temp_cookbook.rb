@@ -34,12 +34,11 @@ module ChefApply
       ext_name = File.extname(existing_recipe_path)
       raise UnsupportedExtension.new(ext_name) unless ext_name == ".rb"
       cb = cookbook_for_recipe(existing_recipe_path)
-      @type = :recipe
-      @name = cb[:recipe_name]
       if cb
+        @type = :recipe
         # Full existing cookbook - only needs policyfile
         ChefApply::Log.debug("Found full cookbook at path '#{cb[:path]}' and using recipe '#{cb[:recipe_name]}'")
-        name = cb[:name]
+        @name = cb[:name]
         recipe_name = cb[:recipe_name]
         FileUtils.cp_r(cb[:path], path)
         # cp_r copies the whole existing cookbook into the tempdir so need to reset our path
@@ -53,7 +52,8 @@ module ChefApply
         ChefApply::Log.debug("Found single recipe at path '#{existing_recipe_path}'")
         recipe = File.basename(existing_recipe_path)
         recipe_name = File.basename(existing_recipe_path, ext_name)
-        name = "cw_recipe"
+        @type = :resource
+        @name = "cw_recipe"
         recipes_dir = generate_recipes_dir
         # This has the potential to break if they specify a recipe without a .rb
         # extension, but lets wait to deal with that bug until we encounter it

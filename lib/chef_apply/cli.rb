@@ -20,7 +20,7 @@ require "mixlib/cli"
 require "chef-config/config"
 require "chef-config/logger"
 require "chef_apply/action/converge_target"
-require "chef_apply/action/generate_cookbook"
+require "chef_apply/action/generate_temp_cookbook"
 require "chef_apply/action/generate_local_policy"
 require "chef_apply/action/install_chef"
 require "chef_apply/cli/options"
@@ -37,6 +37,8 @@ require "chef_apply/ui/terminal"
 
 module ChefApply
   class CLI
+    attr_reader :temp_cookbook
+
     include Mixlib::CLI
     # Pulls in the options we have defined for this command.
     include ChefApply::CLIOptions
@@ -94,16 +96,16 @@ module ChefApply
     end
 
     def perform_run
+      require 'pry'; binding.pry
       parse_options(@argv)
       # TODO move to startup
-      configure_chef
       if @argv.empty? || parsed_options[:help]
         require 'chef_apply/cli/help'
-        include ChefApply::CLIHelp
+        self.class.include ChefApply::CLIHelp
         show_help
       elsif parsed_options[:version]
         require 'chef_apply/cli/help'
-        include ChefApply::CLIHelp
+        self.class.include ChefApply::CLIHelp
         show_version
       else
         validate_params(cli_arguments)
@@ -121,7 +123,7 @@ module ChefApply
     rescue => e
       handle_perform_error(e)
     ensure
-      @temp_cookbook.delete unless @temp_cookbook.nil?
+      temp_cookbook.delete unless temp_cookbook.nil?
     end
 
     def resolve_targets(host_spec, opts)
@@ -131,19 +133,19 @@ module ChefApply
     end
 
     def render_cookbook_setup(arguments)
-      UI::Terminal.render_job(TS.generate_cookbook.generating) do |reporter|
-        generate_cookbook(arguments, reporter)
+      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+        @temp_cookbook = generate_temp_cookbook(arguments, reporter)
       end
-      UI::Terminal.render_job(TS.generate_cookbook.generating) do |reporter|
-        generate_local_policy(reporter)
+      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+        @archive_file_location = generate_local_policy(reporter)
       end
     end
 
     def render_converge(target_hosts)
-      status_message = if @temp_cookbook.type == :recipe
-                         TS.converge.converging_recipe(@temp_cookbook.name)
+      status_message = if temp_cookbook.type == :recipe
+                         TS.converge.converging_recipe(temp_cookbook.name)
                        else
-                         TS.converge.converging_resource(@temp_cookbook.name)
+                         TS.converge.converging_resource(temp_cookbook.name)
                        end
       jobs = target_hosts.map do |target_host|
         # Each block will run in its own thread during render.
@@ -152,7 +154,7 @@ module ChefApply
           reporter.update(TS.install_chef.verifying)
           install(target_host, reporter)
           reporter.update(status_message)
-          converge(reporter, @archive_file_location, target_host)
+          converge(reporter, archive_file_location, target_host)
         end
       end
       header = TS.converge.header(target_hosts.length)
@@ -167,7 +169,6 @@ module ChefApply
       reporter.update(connect_message)
       do_connect(target_host, reporter)
     end
-
 
     def install(target_host, reporter)
       installer = Action::InstallChef.instance_for_target(target_host, check_only: !parsed_options[:install])
@@ -200,40 +201,35 @@ module ChefApply
       end
     end
 
-    # Runs a GenerateCookbook action and renders UI updates
-    # as the action reports back
-    def generate_cookbook(arguments, reporter)
-      action = if arguments.length == 1
-        ChefApply::Action::GenerateCookbookFromRecipe.new(recipe_spec: arguments.shift)
-      else
-        ChefApply::Action::GenerateCookbookFromResource.new(
-          resource_type: arguments.shift,
-          resource_name: arguments.shift,
-          resource_properties: properties_from_string(arguments)
-        )
-      end
+    # Runs a GenerateCookbook action based on recipe/resource infoprovided
+    # and renders UI updates as the action reports back
+    def generate_temp_cookbook(arguments, reporter)
+      opts = if arguments.length == 1
+               { recipe_spec:  arguments.shift }
+             else
+               { resource_type: arguments.shift,
+                 resource_name: arguments.shift,
+                 resource_properties: properties_from_string(arguments) }
+             end
+      action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
 
       action.run do |event, data|
         case event
         when :generating
-          reporter.update(TS.generate_cookbook.generating)
+          reporter.update(TS.generate_temp_cookbook.generating)
         when :success
-          reporter.success(TS.generate_cookbook.success)
-          @temp_cookbook = data.shift
+          reporter.success(TS.generate_temp_cookbook.success)
         else
           handle_message(event, data, reporter)
         end
       end
+      action.temp_cookbook
     end
 
     # Runs the GenerateLocalPolicy action and renders UI updates
     # as the action reports back
     def generate_local_policy(reporter)
-      if @temp_cookbook.nil?
-        raise "Call out of order: make sure generate_cookbook is called first"
-      end
-
-      action = Action::GenerateLocalPolicy.new(cookbook: @temp_cookbook)
+      action = Action::GenerateLocalPolicy.new(cookbook: temp_cookbook)
       action.run do |event, data|
         case event
         when :generating
@@ -242,11 +238,11 @@ module ChefApply
           reporter.update(TS.generate_local_policy.exporting)
         when :success
           reporter.success(TS.generate_local_policy.success)
-          @archive_file_location = data.shift
         else
           handle_message(event, data, reporter)
         end
       end
+      action.archive_file_location
     end
 
     # Runs the Converge action and renders UI updates as

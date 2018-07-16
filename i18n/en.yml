@@ -158,7 +158,7 @@ cli:
     connection_failed: "Connection failed: %1"
 
 status:
-  generate_cookbook:
+  generate_temp_cookbook:
     generating: Packaging cookbook...
     success: Packaging cookbook... done!
   generate_local_policy:
@@ -424,6 +424,14 @@ errors:
 
       %1
 
+  # Internal API errors - give them some formatting
+  CHEFAPI001: |
+    API error: provide either :recipe_spec or :resouce_name, :resource_type,
+    and :resource_properties
+
+    You provided: %1
+
+
   # Maps to: NameError
   CHEFNET001: |
     A network error occurred:
@@ -494,6 +502,7 @@ errors:
     We plan to support a range of target operating systems,
     but during this targeted beta we are constraining our efforts
     to Windows and Linux.
+
 
   footer:
     both: |

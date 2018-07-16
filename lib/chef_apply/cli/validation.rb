@@ -20,39 +20,6 @@ module ChefApply
     PROPERTY_MATCHER = /^([a-zA-Z0-9_]+)=(.+)$/
     CB_MATCHER = '[\w\-]+'
 
-    # @doc Convert properties in the form k1=v1,k2=v2,kn=vn
-    # into a hash, while validating correct form and format
-    def properties_from_string(string_props)
-      properties = {}
-      string_props.each do |a|
-        key, value = PROPERTY_MATCHER.match(a)[1..-1]
-        value = transform_property_value(value)
-        properties[key] = value
-      end
-      properties
-    end
-    #
-    # Incoming properties are always read as a string from the command line.
-    # Depending on their type we should transform them so we do not try and pass
-    # a string to a resource property that expects an integer or boolean.
-    def transform_property_value(value)
-      case value
-      when /^0/
-        # when it is a zero leading value like "0777" don't turn
-        # it into a number (this is a mode flag)
-        value
-      when /^\d+$/
-        value.to_i
-      when /(^(\d+)(\.)?(\d+)?)|(^(\d+)?(\.)(\d+))/
-        value.to_f
-      when /true/i
-        true
-      when /false/i
-        false
-      else
-        value
-      end
-    end
     # The first param is always hostname. Then we either have
     # 1. A recipe designation
     # 2. A resource type and resource name followed by any properties
@@ -79,5 +46,40 @@ module ChefApply
         end
       end
     end
+
+    # Convert properties in the form k1=v1,k2=v2,kn=vn
+    # into a hash, while validating correct form and format
+    def properties_from_string(string_props)
+      properties = {}
+      string_props.each do |a|
+        key, value = PROPERTY_MATCHER.match(a)[1..-1]
+        value = transform_property_value(value)
+        properties[key] = value
+      end
+      properties
+    end
+
+    # Incoming properties are always read as a string from the command line.
+    # Depending on their type we should transform them so we do not try and pass
+    # a string to a resource property that expects an integer or boolean.
+    def transform_property_value(value)
+      case value
+      when /^0/
+        # when it is a zero leading value like "0777" don't turn
+        # it into a number (this is a mode flag)
+        value
+      when /^\d+$/
+        value.to_i
+      when /(^(\d+)(\.)?(\d+)?)|(^(\d+)?(\.)(\d+))/
+        value.to_f
+      when /true/i
+        true
+      when /false/i
+        false
+      else
+        value
+      end
+    end
+
   end
 end

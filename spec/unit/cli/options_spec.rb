@@ -17,7 +17,7 @@
 
 require "spec_helper"
 require "mixlib/cli"
-require "chef_apply/cli_options"
+require "chef_apply/cli/options"
 require "chef-config/config"
 
 ChefApply::Config.load

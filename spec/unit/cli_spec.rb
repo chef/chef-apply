@@ -156,7 +156,6 @@ RSpec.describe ChefApply::CLI do
     end
   end
 
-
   describe "#connect_target" do
     let(:host) { double("TargetHost", config: {}, user: "root" ) }
     let(:reporter) { double("reporter", update: :ok, success: :ok) }
@@ -179,7 +178,7 @@ RSpec.describe ChefApply::CLI do
                 resource_name: "test", resource_properties: {})
           .and_return(action)
         expect(action).to receive(:run)
-        expect(subject.generate_temp_cookbook(["user", "test"], nil)).to eq temp_cookbook
+        expect(subject.generate_temp_cookbook(%w{user test}, nil)).to eq temp_cookbook
       end
     end
 
@@ -209,23 +208,22 @@ RSpec.describe ChefApply::CLI do
         it "updates message text via reporter" do
           expected_text = ChefApply::CLI::TS.generate_temp_cookbook.generating
           expect(reporter).to receive(:update).with(expected_text)
-          subject.generate_temp_cookbook(["user", "jimbo"], reporter)
+          subject.generate_temp_cookbook(%w{user jimbo}, reporter)
         end
       end
 
       context ":success" do
-        let(:event) { :success}
+        let(:event) { :success }
         let(:event_args) { [ temp_cookbook ] }
         it "indicates success via reporter and returns the cookbook" do
           expected_text = ChefApply::CLI::TS.generate_temp_cookbook.success
           expect(reporter).to receive(:success).with(expected_text)
-          expect(subject.generate_temp_cookbook(["user", "jimbo"], reporter))
+          expect(subject.generate_temp_cookbook(%w{user jimbo}, reporter))
             .to eq temp_cookbook
         end
       end
     end
   end
-
 
   describe "#generate_local_policy" do
     let(:reporter) { double("reporter") }
@@ -267,7 +265,7 @@ RSpec.describe ChefApply::CLI do
       context ":exporting" do
         let(:event) { :exporting }
         let(:event_args) { nil }
-        let(:expected_msg) { ChefApply::CLI::TS.generate_local_policy.exporting}
+        let(:expected_msg) { ChefApply::CLI::TS.generate_local_policy.exporting }
         it "updates message text correctly via reporter" do
           expect(reporter).to receive(:update).with(expected_msg)
           subject.generate_local_policy(reporter)
@@ -285,7 +283,6 @@ RSpec.describe ChefApply::CLI do
 
       end
     end
-
 
   end
 
@@ -306,7 +303,6 @@ RSpec.describe ChefApply::CLI do
       subject.render_cookbook_setup(args)
     end
 
-
   end
 
   describe "#render_converge" do
@@ -315,9 +311,10 @@ RSpec.describe ChefApply::CLI do
     let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
     let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
     let(:cookbook_type) { :resource } # || :recipe
-    let(:temp_cookbook) { instance_double(ChefApply::TempCookbook,
+    let(:temp_cookbook) do
+      instance_double(ChefApply::TempCookbook,
                                                type: cookbook_type,
-                                               name: "a cookbook") }
+                                               name: "a cookbook") end
     let(:converge_top_status_message) { "converging" }
     let(:archive_file_location) { "/path/to/archive" }
 

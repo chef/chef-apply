@@ -58,9 +58,8 @@ module ChefApply
         end
 
         def render_parallel_jobs(header, jobs)
-
       # Do not indent the topmost 'parent' spinner, but do indent child spinners
-          indent_style = { top: '',
+          indent_style = { top: "",
                            middle: TTY::Spinner::Multi::DEFAULT_INSET[:middle],
                            bottom: TTY::Spinner::Multi::DEFAULT_INSET[:bottom] }
       # @option options [Hash] :style

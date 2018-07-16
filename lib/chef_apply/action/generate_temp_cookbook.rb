@@ -15,8 +15,6 @@
 # limitations under the License.
 #
 
-
-
 require "chef_apply/action/base"
 require "chef_apply/recipe_lookup"
 require "chef_apply/temp_cookbook"
@@ -28,11 +26,11 @@ module ChefApply::Action
 
     def self.from_options(opts)
       if opts.has_key?(:recipe_spec)
-        return GenerateCookbookFromRecipe.new(opts)
+        GenerateCookbookFromRecipe.new(opts)
       elsif opts.has_key?(:resource_name) &&
-        opts.has_key?(:resource_type)  &&
-        opts.has_key?(:resource_properties)
-        return GenerateCookbookFromResource.new(opts)
+          opts.has_key?(:resource_type) &&
+          opts.has_key?(:resource_properties)
+        GenerateCookbookFromResource.new(opts)
       else
         raise MissingOptions.new(opts)
       end
@@ -83,6 +81,6 @@ module ChefApply::Action
   end
 
   class MissingOptions < ChefApply::APIError
-    def initialize(*args) ; super("CHEFAPI001", *args) ; end
+    def initialize(*args); super("CHEFAPI001", *args); end
   end
 end

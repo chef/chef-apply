@@ -65,4 +65,3 @@ module ChefApply
     end
   end
 end
-

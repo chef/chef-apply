@@ -99,11 +99,11 @@ module ChefApply
       parse_options(@argv)
       # TODO move to startup
       if @argv.empty? || parsed_options[:help]
-        require 'chef_apply/cli/help'
+        require "chef_apply/cli/help"
         self.class.include ChefApply::CLIHelp
         show_help
       elsif parsed_options[:version]
-        require 'chef_apply/cli/help'
+        require "chef_apply/cli/help"
         self.class.include ChefApply::CLIHelp
         show_version
       else
@@ -164,8 +164,6 @@ module ChefApply
       end
     end
 
-
-
     # Accepts a target_host and establishes the connection to that host
     # while providing visual feedback via the Terminal API.
     def connect_target(target_host, reporter)
@@ -209,7 +207,7 @@ module ChefApply
     # and renders UI updates as the action reports back
     def generate_temp_cookbook(arguments, reporter)
       opts = if arguments.length == 1
-               { recipe_spec:  arguments.shift }
+               { recipe_spec: arguments.shift }
              else
                { resource_type: arguments.shift,
                  resource_name: arguments.shift,
@@ -311,7 +309,6 @@ module ChefApply
       UI::ErrorPrinter.write_backtrace(e, @argv)
     end
 
-
     def do_connect(target_host, reporter)
       target_host.connect!
       reporter.update(T.status.connected)
@@ -321,8 +318,6 @@ module ChefApply
       raise
     end
 
-    def configure_chef
-    end
     class OptionValidationError < ChefApply::ErrorNoLogs
       attr_reader :command
       def initialize(id, calling_command, *args)

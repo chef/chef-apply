@@ -39,10 +39,10 @@ module ChefApply::Action
     def exporter
       require "chef-dk/policyfile_services/export_repo"
       @exporter ||=
-       ChefDK::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
-                                                  root_dir: @cookbook.path,
-                                                  export_dir: @cookbook.export_path,
-                                                  archive: true, force: true)
+        ChefDK::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
+                                                   root_dir: @cookbook.path,
+                                                   export_dir: @cookbook.export_path,
+                                                   archive: true, force: true)
     end
 
     def installer
@@ -57,4 +57,3 @@ module ChefApply::Action
     def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
   end
 end
-

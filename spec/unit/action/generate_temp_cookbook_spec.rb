@@ -18,7 +18,7 @@
 require "chef_apply/action/generate_temp_cookbook"
 
 RSpec.describe ChefApply::Action::GenerateTempCookbook do
-  let(:options) { { } }
+  let(:options) { {} }
   subject { ChefApply::Action::GenerateTempCookbook }
 
   describe ".from_options" do
@@ -30,10 +30,10 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook do
     end
 
     context "when given options for a resource" do
-      let(:resource_properties) { { } }
-      let(:options) { { resource_name: "user1", resource_type: "user",
-                        resource_properties: resource_properties } }
-
+      let(:resource_properties) { {} }
+      let(:options) do
+        { resource_name: "user1", resource_type: "user",
+          resource_properties: resource_properties } end
 
       it "returns a GenerateCookbookFromResource action" do
         expect(subject.from_options(options)).to be_a ChefApply::Action::GenerateCookbookFromResource
@@ -41,16 +41,16 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook do
     end
 
     context "when not given sufficient options for either" do
-      let(:options) { { } }
+      let(:options) { {} }
       it "raises MissingOptions" do
-        expect{subject.from_options(options)}.to raise_error ChefApply::Action::MissingOptions
+        expect { subject.from_options(options) }.to raise_error ChefApply::Action::MissingOptions
       end
     end
 
   end
 
   describe "#perform_action" do
-    subject { ChefApply::Action::GenerateTempCookbook.new( { } ) }
+    subject { ChefApply::Action::GenerateTempCookbook.new( {} ) }
     it "generates a cookbook, notifies caller, and makes the cookbook available" do
 
       expect(subject).to receive(:notify).ordered.with(:generating)
@@ -73,4 +73,3 @@ RSpec.describe ChefApply::Action::GenerateCookbookFromResource do
   describe "#generate" do
   end
 end
-

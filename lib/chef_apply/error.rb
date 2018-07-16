@@ -67,7 +67,6 @@ module ChefApply
   class APIError < Error
   end
 
-
   # Provides mappings of common errors that we don't explicitly
   # handle, but can offer expanded help text around.
   class StandardErrorResolver

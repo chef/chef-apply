@@ -18,7 +18,7 @@ require "chef_apply/config"
 require "chef_apply/text"
 require "chef_apply/ui/terminal"
 require "chef_apply/telemeter/sender"
-require 'chef_apply/log'
+require "chef_apply/log"
 
 module ChefApply
   class Startup
@@ -162,7 +162,7 @@ module ChefApply
       ChefApply::Log.setup(Config.log.location, Config.log.level.to_sym)
       ChefApply::Log.info("Initialized logger")
 
-      require 'chef/log'
+      require "chef/log"
       ChefConfig.logger = ChefApply::Log
       # Setting the config isn't enough, we need to ensure the logger is initialized
       # or automatic initialization will still go to stdout

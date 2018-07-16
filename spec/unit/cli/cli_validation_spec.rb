@@ -75,4 +75,3 @@ RSpec.describe ChefApply::CLIValidation do
   end
 
 end
-

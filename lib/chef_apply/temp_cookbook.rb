@@ -157,6 +157,7 @@ module ChefApply
     def policyfile_lock_path
       File.join(path, "Policyfile.lock.json")
     end
+
     def export_path
       File.join(path, "export")
     end

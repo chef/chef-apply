@@ -43,6 +43,9 @@ module ChefApply
       # are required.
       setup_workstation_user_directories
 
+      # Customize behavior of Ruby and any gems around error handling
+      setup_error_handling
+
       # Startup tasks that may change behavior based on configuration value
       # must be run after load_config
       load_config
@@ -120,6 +123,17 @@ module ChefApply
       FileUtils.mkdir_p(Config::WS_BASE_PATH)
       FileUtils.mkdir_p(Config.base_log_directory)
       FileUtils.mkdir_p(Config.telemetry_path)
+    end
+
+    def setup_error_handling
+      # In Ruby 2.5+ threads print out to stdout when they raise an exception. This is an agressive
+      # attempt to ensure debugging information is not lost, but in our case it is not necessary
+      # because we handle all the errors ourself. So we disable this to keep output clean.
+      # See https://ruby-doc.org/core-2.5.0/Thread.html#method-c-report_on_exception
+      #
+      # We set this globally so that it applies to all threads we create - we never want any non-UI thread
+      # to render error output to the terminal.
+      Thread.report_on_exception = false
     end
 
     def load_config

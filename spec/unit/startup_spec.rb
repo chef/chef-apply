@@ -27,6 +27,7 @@ RSpec.describe ChefApply::Startup do
     it "performs ordered startup tasks and invokes the CLI" do
       ordered_messages = [:first_run_tasks,
                           :setup_workstation_user_directories,
+                          :setup_error_handling,
                           :load_config,
                           :setup_logging,
                           :start_telemeter_upload,

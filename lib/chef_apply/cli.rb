@@ -97,26 +97,24 @@ module ChefApply
       elsif parsed_options[:version]
         show_version
       else
+        temp_cookbook = nil
+        initial_status_msg = nil
+        local_policy_path = nil
+
         validate_params(cli_arguments)
         configure_chef
         target_hosts = TargetResolver.new(cli_arguments.shift,
                                           parsed_options.delete(:protocol),
                                           parsed_options).targets
-        temp_cookbook, initial_status_msg = generate_temp_cookbook(cli_arguments)
-        local_policy_path = nil
+        UI::Terminal.render_job(TS.generate_cookbook.generating) do |reporter|
+          temp_cookbook, initial_status_msg = generate_temp_cookbook(cli_arguments)
+          reporter.success(TS.generate_cookbook.success)
+        end
         UI::Terminal.render_job(TS.generate_policyfile.generating) do |reporter|
           local_policy_path = create_local_policy(temp_cookbook)
           reporter.success(TS.generate_policyfile.success)
         end
-        if target_hosts.length == 1
-          # Note: UX discussed determined that when running with a single target,
-          #       we'll use multiple lines to display status for the target.
-          run_single_target(initial_status_msg, target_hosts[0], local_policy_path)
-        else
-          @multi_target = true
-          # Multi-target will use one line per target.
-          run_multi_target(initial_status_msg, target_hosts, local_policy_path)
-        end
+        render_converge(initial_status_msg, target_hosts, local_policy_path)
       end
     rescue OptionParser::InvalidOption => e
       # Using nil here is a bit gross but it prevents usage from printing.
@@ -146,18 +144,7 @@ module ChefApply
       target_host
     end
 
-    def run_single_target(initial_status_msg, target_host, local_policy_path)
-      connect_target(target_host)
-      prefix = "[#{target_host.hostname}]"
-      UI::Terminal.render_job(TS.install_chef.verifying, prefix: prefix) do |reporter|
-        install(target_host, reporter)
-      end
-      UI::Terminal.render_job(initial_status_msg, prefix: "[#{target_host.hostname}]") do |reporter|
-        converge(reporter, local_policy_path, target_host)
-      end
-    end
-
-    def run_multi_target(initial_status_msg, target_hosts, local_policy_path)
+    def render_converge(initial_status_msg, target_hosts, local_policy_path)
       # Our multi-host UX does not show a line item per action,
       # but rather a line-item per connection.
       jobs = target_hosts.map do |target_host|
@@ -170,7 +157,10 @@ module ChefApply
           converge(reporter, local_policy_path, target_host)
         end
       end
-      UI::Terminal.render_parallel_jobs(TS.converge.multi_header, jobs)
+      # "send" is needed here for it to accept an integer parameter - otherwise
+      # our 'Text' layer gets in the way and fails tryuing to convert the int to s symbol
+      header = TS.converge.header(target_hosts.length)
+      UI::Terminal.render_parallel_jobs(header, jobs)
       handle_job_failures(jobs)
     end
 
@@ -320,16 +310,14 @@ module ChefApply
         when :downloading
           reporter.update(context.downloading)
         when :already_installed
-          meth = @multi_target ? :update : :success
-          reporter.send(meth, context.already_present(target_host.installed_chef_version))
+          reporter.update(context.already_present(target_host.installed_chef_version))
         when :install_complete
-          meth = @multi_target ? :update : :success
           if installer.upgrading?
             message = context.upgrade_success(target_host.installed_chef_version, installer.version_to_install)
           else
             message = context.install_success(installer.version_to_install)
           end
-          reporter.send(meth, message)
+          reporter.update(message)
         else
           handle_message(event, data, reporter)
         end

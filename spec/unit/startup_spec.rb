@@ -260,10 +260,13 @@ RSpec.describe ChefApply::Startup do
       ChefApply::Config.log.level = log_level
     end
 
-    it "sets up the logger with the correct log path" do
+    it "sets up the logging for ChefApply and Chef" do
       expect(ChefApply::Log).to receive(:setup).
         with(log_path, log_level)
+      expect(Chef::Log).to receive(:init).
+        with(ChefApply::Log)
       subject.setup_logging
+      expect(ChefConfig.logger).to eq(ChefApply::Log)
     end
   end
 

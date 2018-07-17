@@ -18,6 +18,8 @@ require "chef_apply/config"
 require "chef_apply/text"
 require "chef_apply/ui/terminal"
 require "chef_apply/telemeter/sender"
+require "chef/log"
+require "chef/config"
 module ChefApply
   class Startup
     attr_reader :argv
@@ -145,6 +147,12 @@ module ChefApply
     def setup_logging
       ChefApply::Log.setup(Config.log.location, Config.log.level.to_sym)
       ChefApply::Log.info("Initialized logger")
+
+      ChefConfig.logger = ChefApply::Log
+      # Setting the config isn't enough, we need to ensure the logger is initialized
+      # or automatic initialization will still go to stdout
+      Chef::Log.init(ChefApply::Log)
+      Chef::Log.level = ChefApply::Log.level
     end
 
     def start_chef_apply

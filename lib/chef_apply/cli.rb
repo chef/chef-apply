@@ -103,7 +103,6 @@ module ChefApply
         show_version
       else
         validate_params(cli_arguments)
-        configure_chef
         target_hosts = TargetResolver.new(cli_arguments.shift,
                                           parsed_options.delete(:protocol),
                                           parsed_options).targets
@@ -177,15 +176,6 @@ module ChefApply
       end
       UI::Terminal.render_parallel_jobs(TS.converge.multi_header, jobs)
       handle_job_failures(jobs)
-    end
-
-    # Now that we are leveraging Chef locally we want to perform some initial setup of it
-    def configure_chef
-      ChefConfig.logger = ChefApply::Log
-      # Setting the config isn't enough, we need to ensure the logger is initialized
-      # or automatic initialization will still go to stdout
-      Chef::Log.init(ChefApply::Log)
-      Chef::Log.level = ChefApply::Log.level
     end
 
     # The user will either specify a single resource on the command line, or a recipe.

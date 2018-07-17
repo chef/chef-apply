@@ -161,13 +161,13 @@ RSpec.describe ChefApply::TempCookbook do
     end
   end
 
-  describe "#create_resource" do
+  describe "#create_resource_definition" do
     let(:r1) { "directory" }
     let(:r2) { "/tmp" }
     let(:props) { nil }
     context "when no properties are provided" do
       it "it creates a simple resource" do
-        expect(tc.create_resource(r1, r2, [])).to eq("directory '/tmp'\n")
+        expect(tc.create_resource_definition(r1, r2, [])).to eq("directory '/tmp'\n")
       end
     end
 
@@ -192,7 +192,7 @@ RSpec.describe ChefApply::TempCookbook do
             key_with_underscore 'value'
           end
         EXPECTED_RESOURCE
-        expect(tc.create_resource(r1, r2, props)).to eq(expected)
+        expect(tc.create_resource_definition(r1, r2, props)).to eq(expected)
       end
     end
   end

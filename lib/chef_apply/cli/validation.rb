@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+require "chef_apply/error"
+
 module ChefApply
   class CLI
     module Validation
@@ -81,7 +83,17 @@ module ChefApply
           value
         end
       end
+    end
 
+    class OptionValidationError < ChefApply::ErrorNoLogs
+      attr_reader :command
+      def initialize(id, calling_command, *args)
+        super(id, *args)
+        # TODO - this is getting cumbersome - move them to constructor options hash in base
+        @decorate = false
+        @command = calling_command
+      end
     end
   end
+
 end

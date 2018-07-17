@@ -19,7 +19,10 @@ require "chef/log"
 require "chef-config/config"
 require "chef-config/logger"
 
-require "chef_apply/cli_options"
+require "chef_apply/cli/help"
+require "chef_apply/cli/options"
+require "chef_apply/cli/validation"
+
 require "chef_apply/action/converge_target"
 require "chef_apply/action/install_chef"
 require "chef_apply/config"
@@ -31,14 +34,16 @@ require "chef_apply/target_resolver"
 require "chef_apply/telemeter"
 require "chef_apply/telemeter/sender"
 require "chef_apply/temp_cookbook"
-require "chef_apply/ui/terminal"
 require "chef_apply/ui/error_printer"
+require "chef_apply/ui/terminal"
 require "chef_apply/version"
 
 module ChefApply
   class CLI
     include Mixlib::CLI
-    include ChefApply::CLIOptions
+    include ChefApply::CLI::Options
+    include ChefApply::CLI::Help
+    include ChefApply::CLI::Validation
 
     RC_OK = 0
     RC_COMMAND_FAILED = 1
@@ -174,35 +179,6 @@ module ChefApply
       handle_job_failures(jobs)
     end
 
-    # The first param is always hostname. Then we either have
-    # 1. A recipe designation
-    # 2. A resource type and resource name followed by any properties
-    PROPERTY_MATCHER = /^([a-zA-Z0-9_]+)=(.+)$/
-    CB_MATCHER = '[\w\-]+'
-    def validate_params(params)
-      if params.size < 2
-        raise OptionValidationError.new("CHEFVAL002", self)
-      end
-      if params.size == 2
-        # Trying to specify a recipe to run remotely, no properties
-        cb = params[1]
-        if File.exist?(cb)
-          # This is a path specification, and we know it is valid
-        elsif cb =~ /^#{CB_MATCHER}$/ || cb =~ /^#{CB_MATCHER}::#{CB_MATCHER}$/
-          # They are specifying a cookbook as 'cb_name' or 'cb_name::recipe'
-        else
-          raise OptionValidationError.new("CHEFVAL004", self, cb)
-        end
-      elsif params.size >= 3
-        properties = params[3..-1]
-        properties.each do |property|
-          unless property =~ PROPERTY_MATCHER
-            raise OptionValidationError.new("CHEFVAL003", self, property)
-          end
-        end
-      end
-    end
-
     # Now that we are leveraging Chef locally we want to perform some initial setup of it
     def configure_chef
       ChefConfig.logger = ChefApply::Log
@@ -210,38 +186,6 @@ module ChefApply
       # or automatic initialization will still go to stdout
       Chef::Log.init(ChefApply::Log)
       Chef::Log.level = ChefApply::Log.level
-    end
-
-    def format_properties(string_props)
-      properties = {}
-      string_props.each do |a|
-        key, value = PROPERTY_MATCHER.match(a)[1..-1]
-        value = transform_property_value(value)
-        properties[key] = value
-      end
-      properties
-    end
-
-    # Incoming properties are always read as a string from the command line.
-    # Depending on their type we should transform them so we do not try and pass
-    # a string to a resource property that expects an integer or boolean.
-    def transform_property_value(value)
-      case value
-      when /^0/
-        # when it is a zero leading value like "0777" don't turn
-        # it into a number (this is a mode flag)
-        value
-      when /^\d+$/
-        value.to_i
-      when /(^(\d+)(\.)?(\d+)?)|(^(\d+)?(\.)(\d+))/
-        value.to_f
-      when /true/i
-        true
-      when /false/i
-        false
-      else
-        value
-      end
     end
 
     # The user will either specify a single resource on the command line, or a recipe.
@@ -265,7 +209,7 @@ module ChefApply
       else
         resource_type = cli_arguments.shift
         resource_name = cli_arguments.shift
-        temp_cookbook.from_resource(resource_type, resource_name, format_properties(cli_arguments))
+        temp_cookbook.from_resource(resource_type, resource_name, properties_from_string(cli_arguments))
         full_rs_name = "#{resource_type}[#{resource_name}]"
         ChefApply::Log.debug("Converging resource #{full_rs_name} on target")
         initial_status_msg = TS.converge.converging_resource(full_rs_name)
@@ -399,10 +343,6 @@ module ChefApply
       UI::ErrorPrinter.write_backtrace(e, @argv)
     end
 
-    def show_help
-      UI::Terminal.output format_help
-    end
-
     def do_connect(target_host, reporter, update_method)
       target_host.connect!
       reporter.send(update_method, T.status.connected)
@@ -410,47 +350,6 @@ module ChefApply
       message = ChefApply::UI::ErrorPrinter.error_summary(e)
       reporter.error(message)
       raise
-    end
-
-    def format_help
-      help_text = banner.clone # This prevents us appending to the banner text
-      help_text << "\n"
-      help_text << format_flags
-    end
-
-    def format_flags
-      flag_text = "FLAGS:\n"
-      justify_length = 0
-      options.each_value do |spec|
-        justify_length = [justify_length, spec[:long].length + 4].max
-      end
-      options.sort.to_h.each_value do |flag_spec|
-        short = flag_spec[:short] || "  "
-        short = short[0, 2] # We only want the flag portion, not the capture portion (if present)
-        if short == "  "
-          short = "    "
-        else
-          short = "#{short}, "
-        end
-        flags = "#{short}#{flag_spec[:long]}"
-        flag_text << "    #{flags.ljust(justify_length)}    "
-        ml_padding = " " * (justify_length + 8)
-        first = true
-        flag_spec[:description].split("\n").each do |d|
-          flag_text << ml_padding unless first
-          first = false
-          flag_text << "#{d}\n"
-        end
-      end
-      flag_text
-    end
-
-    def usage
-      T.usage
-    end
-
-    def show_version
-      UI::Terminal.output T.version.show(ChefApply::VERSION)
     end
 
     class OptionValidationError < ChefApply::ErrorNoLogs

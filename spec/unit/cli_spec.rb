@@ -262,23 +262,6 @@ RSpec.describe ChefApply::CLI do
     end
   end
 
-  describe "#format_properties" do
-    it "parses properties into a hash" do
-      provided = %w{key1=value key2=1 key3=true key4=FaLsE key5=0777 key6=https://some.website key7=num1and2digit key_8=underscore}
-      expected = {
-        "key1" => "value",
-        "key2" => 1,
-        "key3" => true,
-        "key4" => false,
-        "key5" => "0777",
-        "key6" => "https://some.website",
-        "key7" => "num1and2digit",
-        "key_8" => "underscore"
-      }
-      expect(subject.format_properties(provided)).to eq(expected)
-    end
-  end
-
   describe "#generate_temp_cookbook" do
     let(:tc) { instance_double(ChefApply::TempCookbook) }
 

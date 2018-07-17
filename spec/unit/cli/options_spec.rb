@@ -17,7 +17,7 @@
 
 require "spec_helper"
 require "mixlib/cli"
-require "chef_apply/cli_options"
+require "chef_apply/cli/options"
 require "chef-config/config"
 
 ChefApply::Config.load
@@ -26,7 +26,7 @@ module ChefApply
   module CLIOptions
     class TestClass
       include Mixlib::CLI
-      include ChefApply::CLIOptions
+      include ChefApply::CLI::Options
     end
 
     def parse(argv)

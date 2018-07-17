@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.4 -->
++<!-- latest_release 0.1.5 -->
+## [0.1.5](https://github.com/chef/chef-apply/tree/0.1.5) (2018-07-17)
+
+#### Merged Pull Requests
+- Adding Github issue and PR template [#6](https://github.com/chef/chef-apply/pull/6) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.4](https://github.com/chef/chef-apply/tree/0.1.4) (2018-07-13)
 
 #### Merged Pull Requests
 - Raise error if installed Chef version is lower than 14.1.1 [#8](https://github.com/chef/chef-apply/pull/8) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.3](https://github.com/chef/chef-apply/tree/0.1.3) (2018-07-11)
 

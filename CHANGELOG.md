@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.6 -->
++<!-- latest_release 0.1.7 -->
+## [0.1.7](https://github.com/chef/chef-apply/tree/0.1.7) (2018-07-18)
+
+#### Merged Pull Requests
+- Align converge multi-spinner with parent [#14](https://github.com/chef/chef-apply/pull/14) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.6](https://github.com/chef/chef-apply/tree/0.1.6) (2018-07-18)
 
 #### Merged Pull Requests
 - Split ChefApply::CLI into smaller modules [#11](https://github.com/chef/chef-apply/pull/11) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.5](https://github.com/chef/chef-apply/tree/0.1.5) (2018-07-17)
 

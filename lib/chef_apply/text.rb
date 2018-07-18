@@ -22,6 +22,7 @@ require "r18n-desktop"
 module ChefApply
   class Text
     R18n.from_env(File.join(File.dirname(__FILE__), "../..", "i18n/"))
+    R18n.extension_places << R18n::Loader::YAML.new(File.join(File.dirname(__FILE__), "../..", "i18n/errors/"))
     t = R18n.get.t
     t.translation_keys.each do |k|
       k = k.to_sym

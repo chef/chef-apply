@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.5 -->
++<!-- latest_release 0.1.6 -->
+## [0.1.6](https://github.com/chef/chef-apply/tree/0.1.6) (2018-07-18)
+
+#### Merged Pull Requests
+- Split ChefApply::CLI into smaller modules [#11](https://github.com/chef/chef-apply/pull/11) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.5](https://github.com/chef/chef-apply/tree/0.1.5) (2018-07-17)
 
 #### Merged Pull Requests
 - Adding Github issue and PR template [#6](https://github.com/chef/chef-apply/pull/6) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.4](https://github.com/chef/chef-apply/tree/0.1.4) (2018-07-13)
 

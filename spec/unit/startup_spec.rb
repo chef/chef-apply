@@ -27,6 +27,7 @@ RSpec.describe ChefApply::Startup do
     it "performs ordered startup tasks and invokes the CLI" do
       ordered_messages = [:first_run_tasks,
                           :setup_workstation_user_directories,
+                          :setup_error_handling,
                           :load_config,
                           :setup_logging,
                           :start_telemeter_upload,
@@ -260,10 +261,13 @@ RSpec.describe ChefApply::Startup do
       ChefApply::Config.log.level = log_level
     end
 
-    it "sets up the logger with the correct log path" do
+    it "sets up the logging for ChefApply and Chef" do
       expect(ChefApply::Log).to receive(:setup).
         with(log_path, log_level)
+      expect(Chef::Log).to receive(:init).
+        with(ChefApply::Log)
       subject.setup_logging
+      expect(ChefConfig.logger).to eq(ChefApply::Log)
     end
   end
 

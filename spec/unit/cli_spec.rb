@@ -142,7 +142,6 @@ RSpec.describe ChefApply::CLI do
       let(:reporter) { double("reporter") }
       before(:each) do
         allow(subject).to receive(:validate_params)
-        allow(subject).to receive(:configure_chef)
         allow(subject).to receive(:generate_temp_cookbook).and_return([mock_cb, "test"])
         allow(subject).to receive(:create_local_policy).and_return(archive)
         allow(subject).to receive(:run_single_target)
@@ -156,7 +155,6 @@ RSpec.describe ChefApply::CLI do
       end
 
       it "performs the steps required to create the local policy" do
-        expect(subject).to receive(:configure_chef).ordered
         expect(subject).to receive(:generate_temp_cookbook).ordered.and_return([mock_cb, "test"])
         generating = ChefApply::Text.status.generate_policyfile.generating
         expect(ChefApply::UI::Terminal).to receive(:render_job).with(generating).and_yield(reporter)
@@ -330,23 +328,6 @@ RSpec.describe ChefApply::CLI do
         msg = ChefApply::Text.status.converge.converging_resource("directory[foo]")
         expect(actual2).to eq(msg)
       end
-    end
-  end
-
-  describe "#configure_chef" do
-    it "sets ChefConfig.logger to ChefApply.log" do
-      subject.configure_chef
-      expect(ChefConfig.logger).to eq(ChefApply::Log)
-    end
-
-    it "initializes Chef::Log" do
-      expect(Chef::Log).to receive(:init).with(ChefApply::Log)
-      subject.configure_chef
-    end
-
-    it "sets ChefConfig.logger to ChefApply.log" do
-      subject.configure_chef
-      expect(ChefConfig.logger).to eq(ChefApply::Log)
     end
   end
 

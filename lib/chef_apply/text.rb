@@ -20,9 +20,22 @@ require "r18n-desktop"
 # A very thin wrapper around R18n, the idea being that we're likely to replace r18n
 # down the road and don't want to have to change all of our commands.
 module ChefApply
+  # TODO - module text? time to split this up?
   class Text
-    R18n.from_env(File.join(File.dirname(__FILE__), "../..", "i18n/"))
-    R18n.extension_places << R18n::Loader::YAML.new(File.join(File.dirname(__FILE__), "../..", "i18n/errors/"))
+
+    def self._error_yaml
+      # Though ther may be several translations, en.yml will be the only one with
+      # error metadata.
+      path = File.join(_translation_path, "errors", "en.yml")
+      @yaml ||= YAML.load(path)
+    end
+
+    def self._translation_path
+      @translation_path ||= File.join(File.dirname(__FILE__), "..", "..", "i18n")
+    end
+
+    R18n.from_env(Text._translation_path)
+    R18n.extension_places << File.join(Text._translation_path, "errors")
     t = R18n.get.t
     t.translation_keys.each do |k|
       k = k.to_sym
@@ -30,6 +43,52 @@ module ChefApply
         TextWrapper.new(t.send(k, *args))
       end
     end
+  end
+
+  class ErrorTranslation
+    ATTRIBUTES = :no_decorations, :show_header, :show_footer, :show_stack, :show_log
+    attr_reader :message, *ATTRIBUTES
+    def initialize(id,  params: [])
+
+      # To get access to the metadata we'll go directly through the parsed yaml.
+      # Otherwise the semantics around optional field handling get unnecessarily complicated.
+      yml = Text._error_yml["errors"]
+
+      # We'll still use our Text mechanism for the text itself so that
+      # parameters, pluralization, etc will still work.
+      # This will raise if the key doesn't exist.
+      @message = Text.errors.send(id).text(*params)
+
+      options = yml["display_defaults"]
+
+      # Override any defaults if display metadata is given
+      display_opts = yml[id]["display"]
+      options = options.merge(display_opts) unless display_opts.nil?
+
+      ATTRIBUTES.each do |attribute|
+        instance_variable_set("@#{attribute}", options.delete(attribute))
+      end
+
+      if options.length > 0
+        # Anything not in ATTRIBUTES is not supported. This will also catch
+        # typos in attr names
+        raise InvalidDisplayAttributes.new(id, options)
+      end
+    end
+
+    def inspect
+      inspection = "ErrorTranslation<#{@self}>: "
+      ATTRIBUTES.each do |atttribute|
+        inspection << "#{attribute}: #{self.send(:attribute)}; "
+      end
+      inspection << "message: #{message.gsub("\n", "\\n")}"
+      inspection
+    end
+
+    def valid_entry?(entry)
+      entry.class == R18n::Translated
+    end
+
   end
 
   # Our text spinner class really doesn't like handling the TranslatedString or Untranslated classes returned
@@ -56,6 +115,7 @@ module ChefApply
             TextWrapper.new(subtree)
           end
         end
+        define_singleton_method :display_options
       end
     end
 
@@ -73,6 +133,12 @@ module ChefApply
       end
     end
 
+    class InvalidDisplayAttributes  < RuntimeError
+      def initialize(id, attrs)
+        super("Invalid display attributes found for #{id}: #{attrs}")
+      end
+    end
+
     class InvalidKey < TextError
       def initialize(path, terminus)
         set_call_context
@@ -83,6 +149,7 @@ module ChefApply
         super(message)
       end
     end
+
 
     class MissingPlural < TextError
       def initialize(path, terminus)

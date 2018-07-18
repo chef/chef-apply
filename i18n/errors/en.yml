@@ -4,19 +4,23 @@
 # Second line: blank
 # Third+ : detailed description, max 76 characters per line
 errors:
-  rendering_defaults: {header: true, footer: true, stack: true, log: true}
+  display_defaults: {header: true, footer: true, stack: true, log: true}
   # Catch-all for the worst case
   UNKNOWN: An unknown error has occurred.
 
+  TEST001:
+    rendering: { header: false }
+    text: "oopsie"
+
   # Installer action errors
   CHEFINS002:
-      The target does not have chef-client installed.
+    The target does not have chef-client installed.
 
-      This command is powered by the Chef client.  In order to make use of it
-      on this node, the Chef client must be installed first.
+    This command is powered by the Chef client.  In order to make use of it
+    on this node, the Chef client must be installed first.
 
-      Re-running this command without the '--no-install' flag will
-      automatically perform the installation.
+    Re-running this command without the '--no-install' flag will
+    automatically perform the installation.
 
   CHEFINS003: |
     The target has an older version of Chef client installed.

@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.7 -->
++<!-- latest_release 0.1.8 -->
+## [0.1.8](https://github.com/chef/chef-apply/tree/0.1.8) (2018-07-18)
+
+#### Merged Pull Requests
+- Move chef logging configuration to Startup [#12](https://github.com/chef/chef-apply/pull/12) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.7](https://github.com/chef/chef-apply/tree/0.1.7) (2018-07-18)
 
 #### Merged Pull Requests
 - Align converge multi-spinner with parent [#14](https://github.com/chef/chef-apply/pull/14) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.6](https://github.com/chef/chef-apply/tree/0.1.6) (2018-07-18)
 

@@ -167,6 +167,9 @@ RSpec.describe ChefApply::CLI do
   end
 
   describe "#generate_temp_cookbook" do
+    before do
+      allow(subject).to receive(:parsed_options).and_return({ cookbook_repo_paths: "/tmp" })
+    end
     let(:temp_cookbook) { double("TempCookbook") }
     let(:action) { double("generator", generated_cookbook: temp_cookbook) }
 
@@ -183,10 +186,11 @@ RSpec.describe ChefApply::CLI do
     end
 
     context "when a recipe specifier is provided" do
+
       it "gets an action via GenerateTemporaryCookbook.from_options and executes it" do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
-          .with(recipe_spec: "mycookbook::default")
+          .with(recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp")
           .and_return(action)
         expect(action).to receive(:run)
         subject.generate_temp_cookbook(["mycookbook::default"], nil)
@@ -280,10 +284,8 @@ RSpec.describe ChefApply::CLI do
           expect(reporter).to receive(:success).with(expected_msg)
           expect(subject.generate_local_policy(reporter)).to eq archive_file_location
         end
-
       end
     end
-
   end
 
   describe "#render_cookbook_setup" do
@@ -302,7 +304,6 @@ RSpec.describe ChefApply::CLI do
         .with(reporter).and_return archive_file_location
       subject.render_cookbook_setup(args)
     end
-
   end
 
   describe "#render_converge" do
@@ -313,16 +314,16 @@ RSpec.describe ChefApply::CLI do
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
       instance_double(ChefApply::TempCookbook,
-                                               type: cookbook_type,
-                                               name: "a cookbook") end
-    let(:converge_top_status_message) { "converging" }
+                      descriptor: "resource[name]",
+                      from: "resource") end
     let(:archive_file_location) { "/path/to/archive" }
 
     before do
       allow(subject).to receive(:temp_cookbook).and_return temp_cookbook
       allow(subject).to receive(:archive_file_location).and_return archive_file_location
-      allow(subject).to receive(:converge_top_status_message).and_return converge_top_status_message
-      allow(ChefApply::UI::Terminal).to receive(:render_parallel_jobs) do |_header, jobs|
+      expected_header = ChefApply::CLI::TS.converge.header(2, temp_cookbook.descriptor, temp_cookbook.from)
+      allow(ChefApply::UI::Terminal).to receive(:render_parallel_jobs) do |header, jobs|
+        expect(header).to eq expected_header
         jobs.each { |j| j.run(reporter) }
       end
     end
@@ -331,12 +332,109 @@ RSpec.describe ChefApply::CLI do
     it "connects, installs chef, and converges for each target" do
       target_hosts.each do |host|
         expect(subject).to receive(:connect_target).with(host, reporter)
-        expect(reporter).to receive(:update).with(ChefApply::CLI::TS.install_chef.verifying)
         expect(subject).to receive(:install).with(host, reporter)
-        expect(reporter).to receive(:update).with(converge_top_status_message)
         expect(subject).to receive(:converge).with(reporter, archive_file_location, host)
       end
       subject.render_converge(target_hosts)
+    end
+  end
+
+  describe "#install" do
+    let(:upgrading) { false }
+    let(:target_host) { double("targethost", installed_chef_version: "14.0") }
+    let(:reporter) { double("reporter") }
+    let(:action) do
+      double("ChefApply::Actions::InstallChef",
+                          upgrading?: upgrading,
+                          version_to_install: "14.0") end
+
+    it "updates status, gets an InstallChef via instance_for_target and executes it" do
+      expect(reporter)
+        .to receive(:update)
+        .with(ChefApply::CLI::TS.install_chef.verifying)
+      expect(ChefApply::Action::InstallChef).to receive(:instance_for_target)
+        .with(target_host, check_only: false)
+        .and_return action
+      expect(action).to receive(:run)
+      subject.install(target_host, reporter)
+    end
+
+    context "when generator posts event:" do
+      let(:event_args) { nil }
+      let(:text_context) { ChefApply::Text.status.install_chef }
+
+      before do
+        allow(ChefApply::Action::InstallChef)
+          .to receive(:instance_for_target).and_return action
+        allow(action)
+          .to receive(:run) { |&block| block.call(event, event_args) }
+        allow(reporter)
+          .to receive(:update).with(ChefApply::CLI::TS.install_chef.verifying)
+      end
+
+      context ":installing" do
+        let(:event) { :installing }
+
+        context "when installer is upgrading" do
+          let(:upgrading) { true }
+          it "reports the update correctly" do
+            expect(reporter).to receive(:update).with(text_context.upgrading(target_host.installed_chef_version, action.version_to_install))
+            subject.install(target_host, reporter)
+          end
+        end
+
+        context "when installer is installing clean" do
+          let(:upgrading) { false }
+          it "reports the update correctly" do
+            expect(reporter).to receive(:update).with(text_context.installing(action.version_to_install))
+            subject.install(target_host, reporter)
+          end
+        end
+      end
+
+      context ":uploading" do
+        let(:event) { :uploading }
+        it "reports the update correctly" do
+          expect(reporter).to receive(:update).with(text_context.uploading)
+          subject.install(target_host, reporter)
+        end
+      end
+
+      context ":downloading"  do
+        let(:event) { :downloading }
+        it "reports the update correctly" do
+          expect(reporter).to receive(:update).with(text_context.downloading)
+          subject.install(target_host, reporter)
+        end
+      end
+
+      context ":already_installed" do
+        let(:event) { :already_installed }
+        it "reports the update correctly" do
+          expect(reporter).to receive(:update).with(text_context.already_present(target_host.installed_chef_version))
+          subject.install(target_host, reporter)
+        end
+      end
+
+      context ":install_complete" do
+        let(:event) { :install_complete }
+        context "when installer is upgrading" do
+          let(:upgrading) { true }
+          it "reports the update correctly" do
+            expect(reporter).to receive(:update).with(text_context.upgrade_success(target_host.installed_chef_version,
+                                                                                   action.version_to_install))
+            subject.install(target_host, reporter)
+          end
+        end
+
+        context "when installer installing clean" do
+          let(:upgrading) { false }
+          it "reports the update correctly" do
+            expect(reporter).to receive(:update).with(text_context.install_success(target_host.installed_chef_version))
+            subject.install(target_host, reporter)
+          end
+        end
+      end
     end
   end
 end

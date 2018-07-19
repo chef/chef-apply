@@ -161,9 +161,9 @@ module ChefApply
     end
 
     def install(target_host, reporter)
-      reporter.update(TS.install_chef.verifying)
-      installer = Action::InstallChef.instance_for_target(target_host, check_only: !parsed_options[:install])
       context = TS.install_chef
+      reporter.update(context.verifying)
+      installer = Action::InstallChef.instance_for_target(target_host, check_only: !parsed_options[:install])
       installer.run do |event, data|
         case event
         when :installing

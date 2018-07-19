@@ -53,13 +53,18 @@ module ChefApply
     end
   end
 
-  class MultiJobFailure < ChefApply::ErrorNoLogs
+  class MultiJobFailure < ErrorNoLogs
     attr_reader :jobs
     def initialize(jobs)
       super("CHEFMULTI001")
       @jobs = jobs
       @decorate = false
     end
+  end
+
+  # Provide a base type for internal usage errors that should not leak out
+  # but may anyway.
+  class APIError < Error
   end
 
   # Provides mappings of common errors that we don't explicitly
@@ -104,5 +109,4 @@ module ChefApply
       require "openssl"
     end
   end
-
 end

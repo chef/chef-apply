@@ -1,4 +1,5 @@
 #
+#p
 # Copyright:: Copyright (c) 2018 Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
@@ -15,35 +16,37 @@
 # limitations under the License.
 #
 require "mixlib/cli"
-require "chef/log"
+
+require "chef_apply/config"
 require "chef-config/config"
 require "chef-config/logger"
 
-require "chef_apply/cli/help"
-require "chef_apply/cli/options"
 require "chef_apply/cli/validation"
-
+require "chef_apply/cli/options"
+require "chef_apply/cli/help"
 require "chef_apply/action/converge_target"
+require "chef_apply/action/generate_local_policy"
+require "chef_apply/action/generate_temp_cookbook"
 require "chef_apply/action/install_chef"
-require "chef_apply/config"
 require "chef_apply/error"
 require "chef_apply/log"
-require "chef_apply/recipe_lookup"
 require "chef_apply/target_host"
 require "chef_apply/target_resolver"
 require "chef_apply/telemeter"
-require "chef_apply/telemeter/sender"
-require "chef_apply/temp_cookbook"
 require "chef_apply/ui/error_printer"
 require "chef_apply/ui/terminal"
-require "chef_apply/version"
 
 module ChefApply
   class CLI
+    attr_reader :temp_cookbook, :archive_file_location, :target_hosts
+
     include Mixlib::CLI
+    # Pulls in the CLI options and flags we have defined for this command.
     include ChefApply::CLI::Options
-    include ChefApply::CLI::Help
+    # Argument validation and parsing behaviors
     include ChefApply::CLI::Validation
+    # Help and version formatting
+    include ChefApply::CLI::Help
 
     RC_OK = 0
     RC_COMMAND_FAILED = 1
@@ -103,26 +106,11 @@ module ChefApply
         show_version
       else
         validate_params(cli_arguments)
-        target_hosts = TargetResolver.new(cli_arguments.shift,
-                                          parsed_options.delete(:protocol),
-                                          parsed_options).targets
-        temp_cookbook, initial_status_msg = generate_temp_cookbook(cli_arguments)
-        local_policy_path = nil
-        UI::Terminal.render_job(TS.generate_policyfile.generating) do |reporter|
-          local_policy_path = create_local_policy(temp_cookbook)
-          reporter.success(TS.generate_policyfile.success)
-        end
-        if target_hosts.length == 1
-          # Note: UX discussed determined that when running with a single target,
-          #       we'll use multiple lines to display status for the target.
-          run_single_target(initial_status_msg, target_hosts[0], local_policy_path)
-        else
-          @multi_target = true
-          # Multi-target will use one line per target.
-          run_multi_target(initial_status_msg, target_hosts, local_policy_path)
-        end
+        target_hosts = resolve_targets(cli_arguments.shift, parsed_options)
+        render_cookbook_setup(cli_arguments)
+        render_converge(target_hosts)
       end
-    rescue OptionParser::InvalidOption => e
+    rescue OptionParser::InvalidOption => e # from parse_options
       # Using nil here is a bit gross but it prevents usage from printing.
       ove = OptionValidationError.new("CHEFVAL010", nil,
                                       e.message.split(":")[1].strip, # only want the flag
@@ -135,111 +123,47 @@ module ChefApply
       temp_cookbook.delete unless temp_cookbook.nil?
     end
 
-    # Accepts a target_host and establishes the connection to that host
-    # while providing visual feedback via the Terminal API.
-    def connect_target(target_host, reporter = nil)
-      connect_message = T.status.connecting(target_host.user)
-      if reporter.nil?
-        UI::Terminal.render_job(connect_message, prefix: "[#{target_host.config[:host]}]") do |rep|
-          do_connect(target_host, rep, :success)
-        end
-      else
-        reporter.update(connect_message)
-        do_connect(target_host, reporter, :update)
-      end
-      target_host
+    def resolve_targets(host_spec, opts)
+      @target_hosts = TargetResolver.new(host_spec,
+                                         opts.delete(:protocol),
+                                         opts).targets
     end
 
-    def run_single_target(initial_status_msg, target_host, local_policy_path)
-      connect_target(target_host)
-      prefix = "[#{target_host.hostname}]"
-      UI::Terminal.render_job(TS.install_chef.verifying, prefix: prefix) do |reporter|
-        install(target_host, reporter)
+    def render_cookbook_setup(arguments)
+      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+        @temp_cookbook = generate_temp_cookbook(arguments, reporter)
       end
-      UI::Terminal.render_job(initial_status_msg, prefix: "[#{target_host.hostname}]") do |reporter|
-        converge(reporter, local_policy_path, target_host)
+      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+        @archive_file_location = generate_local_policy(reporter)
       end
     end
 
-    def run_multi_target(initial_status_msg, target_hosts, local_policy_path)
-      # Our multi-host UX does not show a line item per action,
-      # but rather a line-item per connection.
+    def render_converge(target_hosts)
       jobs = target_hosts.map do |target_host|
-        # This block will run in its own thread during render.
+        # Each block will run in its own thread during render.
         UI::Terminal::Job.new("[#{target_host.hostname}]", target_host) do |reporter|
           connect_target(target_host, reporter)
-          reporter.update(TS.install_chef.verifying)
           install(target_host, reporter)
-          reporter.update(initial_status_msg)
-          converge(reporter, local_policy_path, target_host)
+          converge(reporter, archive_file_location, target_host)
         end
       end
-      UI::Terminal.render_parallel_jobs(TS.converge.multi_header, jobs)
+      header = TS.converge.header(target_hosts.length, temp_cookbook.descriptor, temp_cookbook.from)
+      UI::Terminal.render_parallel_jobs(header, jobs)
       handle_job_failures(jobs)
     end
 
-    # The user will either specify a single resource on the command line, or a recipe.
-    # We need to parse out those two different situations
-    def generate_temp_cookbook(cli_arguments)
-      temp_cookbook = TempCookbook.new
-      if recipe_strategy?(cli_arguments)
-        recipe_specifier = cli_arguments.shift
-        ChefApply::Log.debug("Beginning to look for recipe specified as #{recipe_specifier}")
-        if File.file?(recipe_specifier)
-          ChefApply::Log.debug("#{recipe_specifier} is a valid path to a recipe")
-          recipe_path = recipe_specifier
-        else
-          rl = RecipeLookup.new(parsed_options[:cookbook_repo_paths])
-          cookbook_path_or_name, optional_recipe_name = rl.split(recipe_specifier)
-          cookbook = rl.load_cookbook(cookbook_path_or_name)
-          recipe_path = rl.find_recipe(cookbook, optional_recipe_name)
-        end
-        temp_cookbook.from_existing_recipe(recipe_path)
-        initial_status_msg = TS.converge.converging_recipe(recipe_specifier)
-      else
-        resource_type = cli_arguments.shift
-        resource_name = cli_arguments.shift
-        temp_cookbook.from_resource(resource_type, resource_name, properties_from_string(cli_arguments))
-        full_rs_name = "#{resource_type}[#{resource_name}]"
-        ChefApply::Log.debug("Converging resource #{full_rs_name} on target")
-        initial_status_msg = TS.converge.converging_resource(full_rs_name)
-      end
-
-      [temp_cookbook, initial_status_msg]
+    # Accepts a target_host and establishes the connection to that host
+    # while providing visual feedback via the Terminal API.
+    def connect_target(target_host, reporter)
+      connect_message = T.status.connecting(target_host.user)
+      reporter.update(connect_message)
+      do_connect(target_host, reporter)
     end
 
-    def recipe_strategy?(cli_arguments)
-      cli_arguments.size == 1
-    end
-
-    def create_local_policy(local_cookbook)
-      require "chef-dk/ui"
-      require "chef-dk/policyfile_services/export_repo"
-      require "chef-dk/policyfile_services/install"
-      policyfile_installer = ChefDK::PolicyfileServices::Install.new(
-        ui: ChefDK::UI.null(),
-        root_dir: local_cookbook.path
-      )
-      begin
-        policyfile_installer.run
-      rescue ChefDK::PolicyfileInstallError => e
-        raise PolicyfileInstallError.new(e)
-      end
-      lock_path = File.join(local_cookbook.path, "Policyfile.lock.json")
-      es = ChefDK::PolicyfileServices::ExportRepo.new(policyfile: lock_path,
-                                                      root_dir: local_cookbook.path,
-                                                      export_dir: File.join(local_cookbook.path, "export"),
-                                                      archive: true,
-                                                      force: true)
-      es.run
-      es.archive_file_location
-    end
-
-    # Runs the InstallChef action and renders UI updates as
-    # the action reports back
     def install(target_host, reporter)
-      installer = Action::InstallChef.instance_for_target(target_host, check_only: !parsed_options[:install])
       context = TS.install_chef
+      reporter.update(context.verifying)
+      installer = Action::InstallChef.instance_for_target(target_host, check_only: !parsed_options[:install])
       installer.run do |event, data|
         case event
         when :installing
@@ -254,39 +178,82 @@ module ChefApply
         when :downloading
           reporter.update(context.downloading)
         when :already_installed
-          meth = @multi_target ? :update : :success
-          reporter.send(meth, context.already_present(target_host.installed_chef_version))
+          reporter.update(context.already_present(target_host.installed_chef_version))
         when :install_complete
-          meth = @multi_target ? :update : :success
           if installer.upgrading?
             message = context.upgrade_success(target_host.installed_chef_version, installer.version_to_install)
           else
             message = context.install_success(installer.version_to_install)
           end
-          reporter.send(meth, message)
+          reporter.update(message)
         else
           handle_message(event, data, reporter)
         end
       end
     end
 
+    # Runs a GenerateCookbook action based on recipe/resource infoprovided
+    # and renders UI updates as the action reports back
+    def generate_temp_cookbook(arguments, reporter)
+      opts = if arguments.length == 1
+               { recipe_spec: arguments.shift,
+                 cookbook_repo_paths: parsed_options[:cookbook_repo_paths] }
+             else
+               { resource_type: arguments.shift,
+                 resource_name: arguments.shift,
+                 resource_properties: properties_from_string(arguments) }
+             end
+      action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
+      action.run do |event, data|
+        case event
+        when :generating
+          reporter.update(TS.generate_temp_cookbook.generating)
+        when :success
+          reporter.success(TS.generate_temp_cookbook.success)
+        else
+          handle_message(event, data, reporter)
+        end
+      end
+      action.generated_cookbook
+    end
+
+    # Runs the GenerateLocalPolicy action and renders UI updates
+    # as the action reports back
+    def generate_local_policy(reporter)
+      action = Action::GenerateLocalPolicy.new(cookbook: temp_cookbook)
+      action.run do |event, data|
+        case event
+        when :generating
+          reporter.update(TS.generate_local_policy.generating)
+        when :exporting
+          reporter.update(TS.generate_local_policy.exporting)
+        when :success
+          reporter.success(TS.generate_local_policy.success)
+        else
+          handle_message(event, data, reporter)
+        end
+      end
+      action.archive_file_location
+    end
+
     # Runs the Converge action and renders UI updates as
     # the action reports back
     def converge(reporter, local_policy_path, target_host)
+      reporter.update(TS.converge.converging(temp_cookbook.descriptor))
       converge_args = { local_policy_path: local_policy_path, target_host: target_host }
       converger = Action::ConvergeTarget.new(converge_args)
       converger.run do |event, data|
         case event
         when :success
-          reporter.success(TS.converge.success)
+          reporter.success(TS.converge.success(temp_cookbook.descriptor))
         when :converge_error
-          reporter.error(TS.converge.failure)
+          reporter.error(TS.converge.failure(temp_cookbook.descriptor))
         when :creating_remote_policy
           reporter.update(TS.converge.creating_remote_policy)
         when :uploading_trusted_certs
           reporter.update(TS.converge.uploading_trusted_certs)
         when :running_chef
-          reporter.update(TS.converge.running_chef)
+          reporter.update(TS.converge.converging(temp_cookbook.descriptor))
         when :reboot
           reporter.success(TS.converge.reboot)
         else
@@ -311,13 +278,16 @@ module ChefApply
 
     # When running multiple jobs, exceptions are captured to the
     # job to avoid interrupting other jobs in process.  This function
-    # collects them and raises a MultiJobFailure if failure has occurred;
-    # we do *not* differentiate between one failed jobs and multiple failed jobs
-    # - if you're in the 'multi-job' path (eg, multiple targets) we handle
-    # all errors the same to provide a consistent UX when running with mulitiple targets.
+    # collects them and raises directly (in the case of just one job in the list)
+    # or raises a MultiJobFailure (when more than one job was being run)
     def handle_job_failures(jobs)
       failed_jobs = jobs.select { |j| !j.exception.nil? }
       return if failed_jobs.empty?
+      if jobs.length == 1
+        # Don't provide a bad UX by showing a 'one or more jobs has failed'
+        # message when there was only one job.
+        raise jobs.first.exception
+      end
       raise ChefApply::MultiJobFailure.new(failed_jobs)
     end
 
@@ -333,27 +303,14 @@ module ChefApply
       UI::ErrorPrinter.write_backtrace(e, @argv)
     end
 
-    def do_connect(target_host, reporter, update_method)
+    def do_connect(target_host, reporter)
       target_host.connect!
-      reporter.send(update_method, T.status.connected)
+      reporter.update(T.status.connected)
     rescue StandardError => e
       message = ChefApply::UI::ErrorPrinter.error_summary(e)
       reporter.error(message)
       raise
     end
 
-    class OptionValidationError < ChefApply::ErrorNoLogs
-      attr_reader :command
-      def initialize(id, calling_command, *args)
-        super(id, *args)
-        # TODO - this is getting cumbersome - move them to constructor options hash in base
-        @decorate = false
-        @command = calling_command
-      end
-    end
-
-    class PolicyfileInstallError < ChefApply::Error
-      def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
-    end
   end
 end

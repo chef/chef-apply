@@ -25,10 +25,7 @@ module ChefApply
   # it with various recipes, attributes, config, etc. and delete it when the
   # cookbook is no longer necessary
   class TempCookbook
-    attr_reader :path
-
-    # We expect name to come in as a list of strings - resource/resource_name
-    # or cookbook/recipe combination
+    attr_reader :path, :descriptor, :from
     def initialize
       @path = Dir.mktmpdir("cw")
     end
@@ -40,12 +37,13 @@ module ChefApply
       if cb
         # Full existing cookbook - only needs policyfile
         ChefApply::Log.debug("Found full cookbook at path '#{cb[:path]}' and using recipe '#{cb[:recipe_name]}'")
-        name = cb[:name]
+        @descriptor = "#{cb[:name]}::#{cb[:recipe_name]}"
+        @from = "#{cb[:path]}"
         recipe_name = cb[:recipe_name]
+        cb_name = cb[:name]
         FileUtils.cp_r(cb[:path], path)
         # cp_r copies the whole existing cookbook into the tempdir so need to reset our path
         @path = File.join(path, File.basename(cb[:path]))
-        generate_policyfile(name, recipe_name)
       else
         # Cookbook from single recipe not in a cookbook. We create the full cookbook
         # structure including metadata, then generate policyfile. We set the cookbook
@@ -53,27 +51,32 @@ module ChefApply
         # in the future
         ChefApply::Log.debug("Found single recipe at path '#{existing_recipe_path}'")
         recipe = File.basename(existing_recipe_path)
-        recipe_name = File.basename(existing_recipe_path, ext_name)
-        name = "cw_recipe"
+        recipe_name = File.basename(recipe, ext_name)
+        cb_name = "cw_recipe"
+        @descriptor = "#{recipe_name}"
+        @from = existing_recipe_path
         recipes_dir = generate_recipes_dir
         # This has the potential to break if they specify a recipe without a .rb
         # extension, but lets wait to deal with that bug until we encounter it
         FileUtils.cp(existing_recipe_path, File.join(recipes_dir, recipe))
-        generate_metadata(name)
-        generate_policyfile(name, recipe_name)
+        generate_metadata(cb_name)
       end
+      generate_policyfile(cb_name, recipe_name)
     end
 
     def from_resource(resource_type, resource_name, properties)
       # Generate a cookbook containing a single default recipe with the specified
       # resource in it. Incloud the resource type in the cookbook name so hopefully
       # this gives us better reporting info in the future.
+      @descriptor = "#{resource_type}[#{resource_name}]"
+      @from = "resource"
+
       ChefApply::Log.debug("Generating cookbook for single resource '#{resource_type}[#{resource_name}]'")
       name = "cw_#{resource_type}"
       recipe_name = "default"
       recipes_dir = generate_recipes_dir
       File.open(File.join(recipes_dir, "#{recipe_name}.rb"), "w+") do |f|
-        f.print(create_resource(resource_type, resource_name, properties))
+        f.print(create_resource_definition(resource_type, resource_name, properties))
       end
       generate_metadata(name)
       generate_policyfile(name, recipe_name)
@@ -137,7 +140,7 @@ module ChefApply
       policy_file
     end
 
-    def create_resource(resource_type, resource_name, properties)
+    def create_resource_definition(resource_type, resource_name, properties)
       r = "#{resource_type} '#{resource_name}'"
       # lets format the properties into the correct syntax Chef expects
       unless properties.empty?
@@ -150,6 +153,14 @@ module ChefApply
       end
       r += "\n"
       r
+    end
+
+    def policyfile_lock_path
+      File.join(path, "Policyfile.lock.json")
+    end
+
+    def export_path
+      File.join(path, "export")
     end
 
     class UnsupportedExtension < ChefApply::ErrorNoLogs

@@ -263,13 +263,14 @@ module ChefApply
     end
 
     def handle_perform_error(e)
+      require "chef_apply/errors/standard_error_resolver"
       id = e.respond_to?(:id) ? e.id : e.class.to_s
       # TODO: This is currently sending host information for certain ssh errors
       #       post release we need to scrub this data. For now I'm redacting the
       #       whole message.
       # message = e.respond_to?(:message) ? e.message : e.to_s
       Telemeter.capture(:error, exception: { id: id, message: "redacted" })
-      wrapper = ChefApply::StandardErrorResolver.wrap_exception(e)
+      wrapper = ChefApply::Errors::StandardErrorResolver.wrap_exception(e)
       capture_exception_backtrace(wrapper)
       # Now that our housekeeping is done, allow user-facing handling/formatting
       # in `run` to execute by re-raising

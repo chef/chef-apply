@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.8 -->
++<!-- latest_release 0.1.9 -->
+## [0.1.9](https://github.com/chef/chef-apply/tree/0.1.9) (2018-07-19)
+
+#### Merged Pull Requests
+- [SHACK-295] Chef 13 on Linux requires absolute paths for config location [#9](https://github.com/chef/chef-apply/pull/9) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.8](https://github.com/chef/chef-apply/tree/0.1.8) (2018-07-18)
 
 #### Merged Pull Requests
 - Move chef logging configuration to Startup [#12](https://github.com/chef/chef-apply/pull/12) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.7](https://github.com/chef/chef-apply/tree/0.1.7) (2018-07-18)
 

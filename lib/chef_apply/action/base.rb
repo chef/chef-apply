@@ -84,6 +84,10 @@ module ChefApply
       # Chef will try 'downloading' the policy from the internet unless we pass it a valid, local file
       # in the working directory. By pointing it at a local file it will just copy it instead of trying
       # to download it.
+      #
+      # Chef 13 on Linux requires full path specifiers for --config and --recipe-url while on Chef 13 and 14 on
+      # Windows must use relative specifiers to prevent URI from causing an error
+      # (https://github.com/chef/chef/pull/7223/files).
       def run_chef(working_dir, config, policy)
         case family
         when :windows
@@ -96,7 +100,7 @@ module ChefApply
         else
           # cd is shell a builtin, so much call bash. This also means all commands are executed
           # with sudo (as long as we are hardcoding our sudo use)
-          "bash -c 'cd #{working_dir}; chef-client -z --config #{config} --recipe-url #{policy}'"
+          "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config)} --recipe-url #{File.join(working_dir, policy)}'"
         end
       end
 

@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.11 -->
++<!-- latest_release 0.1.12 -->
+## [0.1.12](https://github.com/chef/chef-apply/tree/0.1.12) (2018-07-20)
+
+#### Merged Pull Requests
+- [SHACK-187] housekeeping:  move text and error classes into their own files [#16](https://github.com/chef/chef-apply/pull/16) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.11](https://github.com/chef/chef-apply/tree/0.1.11) (2018-07-20)
 
 #### Merged Pull Requests
 - [SHACK-187] split en.yml to separate errors out from application messages [#15](https://github.com/chef/chef-apply/pull/15) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.10](https://github.com/chef/chef-apply/tree/0.1.10) (2018-07-19)
 

@@ -17,6 +17,7 @@
 
 require "spec_helper"
 require "chef_apply/ui/error_printer"
+require "chef_apply/errors/standard_error_resolver"
 require "chef_apply/target_host"
 
 RSpec.describe ChefApply::UI::ErrorPrinter do
@@ -70,7 +71,7 @@ RSpec.describe ChefApply::UI::ErrorPrinter do
     context "when handling a MultiJobFailure" do
       it "recognizes it and invokes capture_multiple_failures" do
         underlying_error = ChefApply::MultiJobFailure.new([])
-        error_to_process = ChefApply::StandardErrorResolver.wrap_exception(underlying_error)
+        error_to_process = ChefApply::Errors::StandardErrorResolver.wrap_exception(underlying_error)
         expect(subject).to receive(:capture_multiple_failures).with(underlying_error)
         subject.show_error(error_to_process)
 
@@ -80,7 +81,7 @@ RSpec.describe ChefApply::UI::ErrorPrinter do
     context "when an error occurs in error handling" do
       it "processes the new failure with dump_unexpected_error" do
         error_to_raise = StandardError.new("this will be raised")
-        error_to_process = ChefApply::StandardErrorResolver.wrap_exception(StandardError.new("this is being shown"))
+        error_to_process = ChefApply::Errors::StandardErrorResolver.wrap_exception(StandardError.new("this is being shown"))
         # Intercept a known call to raise an error
         expect(ChefApply::UI::Terminal).to receive(:output).and_raise error_to_raise
         expect(subject).to receive(:dump_unexpected_error).with(error_to_raise)

@@ -21,6 +21,7 @@ require "chef_apply/error"
 require "chef_apply/config"
 require "chef_apply/text"
 require "chef_apply/ui/terminal"
+require "chef_apply/errors/standard_error_resolver"
 
 module ChefApply::UI
   class ErrorPrinter
@@ -36,7 +37,7 @@ module ChefApply::UI
     def self.show_error(e)
       # Name is misleading - it's unwrapping but also doing further
       # error resolution for common errors:
-      unwrapped = ChefApply::StandardErrorResolver.unwrap_exception(e)
+      unwrapped = ChefApply::Errors::StandardErrorResolver.unwrap_exception(e)
       if unwrapped.class == ChefApply::MultiJobFailure
         capture_multiple_failures(unwrapped)
       end
@@ -51,7 +52,7 @@ module ChefApply::UI
       e.params << out_file # Tell the operator where to find this info
       File.open(out_file, "w") do |out|
         e.jobs.each do |j|
-          wrapped = ChefApply::StandardErrorResolver.wrap_exception(j.exception, j.target_host)
+          wrapped = ChefApply::Errors::StandardErrorResolver.wrap_exception(j.exception, j.target_host)
           ep = ErrorPrinter.new(wrapped)
           msg = ep.format_body().tr("\n", " ").gsub(/ {2,}/, " ").chomp.strip
           out.write("Host: #{j.target_host.hostname} ")

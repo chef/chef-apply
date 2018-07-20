@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.10 -->
++<!-- latest_release 0.1.11 -->
+## [0.1.11](https://github.com/chef/chef-apply/tree/0.1.11) (2018-07-20)
+
+#### Merged Pull Requests
+- [SHACK-187] split en.yml to separate errors out from application messages [#15](https://github.com/chef/chef-apply/pull/15) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.10](https://github.com/chef/chef-apply/tree/0.1.10) (2018-07-19)
 
 #### Merged Pull Requests
 - [SHACK-187] Move cookbook creation to actions [#13](https://github.com/chef/chef-apply/pull/13) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.9](https://github.com/chef/chef-apply/tree/0.1.9) (2018-07-19)
 

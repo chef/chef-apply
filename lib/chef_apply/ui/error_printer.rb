@@ -25,7 +25,8 @@ require "chef_apply/errors/standard_error_resolver"
 
 module ChefApply::UI
   class ErrorPrinter
-    attr_reader :id, :pastel, :show_log, :show_stack, :exception, :target_host
+    attr_reader :id, :pastel, :translation, :exception, :target_host
+
     # TODO define 't' as a method is a temporary workaround
     # to ensure that text key lookups are testable.
     def t
@@ -91,27 +92,22 @@ module ChefApply::UI
     def initialize(wrapper, unwrapped = nil, target_host = nil)
       @exception = unwrapped || wrapper.contained_exception
       @target_host = wrapper.target_host || target_host
-      @pastel = Pastel.new
-      @show_log = exception.respond_to?(:show_log) ? exception.show_log : true
-      @show_stack = exception.respond_to?(:show_stack) ? exception.show_stack : true
-      @content = StringIO.new
       @command = exception.respond_to?(:command) ? exception.command : nil
-      @id = DEFAULT_ERROR_NO
-      if exception.respond_to?(:id) && exception.id =~ /CHEF.*/
-        @id = exception.id
-      end
-      if exception.respond_to?(:decorate)
-        @decorate = exception.decorate
-      else
-        @decorate = true
-      end
+      @pastel = Pastel.new
+      @content = StringIO.new
+      @id = if exception.kind_of? ChefApply::Error
+              exception.id
+            else
+              DEFAULT_ERROR_NO
+            end
+      @translation = ChefApply::Text::ErrorTranslation.new(id)
     rescue => e
       ErrorPrinter.dump_unexpected_error(e)
       exit! 128
     end
 
     def format_error
-      if @decorate
+      if translation.decorations
         format_decorated
       else
         format_undecorated
@@ -153,15 +149,15 @@ module ChefApply::UI
     end
 
     def format_footer
-      if show_log
-        if show_stack
+      if translation.log
+        if translation.stack
           t.footer.both(ChefApply::Config.log.location,
                         ChefApply::Config.stack_trace_path)
         else
           t.footer.log_only(ChefApply::Config.log.location)
         end
       else
-        if show_stack
+        if translation.stack
           t.footer.stack_only
         else
           t.footer.neither
@@ -185,7 +181,7 @@ module ChefApply::UI
     def self.error_summary(e)
       if e.kind_of? ChefApply::Error
         # By convention, all of our defined messages have a short summary on the first line.
-        ChefApply::Text.errors.send(e.id, *e.params).split("\n").first
+        ChefApply::Text.errors.send(e.id).text(*e.params).split("\n").first
       elsif e.kind_of? String
         e
       else
@@ -199,20 +195,22 @@ module ChefApply::UI
 
     def format_workstation_exception
       params = exception.params
-      t.send(@id, *params)
+      t.send(@id).text(*params)
     end
 
+    # TODO this gets moved to trainerrormapper  or simply removed since
+    #     many of these issues are now handled in the RemoteTarget::ConnectionFailure
     def format_train_exception
       backend, host = formatted_host()
       if host.nil?
-        t.CHEFTRN002(exception.message)
+        t.CHEFTRN002.text(exception.message)
       else
-        t.CHEFTRN001(backend, host, exception.message)
+        t.CHEFTRN001.text(backend, host, exception.message)
       end
     end
 
     def format_other_exception
-      t.send(DEFAULT_ERROR_NO, exception.message)
+      t.send(DEFAULT_ERROR_NO).text(exception.message)
     end
 
     def formatted_host

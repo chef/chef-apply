@@ -115,7 +115,7 @@ module ChefApply
           long: "--[no-]install",
           default: true,
           boolean: true,
-          description:  T.install_description(Action::InstallChef::Base::MIN_CHEF_VERSION)
+          description:  T.install_description
 
         klass.option :sudo,
           long: "--[no-]sudo",

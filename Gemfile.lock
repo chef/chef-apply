@@ -18,7 +18,7 @@ GIT
 PATH
   remote: .
   specs:
-    chef-apply (0.1.12)
+    chef-apply (0.1.13)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -38,13 +38,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.92)
-      aws-sdk-resources (= 2.11.92)
-    aws-sdk-core (2.11.92)
+    aws-sdk (2.11.94)
+      aws-sdk-resources (= 2.11.94)
+    aws-sdk-core (2.11.94)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.92)
-      aws-sdk-core (= 2.11.92)
+    aws-sdk-resources (2.11.94)
+      aws-sdk-core (= 2.11.94)
     aws-sigv4 (1.0.3)
     azure_mgmt_resources (0.16.0)
       ms_rest_azure (~> 0.10.0)
@@ -244,7 +244,7 @@ GEM
       mixlib-versioning
       thor
     mixlib-log (2.0.4)
-    mixlib-shellout (2.3.2)
+    mixlib-shellout (2.4.0)
     mixlib-versioning (1.2.2)
     molinillo (0.6.5)
     ms_rest (0.7.2)
@@ -268,7 +268,7 @@ GEM
     net-ssh-multi (1.2.1)
       net-ssh (>= 2.6.5)
       net-ssh-gateway (>= 1.2.0)
-    net-telnet (0.1.1)
+    net-telnet (0.2.0)
     nori (2.6.0)
     ohai (14.3.0)
       chef-config (>= 12.8, < 15)

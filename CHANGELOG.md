@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.14 -->
++<!-- latest_release 0.1.15 -->
+## [0.1.15](https://github.com/chef/chef-apply/tree/0.1.15) (2018-07-26)
+
+#### Merged Pull Requests
+- Switch to using Bento Vagrant images since those are Chef maintained [#21](https://github.com/chef/chef-apply/pull/21) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.14](https://github.com/chef/chef-apply/tree/0.1.14) (2018-07-26)
 
 #### Merged Pull Requests
 - [SHACK-290] Support installed version of Chef 13 if 13.10 or greater [#20](https://github.com/chef/chef-apply/pull/20) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.13](https://github.com/chef/chef-apply/tree/0.1.13) (2018-07-25)
 

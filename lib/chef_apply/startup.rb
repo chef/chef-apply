@@ -165,7 +165,7 @@ module ChefApply
       ChefConfig.logger = ChefApply::Log
       # Setting the config isn't enough, we need to ensure the logger is initialized
       # or automatic initialization will still go to stdout
-      Chef::Log.init(ChefApply::Log)
+      Chef::Log.init(ChefApply::Log.location)
       Chef::Log.level = ChefApply::Log.level
     end
 

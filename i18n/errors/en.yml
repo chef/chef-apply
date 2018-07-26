@@ -19,12 +19,16 @@ errors:
       automatically perform the installation.
 
   CHEFINS003: |
-    The target has an older version of Chef client installed.
+    The target's installed version of Chef Client is too old.
 
-    The target has version %1 installed, but this command
-    requires a minimum version of %2.
+    Version %1 is installed, but this command requires a
+    minimum version of %2 (Chef 13) or %3 (Chef 14).
 
-    Please upgrade the Chef client on this node to version %2 or later.
+  CHEFINS004: |
+    The target's installed version of Chef Client is too old.
+
+    Version %1 is installed, but this command requires a
+    minimum version of %2.
 
   # Local errors trying to create policy to send to target
   CHEFPOLICY001: |

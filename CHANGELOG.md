@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.12 -->
++<!-- latest_release 0.1.13 -->
+## [0.1.13](https://github.com/chef/chef-apply/tree/0.1.13) (2018-07-25)
+
+#### Merged Pull Requests
+- Update the readme to remove some boilerplate [#18](https://github.com/chef/chef-apply/pull/18) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
+
 ## [0.1.12](https://github.com/chef/chef-apply/tree/0.1.12) (2018-07-20)
 
 #### Merged Pull Requests
 - [SHACK-187] housekeeping:  move text and error classes into their own files [#16](https://github.com/chef/chef-apply/pull/16) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.11](https://github.com/chef/chef-apply/tree/0.1.11) (2018-07-20)
 

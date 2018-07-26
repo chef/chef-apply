@@ -111,6 +111,8 @@ module ChefApply
     config_context :log do
       default(:level, "warn")
       default(:location, File.join(WS_BASE_PATH, "logs/default.log"))
+      # set the log level for the target host's chef-client run
+      default(:target_level, "auto")
     end
 
     config_context :cache do

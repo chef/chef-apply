@@ -79,6 +79,16 @@ module ChefApply::Action
         exception_handlers << reporter
       EOM
 
+      # add the target host's log level value
+      # (we don't set a location because we want output to
+      #   go in stdout for reporting back to chef-apply)
+      log_settings = ChefApply::Config.log
+      if !log_settings.target_level.nil?
+        workstation_rb << <<~EOM
+          log_level :#{log_settings.target_level}
+        EOM
+      end
+
       # Maybe add data collector endpoint.
       dc = ChefApply::Config.data_collector
       if !dc.url.nil? && !dc.token.nil?

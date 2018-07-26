@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.13 -->
++<!-- latest_release 0.1.14 -->
+## [0.1.14](https://github.com/chef/chef-apply/tree/0.1.14) (2018-07-26)
+
+#### Merged Pull Requests
+- [SHACK-290] Support installed version of Chef 13 if 13.10 or greater [#20](https://github.com/chef/chef-apply/pull/20) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.13](https://github.com/chef/chef-apply/tree/0.1.13) (2018-07-25)
 
 #### Merged Pull Requests
 - Update the readme to remove some boilerplate [#18](https://github.com/chef/chef-apply/pull/18) ([tas50](https://github.com/tas50))
-<!-- latest_release -->
 
 ## [0.1.12](https://github.com/chef/chef-apply/tree/0.1.12) (2018-07-20)
 

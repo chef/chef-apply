@@ -64,4 +64,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-stack_explorer"
   spec.add_development_dependency "rspec_junit_formatter"
   spec.add_development_dependency "chefstyle"
+
+  spec.post_install_message = File.read(File.expand_path("../warning.txt", __FILE__))
 end

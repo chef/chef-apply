@@ -34,7 +34,14 @@ merge_actions:
   - built_in:build_gem:
       only_if:
         - built_in:bump_version
+  - built_in:publish_rubygems:
+      only_if:
+        - built_in:build_gem
 
-promote:
-  action:
-    - built_in:publish_rubygems
+# While we're in beta and it takes a long series of steps to promote Chef Workstation
+# (release chef-apply to rubygems, update ChefDK dependencies, perform a Chef Workstation
+# build and then promote that) we want to minimize manual gates. So every successful
+# PR merge will promote to Rubygems at this point.
+# promote:
+#   action:
+#     - built_in:publish_rubygems

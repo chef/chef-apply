@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.16 -->
++<!-- latest_release 0.1.17 -->
+## [0.1.17](https://github.com/chef/chef-apply/tree/0.1.17) (2018-07-30)
+
+#### Merged Pull Requests
+- [SHACK-304] Expeditor cannot auto-promote for us [#32](https://github.com/chef/chef-apply/pull/32) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.16](https://github.com/chef/chef-apply/tree/0.1.16) (2018-07-30)
 
 #### Merged Pull Requests
 - [SHACK-304] Promote chef-apply gem to Rubygems on every successful PR merge [#31](https://github.com/chef/chef-apply/pull/31) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.15](https://github.com/chef/chef-apply/tree/0.1.15) (2018-07-26)
 

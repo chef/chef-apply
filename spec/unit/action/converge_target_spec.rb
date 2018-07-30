@@ -77,8 +77,8 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
     describe "when target_level is left default" do
       before do
-	ChefApply::Config.reset
-      end	
+        ChefApply::Config.reset
+      end
       # we set this explicitly as we lay want a different "default log_level" than that of chef-client
       it "creates a config file with the intended default log_level" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)

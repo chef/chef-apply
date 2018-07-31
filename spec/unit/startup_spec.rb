@@ -265,7 +265,7 @@ RSpec.describe ChefApply::Startup do
       expect(ChefApply::Log).to receive(:setup).
         with(log_path, log_level)
       expect(Chef::Log).to receive(:init).
-        with(ChefApply::Log)
+        with(ChefApply::Log.location)
       subject.setup_logging
       expect(ChefConfig.logger).to eq(ChefApply::Log)
     end

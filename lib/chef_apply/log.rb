@@ -22,7 +22,6 @@ module ChefApply
     extend Mixlib::Log
 
     def self.setup(location, log_level)
-      @location = location
       if location.is_a?(String)
         if location.casecmp("stdout") == 0
           location = $stdout
@@ -30,6 +29,7 @@ module ChefApply
           location = File.open(location, "w+")
         end
       end
+      @location = location
       init(location)
       Log.level = log_level
     end

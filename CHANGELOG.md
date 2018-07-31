@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.18 -->
++<!-- latest_release 0.1.19 -->
+## [0.1.19](https://github.com/chef/chef-apply/tree/0.1.19) (2018-07-31)
+
+#### Bug Fixes
+- [SHACK-312] fix writing log output to a location specified [#25](https://github.com/chef/chef-apply/pull/25) ([karthanistyr](https://github.com/karthanistyr))
+<!-- latest_release -->
+
 ## [0.1.18](https://github.com/chef/chef-apply/tree/0.1.18) (2018-07-31)
 
 #### Merged Pull Requests
 - [SHACK-304] Updating dependencies to fix ChefDK build pipeline failures [#33](https://github.com/chef/chef-apply/pull/33) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.17](https://github.com/chef/chef-apply/tree/0.1.17) (2018-07-30)
 

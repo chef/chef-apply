@@ -79,8 +79,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       before do
         ChefApply::Config.reset
       end
-      # we set this explicitly as we lay want a different "default log_level" than that of chef-client
-      it "creates a config file with the intended default log_level" do
+      it "creates a config file without a specific log_level (leaving default for chef-client)" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)
         expect(local_tempfile).to receive(:write).with(<<~EOM
           local_mode true
@@ -91,7 +90,6 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           reporter = ChefApply::Reporter.new
           report_handlers << reporter
           exception_handlers << reporter
-          log_level :auto
         EOM
         )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config)
@@ -150,7 +148,6 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           reporter = ChefApply::Reporter.new
           report_handlers << reporter
           exception_handlers << reporter
-	  log_level :auto
           data_collector.server_url "dc.url"
           data_collector.token "dc.token"
           data_collector.mode :solo
@@ -181,7 +178,6 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           reporter = ChefApply::Reporter.new
           report_handlers << reporter
           exception_handlers << reporter
-	  log_level :auto
         EOM
         )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config)

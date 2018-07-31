@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.17 -->
++<!-- latest_release 0.1.18 -->
+## [0.1.18](https://github.com/chef/chef-apply/tree/0.1.18) (2018-07-31)
+
+#### Merged Pull Requests
+- [SHACK-304] Updating dependencies to fix ChefDK build pipeline failures [#33](https://github.com/chef/chef-apply/pull/33) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.17](https://github.com/chef/chef-apply/tree/0.1.17) (2018-07-30)
 
 #### Merged Pull Requests
 - [SHACK-304] Expeditor cannot auto-promote for us [#32](https://github.com/chef/chef-apply/pull/32) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.16](https://github.com/chef/chef-apply/tree/0.1.16) (2018-07-30)
 

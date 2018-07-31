@@ -17,10 +17,3 @@
 
 source "https://rubygems.org"
 gemspec
-
-  # Pinning Train to 1.4.6 because newer versions cause healthcheck related build failures
-gem "train", git: "https://github.com/chef/train.git", branch: "v1.4.6"
-
-group :localdev do
-  gem "irbtools-more", require: "irbtools/binding"
-end

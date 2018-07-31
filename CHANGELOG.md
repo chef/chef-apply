@@ -1,9 +1,34 @@
-+<!-- latest_release 0.1.13 -->
++<!-- latest_release 0.1.18 -->
+## [0.1.18](https://github.com/chef/chef-apply/tree/0.1.18) (2018-07-31)
+
+#### Merged Pull Requests
+- [SHACK-304] Updating dependencies to fix ChefDK build pipeline failures [#33](https://github.com/chef/chef-apply/pull/33) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
+## [0.1.17](https://github.com/chef/chef-apply/tree/0.1.17) (2018-07-30)
+
+#### Merged Pull Requests
+- [SHACK-304] Expeditor cannot auto-promote for us [#32](https://github.com/chef/chef-apply/pull/32) ([tyler-ball](https://github.com/tyler-ball))
+
+## [0.1.16](https://github.com/chef/chef-apply/tree/0.1.16) (2018-07-30)
+
+#### Merged Pull Requests
+- [SHACK-304] Promote chef-apply gem to Rubygems on every successful PR merge [#31](https://github.com/chef/chef-apply/pull/31) ([tyler-ball](https://github.com/tyler-ball))
+
+## [0.1.15](https://github.com/chef/chef-apply/tree/0.1.15) (2018-07-26)
+
+#### Merged Pull Requests
+- Switch to using Bento Vagrant images since those are Chef maintained [#21](https://github.com/chef/chef-apply/pull/21) ([tyler-ball](https://github.com/tyler-ball))
+
+## [0.1.14](https://github.com/chef/chef-apply/tree/0.1.14) (2018-07-26)
+
+#### Merged Pull Requests
+- [SHACK-290] Support installed version of Chef 13 if 13.10 or greater [#20](https://github.com/chef/chef-apply/pull/20) ([tyler-ball](https://github.com/tyler-ball))
+
 ## [0.1.13](https://github.com/chef/chef-apply/tree/0.1.13) (2018-07-25)
 
 #### Merged Pull Requests
 - Update the readme to remove some boilerplate [#18](https://github.com/chef/chef-apply/pull/18) ([tas50](https://github.com/tas50))
-<!-- latest_release -->
 
 ## [0.1.12](https://github.com/chef/chef-apply/tree/0.1.12) (2018-07-20)
 

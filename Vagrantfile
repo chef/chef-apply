@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   def ubuntu_xenial_definition(node, name, final_octet, ssh_port)
-    node.vm.box = "ubuntu/xenial64"
+    node.vm.box = "bento/ubuntu-16.04"
     node.vm.hostname = "#{name}"
     node.vm.network "private_network", ip: "192.168.33.#{final_octet}"
     node.vm.network :forwarded_port, guest: 22, host: ssh_port, id: "ssh", auto_correct: true
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
       # Allow host caching - many images don't have it by default but it significantly speeds up
       # disk IO (such as installing chef via dpkg)
-      v.customize ["storagectl", :id, "--name", "SCSI", "--hostiocache", "on"]
+      v.customize ["storagectl", :id, "--name", "SATA Controller", "--hostiocache", "on"]
       # disable logging client console on host
       v.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
     end

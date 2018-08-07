@@ -18,38 +18,28 @@
 Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
-  def ubuntu_xenial_definition(node, name, final_octet, ssh_port)
-    node.vm.box = "bento/ubuntu-16.04"
-    node.vm.hostname = "#{name}"
-    node.vm.network "private_network", ip: "192.168.33.#{final_octet}"
-    node.vm.network :forwarded_port, guest: 22, host: ssh_port, id: "ssh", auto_correct: true
-    node.vm.provider "virtualbox" do |v|
-      # Keep these light, we're not really using them except to
-      # run chef client
-      v.memory = 512
-      v.cpus = 1
-      # Allow host caching - many images don't have it by default but it significantly speeds up
-      # disk IO (such as installing chef via dpkg)
-      v.customize ["storagectl", :id, "--name", "SATA Controller", "--hostiocache", "on"]
-      # disable logging client console on host
-      v.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+  1.upto(5).each do |num|
+    name = "ubuntu#{num}"
+    config.vm.define name do |node|
+      node.vm.box = "bento/ubuntu-16.04"
+      node.vm.hostname = "#{name}"
+      node.vm.network "private_network", ip: "192.168.33.5#{num}"
+      node.vm.network :forwarded_port, guest: 22, host: "222#{num}", id: "ssh", auto_correct: true
+      # for convenience, use a common key so chef-apply can be run across multiple VMs
+      node.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+      node.ssh.insert_key = false
+      node.vm.provider "virtualbox" do |v|
+        # Keep these light, we're not really using them except to
+        # run chef client
+        v.memory = 512
+        v.cpus = 1
+        # Allow host caching - many images don't have it by default but it significantly speeds up
+        # disk IO (such as installing chef via dpkg)
+        v.customize ["storagectl", :id, "--name", "SATA Controller", "--hostiocache", "on"]
+        # disable logging client console on host
+        v.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+      end
     end
-  end
-
-  config.vm.define "ubuntu1" do |node|
-    ubuntu_xenial_definition(node, "ubuntu1", 51, 2221)
-  end
-  config.vm.define "ubuntu2" do |node|
-    ubuntu_xenial_definition(node, "ubuntu2", 52, 2222)
-  end
-  config.vm.define "ubuntu3" do |node|
-    ubuntu_xenial_definition(node, "ubuntu3", 53, 2223)
-  end
-  config.vm.define "ubuntu4" do |node|
-    ubuntu_xenial_definition(node, "ubuntu4", 54, 2224)
-  end
-  config.vm.define "ubuntu5" do |node|
-    ubuntu_xenial_definition(node, "ubuntu2", 55, 2225)
   end
 
   config.vm.define "windows1" do |node|

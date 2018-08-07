@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.19 -->
++<!-- latest_release 0.1.20 -->
+## [0.1.20](https://github.com/chef/chef-apply/tree/0.1.20) (2018-08-07)
+
+#### Merged Pull Requests
+- use a common key for dev environment test VMs [#34](https://github.com/chef/chef-apply/pull/34) ([robbkidd](https://github.com/robbkidd))
+<!-- latest_release -->
+
 ## [0.1.19](https://github.com/chef/chef-apply/tree/0.1.19) (2018-07-31)
 
 #### Bug Fixes
 - [SHACK-312] fix writing log output to a location specified [#25](https://github.com/chef/chef-apply/pull/25) ([karthanistyr](https://github.com/karthanistyr))
-<!-- latest_release -->
 
 ## [0.1.18](https://github.com/chef/chef-apply/tree/0.1.18) (2018-07-31)
 

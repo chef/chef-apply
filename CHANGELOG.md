@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.20 -->
++<!-- latest_release 0.1.21 -->
+## [0.1.21](https://github.com/chef/chef-apply/tree/0.1.21) (2018-08-09)
+
+#### Merged Pull Requests
+- [SHACK-290] Set minimum Chef 13 version to be 13.10.4 (fix policyfile tarball use on Windows) [#35](https://github.com/chef/chef-apply/pull/35) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.20](https://github.com/chef/chef-apply/tree/0.1.20) (2018-08-07)
 
 #### Merged Pull Requests
 - use a common key for dev environment test VMs [#34](https://github.com/chef/chef-apply/pull/34) ([robbkidd](https://github.com/robbkidd))
-<!-- latest_release -->
 
 ## [0.1.19](https://github.com/chef/chef-apply/tree/0.1.19) (2018-07-31)
 

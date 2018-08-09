@@ -39,6 +39,8 @@ Vagrant.configure("2") do |config|
         # disable logging client console on host
         v.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
       end
+      node.vm.provision "shell", inline: "echo 'MaxAuthTries 25' >> /etc/ssh/sshd_config"
+      node.vm.provision "shell", inline: "service sshd restart"
     end
   end
 

@@ -70,7 +70,7 @@ RSpec.describe ChefApply::Action::Base do
     it "correctly returns chef run string" do
       expect(action.run_chef("a", "b", "c")).to eq(
         "Set-Location -Path a; " \
-        "chef-client -z --config b --recipe-url c | Out-Null; " \
+        "chef-client -z --config #{File.join("a", "b")} --recipe-url #{File.join("a", "c")} | Out-Null; " \
         "Set-Location C:/; " \
         "exit $LASTEXITCODE"
       )

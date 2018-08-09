@@ -41,7 +41,8 @@ RSpec.describe ChefApply::Action::InstallChef::Base do
 
   subject(:install) do
     ChefApply::Action::InstallChef::Base.new(target_host: target_host,
-                                             reporter: reporter) end
+                                             reporter: reporter,
+                                             check_only: false) end
   before do
     target_host.connect!
     target_host.backend.mock_os(mock_opts)
@@ -50,7 +51,7 @@ RSpec.describe ChefApply::Action::InstallChef::Base do
   context "#perform_action" do
     context "when chef is already installed on target" do
       it "notifies of success and takes no further action" do
-        expect(install).to receive(:check_minimum_chef_version!).with(install.target_host)
+        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
                        .and_return(:minimum_version_met)
         expect(install).not_to receive(:perform_local_install)
         install.perform_action
@@ -59,7 +60,7 @@ RSpec.describe ChefApply::Action::InstallChef::Base do
 
     context "when chef is not already installed on target" do
       it "should invoke perform_local_install" do
-        expect(install).to receive(:check_minimum_chef_version!).with(install.target_host)
+        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
                        .and_return(:client_not_installed)
         expect(install).to receive(:perform_local_install)
         install.perform_action
@@ -160,73 +161,6 @@ RSpec.describe ChefApply::Action::InstallChef::Base do
           mixlib_info = install.train_to_mixlib(platform)
           expect(mixlib_info[:platform]).to eq "el"
           expect(mixlib_info[:platform_version]).to eq "7"
-        end
-      end
-    end
-  end
-
-  context "#check_minimum_chef_version!" do
-    let(:target) { install.target_host }
-    context "when chef is not already installed on target" do
-      before do
-        expect(target).to receive(:installed_chef_version).
-          and_raise ChefApply::TargetHost::ChefNotInstalled.new
-      end
-
-      it "should return :client_not_installed" do
-        actual = install.check_minimum_chef_version!(target)
-        expect(:client_not_installed).to eq(actual)
-      end
-
-      context "when config is set to check_only" do
-        after do
-          install.config.clear
-        end
-
-        it "raises ClientNotInstalled" do
-          install.config[:check_only] = true
-          expect do
-            install.check_minimum_chef_version!(target)
-          end.to raise_error(ChefApply::Action::InstallChef::ClientNotInstalled)
-        end
-      end
-    end
-
-    min_14_version = ChefApply::Action::InstallChef::Base::MIN_14_VERSION
-    min_13_version = ChefApply::Action::InstallChef::Base::MIN_13_VERSION
-    context "when chef is already installed on target at the correct minimum Chef 14 version" do
-      before do
-        expect(target).to receive(:installed_chef_version).and_return min_14_version
-      end
-      it "should return :minimum_version_met" do
-        actual = install.check_minimum_chef_version!(target)
-        expect(:minimum_version_met).to eq(actual)
-      end
-    end
-
-    context "when chef is already installed on target at the correct minimum Chef 13 version" do
-      before do
-        expect(target).to receive(:installed_chef_version).and_return min_13_version
-      end
-      it "should return :minimum_version_met" do
-        actual = install.check_minimum_chef_version!(target)
-        expect(:minimum_version_met).to eq(actual)
-      end
-    end
-
-    installed_expected = {
-      Gem::Version.new("12.1.1") => ChefApply::Action::InstallChef::Client13Outdated,
-      Gem::Version.new("13.9.0") => ChefApply::Action::InstallChef::Client13Outdated,
-      Gem::Version.new("14.1.0") => ChefApply::Action::InstallChef::Client14Outdated,
-    }
-    installed_expected.each do |installed, expected|
-      context "when chef is already installed on target at version #{installed}" do
-        before do
-          expect(target).to receive(:installed_chef_version).
-            and_return installed
-        end
-        it "notifies of failure and takes no further action" do
-          expect { install.check_minimum_chef_version!(target) }.to raise_error(expected)
         end
       end
     end

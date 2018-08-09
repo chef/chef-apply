@@ -16,15 +16,14 @@
 #
 
 require "chef_apply/action/base"
+require "chef_apply/minimum_chef_version"
 require "fileutils"
 
 module ChefApply::Action::InstallChef
   class Base < ChefApply::Action::Base
-    MIN_14_VERSION = Gem::Version.new("14.1.1")
-    MIN_13_VERSION = Gem::Version.new("13.10.0")
 
     def perform_action
-      if check_minimum_chef_version!(target_host) == :minimum_version_met
+      if ChefApply::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
         notify(:already_installed)
       else
         perform_local_install
@@ -107,53 +106,12 @@ module ChefApply::Action::InstallChef
       remote_path
     end
 
-    def check_minimum_chef_version!(target)
-      begin
-        installed_version = target.installed_chef_version
-      rescue ChefApply::TargetHost::ChefNotInstalled
-        if config[:check_only]
-          raise ClientNotInstalled.new()
-        end
-        return :client_not_installed
-      end
-
-      case
-        when installed_version >= Gem::Version.new("14.0.0") && installed_version < MIN_14_VERSION
-          raise Client14Outdated.new(installed_version, MIN_14_VERSION)
-        when installed_version >= Gem::Version.new("13.0.0") && installed_version < MIN_13_VERSION
-          raise Client13Outdated.new(installed_version, MIN_13_VERSION, MIN_14_VERSION)
-        when installed_version < Gem::Version.new("13.0.0")
-          # If they have Chef < 13.0.0 installed we want to show them the easiest upgrade path -
-          # Chef 13 first and then Chef 14 since most customers cannot make the leap directly
-          # to 14.
-          raise Client13Outdated.new(installed_version, MIN_13_VERSION, MIN_14_VERSION)
-      end
-
-      :minimum_version_met
-    end
-
     def setup_remote_temp_path
       raise NotImplementedError
     end
 
     def install_chef_to_target(remote_path)
       raise NotImplementedError
-    end
-  end
-
-  class ClientNotInstalled < ChefApply::ErrorNoLogs
-    def initialize(); super("CHEFINS002"); end
-  end
-
-  class Client13Outdated < ChefApply::ErrorNoLogs
-    def initialize(current_version, min_13_version, min_14_version)
-      super("CHEFINS003", current_version, min_13_version, min_14_version)
-    end
-  end
-
-  class Client14Outdated < ChefApply::ErrorNoLogs
-    def initialize(current_version, target_version)
-      super("CHEFINS004", current_version, target_version)
     end
   end
 end

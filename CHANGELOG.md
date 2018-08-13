@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.21 -->
++<!-- latest_release 0.1.22 -->
+## [0.1.22](https://github.com/chef/chef-apply/tree/0.1.22) (2018-08-13)
+
+#### Merged Pull Requests
+- [SHACK-187] capture error metadata in translations instead of code  [#17](https://github.com/chef/chef-apply/pull/17) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.21](https://github.com/chef/chef-apply/tree/0.1.21) (2018-08-09)
 
 #### Merged Pull Requests
 - [SHACK-290] Set minimum Chef 13 version to be 13.10.4 (fix policyfile tarball use on Windows) [#35](https://github.com/chef/chef-apply/pull/35) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.20](https://github.com/chef/chef-apply/tree/0.1.20) (2018-08-07)
 

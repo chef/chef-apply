@@ -16,28 +16,18 @@
 #
 
 require "chef_apply/action/base"
+require "chef_apply/minimum_chef_version"
 require "fileutils"
 
 module ChefApply::Action::InstallChef
   class Base < ChefApply::Action::Base
-    MIN_CHEF_VERSION = Gem::Version.new("14.1.1")
 
     def perform_action
-      if target_host.installed_chef_version >= MIN_CHEF_VERSION
+      if ChefApply::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
         notify(:already_installed)
-        return
+      else
+        perform_local_install
       end
-      raise ClientOutdated.new(target_host.installed_chef_version, MIN_CHEF_VERSION)
-      # NOTE: 2018-05-10 below is an intentionally dead code path that
-      #       will get re-visited once we determine how we want automatic
-      #       upgrades to behave.
-      # @upgrading = true
-      # perform_local_install
-    rescue ChefApply::TargetHost::ChefNotInstalled
-      if config[:check_only]
-        raise ClientNotInstalled.new()
-      end
-      perform_local_install
     end
 
     def name
@@ -122,16 +112,6 @@ module ChefApply::Action::InstallChef
 
     def install_chef_to_target(remote_path)
       raise NotImplementedError
-    end
-  end
-
-  class ClientNotInstalled < ChefApply::ErrorNoLogs
-    def initialize(); super("CHEFINS002"); end
-  end
-
-  class ClientOutdated < ChefApply::ErrorNoLogs
-    def initialize(current_version, target_version)
-      super("CHEFINS003", current_version, target_version)
     end
   end
 end

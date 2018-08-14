@@ -41,62 +41,33 @@ RSpec.describe ChefApply::Action::InstallChef::Base do
 
   subject(:install) do
     ChefApply::Action::InstallChef::Base.new(target_host: target_host,
-                                             reporter: reporter) end
+                                             reporter: reporter,
+                                             check_only: false) end
   before do
     target_host.connect!
     target_host.backend.mock_os(mock_opts)
   end
 
   context "#perform_action" do
-    context "when chef is already installed on target at the correct minimum version" do
-      before do
-        expect(install.target_host).to receive(:installed_chef_version).and_return ChefApply::Action::InstallChef::Base::MIN_CHEF_VERSION
-      end
+    context "when chef is already installed on target" do
       it "notifies of success and takes no further action" do
+        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
+                       .and_return(:minimum_version_met)
         expect(install).not_to receive(:perform_local_install)
         install.perform_action
       end
     end
 
-    context "when chef is already installed on target at a version that's too low" do
-      before do
-        expect(install.target_host).to receive(:installed_chef_version).
-          and_return Gem::Version.new("12.1.1")
-      end
-      # 2018-05-10  pended until we determine how we want auto-upgrades to behave
-      xit "performs the upgrade" do
+    context "when chef is not already installed on target" do
+      it "should invoke perform_local_install" do
+        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
+                       .and_return(:client_not_installed)
         expect(install).to receive(:perform_local_install)
         install.perform_action
       end
     end
-
-    context "when chef is not already installed on target" do
-      before do
-        expect(install.target_host).to receive(:installed_chef_version).
-          and_raise ChefApply::TargetHost::ChefNotInstalled.new
-      end
-
-      context "on windows" do
-        let(:mock_os_name) { "Windows_Server" }
-        let(:mock_os_family) { "windows" }
-        let(:mock_os_releae) { "10.0.1" }
-
-        it "should invoke perform_local_install" do
-          expect(install).to receive(:perform_local_install)
-          install.perform_action
-        end
-      end
-
-      context "on anything else" do
-        let(:mock_os_name) { "Ubuntu" }
-        let(:mock_os_family) { "debian" }
-        it "should invoke perform_local_install" do
-          expect(install).to receive(:perform_local_install)
-          install.perform_action
-        end
-      end
-    end
   end
+
   context "#perform_local_install" do
     let(:artifact) { double("artifact") }
     let(:package_url) { "https://chef.io/download/package/here" }

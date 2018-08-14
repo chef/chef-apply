@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.22 -->
++<!-- latest_release 0.1.23 -->
+## [0.1.23](https://github.com/chef/chef-apply/tree/0.1.23) (2018-08-14)
+
+#### Merged Pull Requests
+- Changed log level requirement for target host output [#29](https://github.com/chef/chef-apply/pull/29) ([karthanistyr](https://github.com/karthanistyr))
+<!-- latest_release -->
+
 ## [0.1.22](https://github.com/chef/chef-apply/tree/0.1.22) (2018-08-13)
 
 #### Merged Pull Requests
 - [SHACK-187] capture error metadata in translations instead of code  [#17](https://github.com/chef/chef-apply/pull/17) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.21](https://github.com/chef/chef-apply/tree/0.1.21) (2018-08-09)
 

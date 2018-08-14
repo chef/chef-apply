@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.1.22)
+    chef-apply (0.1.23)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,13 +21,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.106)
-      aws-sdk-resources (= 2.11.106)
-    aws-sdk-core (2.11.106)
+    aws-sdk (2.11.107)
+      aws-sdk-resources (= 2.11.107)
+    aws-sdk-core (2.11.107)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.106)
-      aws-sdk-core (= 2.11.106)
+    aws-sdk-resources (2.11.107)
+      aws-sdk-core (= 2.11.107)
     aws-sigv4 (1.0.3)
     azure_mgmt_resources (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -155,7 +155,7 @@ GEM
       ffi (>= 1.0.1)
     gyoku (1.3.1)
       builder (>= 2.1.2)
-    hashie (3.5.7)
+    hashie (3.6.0)
     highline (1.7.10)
     http (2.2.2)
       addressable (~> 2.3)

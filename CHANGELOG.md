@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.23 -->
++<!-- latest_release 0.1.24 -->
+## [0.1.24](https://github.com/chef/chef-apply/tree/0.1.24) (2018-08-14)
+
+#### Merged Pull Requests
+- Add config setting for target host log level [#27](https://github.com/chef/chef-apply/pull/27) ([karthanistyr](https://github.com/karthanistyr))
+<!-- latest_release -->
+
 ## [0.1.23](https://github.com/chef/chef-apply/tree/0.1.23) (2018-08-14)
 
 #### Merged Pull Requests
 - Changed log level requirement for target host output [#29](https://github.com/chef/chef-apply/pull/29) ([karthanistyr](https://github.com/karthanistyr))
-<!-- latest_release -->
 
 ## [0.1.22](https://github.com/chef/chef-apply/tree/0.1.22) (2018-08-13)
 

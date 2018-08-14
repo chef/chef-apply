@@ -88,19 +88,19 @@ module ChefApply
       # Chef 13 on Linux requires full path specifiers for --config and --recipe-url while on Chef 13 and 14 on
       # Windows must use relative specifiers to prevent URI from causing an error
       # (https://github.com/chef/chef/pull/7223/files).
-      def run_chef(working_dir, config, policy)
+      def run_chef(working_dir, config_file, policy)
         case family
         when :windows
           "Set-Location -Path #{working_dir}; " +
             # We must 'wait' for chef-client to finish before changing directories and Out-Null does that
-            "chef-client -z --config #{config} --recipe-url #{policy} | Out-Null; " +
+            "chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)} | Out-Null; " +
             # We have to leave working dir so we don't hold a lock on it, which allows us to delete this tempdir later
             "Set-Location C:/; " +
             "exit $LASTEXITCODE"
         else
           # cd is shell a builtin, so much call bash. This also means all commands are executed
           # with sudo (as long as we are hardcoding our sudo use)
-          "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config)} --recipe-url #{File.join(working_dir, policy)}'"
+          "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
         end
       end
 

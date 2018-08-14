@@ -1,10 +1,32 @@
 # Error definitions, usage Text.e.ERR999
+#
 # General format:
+# ERRORID
+#   display: optional hash of display options. See display_defaults below.
+#   text: |
+#      text of the message
+#
 # First Line: brief description of the error
 # Second line: blank
 # Third+ : detailed description, max 76 characters per line
+
 errors:
-  rendering_defaults: {header: true, footer: true, stack: true, log: true}
+  # These are the default display attributes for all messages.
+  # If you want to override them for specific errors,
+  # you can do so as follows:
+  # EXAMPLERROR001:
+  #   display: { decorations: false }
+  #   text: |
+  #     Here is the message text.
+  display_defaults:
+    # Set 'decorations: false' in a message to show only text. Equivalent
+    # to setting all of the other attributes to false individually
+    decorations: true
+    stack: false # show reference to stack trace location in footer
+    log: false # show reference to log file location in footer
+    header: true  # Show error header (currently bolded error id)
+    footer: true # show standard footer
+
   # Catch-all for the worst case
   UNKNOWN: An unknown error has occurred.
 
@@ -19,12 +41,16 @@ errors:
       automatically perform the installation.
 
   CHEFINS003: |
-    The target has an older version of Chef client installed.
+    The target's installed version of Chef Client is too old.
 
-    The target has version %1 installed, but this command
-    requires a minimum version of %2.
+    Version %1 is installed, but this command requires a
+    minimum version of %2 (Chef 13) or %3 (Chef 14).
 
-    Please upgrade the Chef client on this node to version %2 or later.
+  CHEFINS004: |
+    The target's installed version of Chef Client is too old.
+
+    Version %1 is installed, but this command requires a
+    minimum version of %2.
 
   # Local errors trying to create policy to send to target
   CHEFPOLICY001: |

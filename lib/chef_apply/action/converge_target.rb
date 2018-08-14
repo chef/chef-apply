@@ -40,7 +40,7 @@ module ChefApply::Action
       c = target_host.run_command(cmd_str)
       target_host.run_command!("#{delete_folder} #{remote_dir_path}")
       if c.exit_status == 0
-        ChefApply::Log.debug(c.stdout)
+        ChefApply::Log.info(c.stdout)
         notify(:success)
       elsif c.exit_status == 35
         notify(:reboot)

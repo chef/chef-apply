@@ -29,7 +29,7 @@ module ChefApply
       end
 
       def update(params)
-        # SOme of this is particular to our usage -
+        # Some of this is particular to our usage -
         # prefix does not cause a text update, but does
         # change the prefix for future messages.
         if params.has_key?(:prefix)
@@ -69,6 +69,9 @@ module ChefApply
       def success
         @succ = true
         @err = false
+      end
+
+      def auto_spin
       end
     end
   end

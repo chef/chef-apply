@@ -32,7 +32,10 @@ RSpec.describe ChefApply::UI::Terminal do
   context "#render_job" do
     it "executes the provided block" do
       @ran = false
-      Terminal.render_job("a message") { |reporter| @ran = true }
+      job = Terminal::Job.new("prefix", nil) do
+        @ran = true
+      end
+      Terminal.render_job("a message", job)
       expect(@ran).to eq true
     end
   end

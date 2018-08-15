@@ -130,7 +130,7 @@ module ChefApply
     end
 
     config_context :dev do
-      default(:spinner, "TTY::Spinner")
+      default(:spinner, true)
     end
 
     config_context :chef do

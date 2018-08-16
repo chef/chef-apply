@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.24 -->
++<!-- latest_release 0.1.25 -->
+## [0.1.25](https://github.com/chef/chef-apply/tree/0.1.25) (2018-08-16)
+
+#### Merged Pull Requests
+- [SHACK-187] convert error handling to use new encapsulated display data [#19](https://github.com/chef/chef-apply/pull/19) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.24](https://github.com/chef/chef-apply/tree/0.1.24) (2018-08-14)
 
 #### Merged Pull Requests
 - Add config setting for target host log level [#27](https://github.com/chef/chef-apply/pull/27) ([karthanistyr](https://github.com/karthanistyr))
-<!-- latest_release -->
 
 ## [0.1.23](https://github.com/chef/chef-apply/tree/0.1.23) (2018-08-14)
 

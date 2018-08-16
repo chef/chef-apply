@@ -25,7 +25,7 @@ module ChefApply
   module Text
     def self._error_table
       # Though ther may be several translations, en.yml will be the only one with
-      # formatting metadata.
+      # error metadata.
       path = File.join(_translation_path, "errors", "en.yml")
       raw_yaml = File.read(path)
       @error_table ||= YAML.load(raw_yaml, _translation_path, symbolize_names: true)[:errors]

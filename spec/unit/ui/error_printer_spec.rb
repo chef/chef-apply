@@ -17,21 +17,52 @@
 
 require "spec_helper"
 require "chef_apply/ui/error_printer"
+require "chef_apply/text/error_translation"
 require "chef_apply/errors/standard_error_resolver"
 require "chef_apply/target_host"
 
 RSpec.describe ChefApply::UI::ErrorPrinter do
+
   let(:orig_exception) { StandardError.new("test") }
   let(:target_host) { ChefApply::TargetHost.instance_for_url("mock://localhost") }
   let(:wrapped_exception) { ChefApply::WrappedError.new(orig_exception, target_host) }
-  subject(:printer) { ChefApply::UI::ErrorPrinter.new(wrapped_exception, nil) }
+
+  let(:show_footer) { true }
+  let(:show_log) { true }
+  let(:show_stack) { true }
+  let(:has_decorations) { true }
+  let(:show_header) { true }
+  let(:translation_mock) do
+    instance_double("ChefApply::Errors::ErrorTranslation",
+                    footer: show_footer,
+                    log: show_log,
+                    stack: show_stack,
+                    header: show_header,
+                    decorations: has_decorations
+                   )
+  end
+  subject { ChefApply::UI::ErrorPrinter.new(wrapped_exception, nil) }
+
+  before do
+    allow(ChefApply::Text::ErrorTranslation).to receive(:new).and_return translation_mock
+  end
 
   context "#format_error" do
-    it "formats the message" do
-      expect(subject).to receive(:format_header).and_return "header"
-      expect(subject).to receive(:format_body).and_return "body"
-      expect(subject).to receive(:format_footer).and_return "footer"
-      expect(subject.format_error).to eq "\nheader\n\nbody\nfooter\n"
+
+    context "and the message has decorations" do
+      let(:has_decorations)  { true }
+      it "formats the message using the correct method" do
+        expect(subject).to receive(:format_decorated).and_return "decorated"
+        subject.format_error
+      end
+    end
+
+    context "and the message does not have decorations" do
+      let(:has_decorations)  { false }
+      it "formats the message using the correct method" do
+        expect(subject).to receive(:format_undecorated).and_return "undecorated"
+        subject.format_error
+      end
     end
   end
 
@@ -116,19 +147,12 @@ RSpec.describe ChefApply::UI::ErrorPrinter do
   end
 
   context "#format_footer" do
-    let(:show_log) { true }
-    let(:show_stack) { true }
     let(:formatter) do
       ChefApply::UI::ErrorPrinter.new(wrapped_exception, nil)
     end
 
-    subject(:format_footer) do
+    subject do
       lambda { formatter.format_footer }
-    end
-
-    before do
-      allow(formatter).to receive(:show_log).and_return show_log
-      allow(formatter).to receive(:show_stack).and_return show_stack
     end
 
     context "when both log and stack wanted" do

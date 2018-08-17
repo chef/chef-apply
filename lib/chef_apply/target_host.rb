@@ -45,6 +45,12 @@ module ChefApply
                           sudo: opts_in[:sudo] === false ? false : true,
                           www_form_encoded_password: true,
                           key_files: opts_in[:identity_file],
+                          non_interactive: true,
+                          # Prevent long delays due to retries on auth failure.
+                          # This does reduce the number of attempts we'll make for transient conditions as well, but
+                          # train does not currently exposes these as separate controls. Ideally I'd like to see a 'retry_on_auth_failure' option.
+                          connection_retries: 2,
+                          connection_retry_sleep: 0.15,
                           logger: ChefApply::Log }
       if opts_in.has_key? :ssl
         connection_opts[:ssl] = opts_in[:ssl]

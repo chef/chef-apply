@@ -293,13 +293,19 @@ RSpec.describe ChefApply::CLI do
     let(:temp_cookbook) { double(ChefApply::TempCookbook) }
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
-    before do
-      allow(ChefApply::UI::Terminal).to receive(:render_job).and_yield(reporter)
-    end
+    # before do
+    #   allow(ChefApply::UI::Terminal).to receive(:render_job).and_yield(reporter)
+    # end
 
     it "generates the cookbook and local policy" do
+      expect(ChefApply::UI::Terminal).to receive(:render_job) do |initial_msg, job|
+        job.run(reporter)
+      end
       expect(subject).to receive(:generate_temp_cookbook)
         .with(args, reporter).and_return temp_cookbook
+      expect(ChefApply::UI::Terminal).to receive(:render_job) do |initial_msg, job|
+        job.run(reporter)
+      end
       expect(subject).to receive(:generate_local_policy)
         .with(reporter).and_return archive_file_location
       subject.render_cookbook_setup(args)

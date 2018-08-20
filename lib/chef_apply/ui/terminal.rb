@@ -20,27 +20,11 @@ require "chef_apply/status_reporter"
 require "chef_apply/config"
 require "chef_apply/log"
 require "chef_apply/ui/plain_text_element"
+require "chef_apply/ui/plain_text_header"
 
 module ChefApply
   module UI
     class Terminal
-      class Job
-        attr_reader :proc, :prefix, :target_host, :exception
-        def initialize(prefix, target_host, &block)
-          @proc = block
-          @prefix = prefix
-          @target_host = target_host
-          @error = nil
-        end
-
-        def run(reporter)
-          @proc.call(reporter)
-        rescue => e
-          reporter.error(e.to_s)
-          @exception = e
-        end
-      end
-
       class << self
         # To support matching in test
         attr_accessor :location
@@ -58,37 +42,44 @@ module ChefApply
         end
 
         def render_parallel_jobs(header, jobs)
-      # Do not indent the topmost 'parent' spinner, but do indent child spinners
+          # Do not indent the topmost 'parent' spinner, but do indent child spinners
           indent_style = { top: "",
                            middle: TTY::Spinner::Multi::DEFAULT_INSET[:middle],
                            bottom: TTY::Spinner::Multi::DEFAULT_INSET[:bottom] }
-      # @option options [Hash] :style
-      #   keys :top :middle and :bottom can contain Strings that are used to
-      #   indent the spinners. Ignored if message is blank
-          multispinner = TTY::Spinner::Multi.new("[:spinner] #{header}", output: @location, hide_cursor: true, style: indent_style)
-          jobs.each do |a|
-            multispinner.register(spinner_prefix(a.prefix), hide_cursor: true) do |spinner|
-              reporter = StatusReporter.new(spinner, prefix: a.prefix, key: :status)
-              a.run(reporter)
+          # @option options [Hash] :style
+          #   keys :top :middle and :bottom can contain Strings that are used to
+          #   indent the spinners. Ignored if message is blank
+          multispinner = get_multispinner.new("[:spinner] #{header}", output: @location, hide_cursor: true, style: indent_style)
+          jobs.each do |job|
+            multispinner.register(spinner_prefix(job.prefix), hide_cursor: true) do |spinner|
+              reporter = StatusReporter.new(spinner, prefix: job.prefix, key: :status)
+              job.run(reporter)
             end
           end
           multispinner.auto_spin
         end
 
-        # TODO update this to accept a job instead of a block, for consistency of usage
-        #      between render_job and render_parallel
-        def render_job(msg, prefix: "", &block)
-          klass = ChefApply::UI.const_get(ChefApply::Config.dev.spinner)
-          spinner = klass.new(spinner_prefix(prefix), output: @location, hide_cursor: true)
-          reporter = StatusReporter.new(spinner, prefix: prefix, key: :status)
-          reporter.update(msg)
-          spinner.run { yield(reporter) }
+        def render_job(initial_msg, job)
+          # TODO why do we have to pass prefix to both the spinner and the reporter?
+          spinner = get_spinner.new(spinner_prefix(job.prefix), output: @location, hide_cursor: true)
+          reporter = StatusReporter.new(spinner, prefix: job.prefix, key: :status)
+          reporter.update(initial_msg)
+          spinner.auto_spin
+          job.run(reporter)
         end
 
         def spinner_prefix(prefix)
           spinner_msg = "[:spinner] "
           spinner_msg += ":prefix " unless prefix.empty?
           spinner_msg + ":status"
+        end
+
+        def get_multispinner
+          ChefApply::Config.dev.spinner ? TTY::Spinner::Multi : PlainTextHeader
+        end
+
+        def get_spinner
+          ChefApply::Config.dev.spinner ? TTY::Spinner : PlainTextElement
         end
       end
     end

@@ -35,6 +35,7 @@ require "chef_apply/target_resolver"
 require "chef_apply/telemeter"
 require "chef_apply/ui/error_printer"
 require "chef_apply/ui/terminal"
+require "chef_apply/ui/terminal/job"
 
 module ChefApply
   class CLI
@@ -130,12 +131,16 @@ module ChefApply
     end
 
     def render_cookbook_setup(arguments)
-      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+      # TODO update Job so that it doesn't require prefix and host. As a data container,
+      # should these attributes even be required?
+      job = UI::Terminal::Job.new("", nil) do |reporter|
         @temp_cookbook = generate_temp_cookbook(arguments, reporter)
       end
-      UI::Terminal.render_job(TS.generate_temp_cookbook.generating) do |reporter|
+      UI::Terminal.render_job("...", job)
+      job = UI::Terminal::Job.new("", nil) do |reporter|
         @archive_file_location = generate_local_policy(reporter)
       end
+      UI::Terminal.render_job("...", job)
     end
 
     def render_converge(target_hosts)

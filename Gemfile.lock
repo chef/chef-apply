@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.1.25)
+    chef-apply (0.1.26)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,13 +21,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.109)
-      aws-sdk-resources (= 2.11.109)
-    aws-sdk-core (2.11.109)
+    aws-sdk (2.11.111)
+      aws-sdk-resources (= 2.11.111)
+    aws-sdk-core (2.11.111)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.109)
-      aws-sdk-core (= 2.11.109)
+    aws-sdk-resources (2.11.111)
+      aws-sdk-core (= 2.11.111)
     aws-sigv4 (1.0.3)
     azure_mgmt_resources (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -255,9 +255,9 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (3.0.3)
-    r18n-core (3.0.5)
-    r18n-desktop (3.0.5)
-      r18n-core (= 3.0.5)
+    r18n-core (3.1.1)
+    r18n-desktop (3.1.1)
+      r18n-core (= 3.1.1)
     rack (2.0.5)
     rainbow (3.0.0)
     rake (12.3.1)
@@ -315,7 +315,7 @@ GEM
     solve (4.0.0)
       molinillo (~> 0.6)
       semverse (>= 1.1, < 3.0)
-    specinfra (2.75.1)
+    specinfra (2.76.0)
       net-scp
       net-ssh (>= 2.7)
       net-telnet
@@ -327,7 +327,7 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.7)
-    train (1.4.29)
+    train (1.4.31)
       aws-sdk (~> 2)
       azure_mgmt_resources (~> 0.15)
       docker-api (~> 1.26)

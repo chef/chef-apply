@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.25 -->
++<!-- latest_release 0.1.26 -->
+## [0.1.26](https://github.com/chef/chef-apply/tree/0.1.26) (2018-08-20)
+
+#### Merged Pull Requests
+- Make pry breakpoints work with MultiSpinner [#37](https://github.com/chef/chef-apply/pull/37) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.25](https://github.com/chef/chef-apply/tree/0.1.25) (2018-08-16)
 
 #### Merged Pull Requests
 - [SHACK-187] convert error handling to use new encapsulated display data [#19](https://github.com/chef/chef-apply/pull/19) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.24](https://github.com/chef/chef-apply/tree/0.1.24) (2018-08-14)
 

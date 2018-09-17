@@ -69,7 +69,7 @@ module ChefApply
         # we don't have to try and make really long one-liners
         mktemp: {
           windows: "$parent = [System.IO.Path]::GetTempPath(); [string] $name = [System.Guid]::NewGuid(); $tmp = New-Item -ItemType Directory -Path (Join-Path $parent $name); $tmp.FullName",
-          other: "bash -c 'd=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); chmod 777 $d; echo $d'"
+          other:  "bash -c 'tmp_dir=\"/tmp/chef_$$\"; (umask 077 && mkdir $tmp_dir) || exit 1; echo $tmp_dir'"
         },
         delete_folder: {
           windows: "Remove-Item -Recurse -Force –Path",
@@ -100,7 +100,7 @@ module ChefApply
         else
           # cd is shell a builtin, so much call bash. This also means all commands are executed
           # with sudo (as long as we are hardcoding our sudo use)
-          "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
+          "bash -c 'cd #{working_dir}; /opt/chef/bin/chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
         end
       end
 

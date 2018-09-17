@@ -15,18 +15,23 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/install_chef/base"
-require "chef_apply/action/install_chef/windows"
-require "chef_apply/action/install_chef/linux"
-require "chef_apply/action/install_chef/macos"
-
 module ChefApply::Action::InstallChef
-  def self.instance_for_target(target_host, opts = { check_only: false })
-    opts[:target_host] = target_host
-    case target_host.base_os
-    when :windows then Windows.new(opts)
-    when :linux then Linux.new(opts)
-    when :macos then MacOS.new(opts)
+  class MacOS < ChefApply::Action::InstallChef::Base
+    def install_chef_to_target(remote_path)
+      install_cmd = <<-EOS
+      hdiutil detach "/Volumes/chef_software" >/dev/null 2>&1 || true
+      hdiutil attach #{remote_path} -mountpoint "/Volumes/chef_software"
+      cd / && sudo /usr/sbin/installer -pkg `sudo find "/Volumes/chef_software" -name \\*.pkg` -target /
+      EOS
+      target_host.run_command!(install_cmd)
+      nil
+    end
+
+    def setup_remote_temp_path
+      installer_dir = "/tmp/chef-installer"
+      target_host.run_command!("mkdir -p #{installer_dir}")
+      target_host.run_command!("chmod 777 #{installer_dir}")
+      installer_dir
     end
   end
 end

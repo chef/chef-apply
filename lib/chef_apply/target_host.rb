@@ -116,6 +116,8 @@ module ChefApply
         :windows
       elsif platform.linux?
         :linux
+      elsif platform.darwin?
+        :macos
       else
         # TODO - this seems like it shouldn't happen here, when
         # all the caller is doing is asking about the OS
@@ -136,7 +138,7 @@ module ChefApply
     end
 
     def run_command(command, sudo_as_user = false)
-      if config[:sudo] && sudo_as_user && base_os == :linux
+      if config[:sudo] && sudo_as_user && base_os != :windows
         command = "-u #{config[:user]} #{command}"
       end
       backend.run_command command
@@ -169,7 +171,8 @@ module ChefApply
       #        on a virtualbox windows vm:
       #        (over winrm) Get-WmiObject Win32_Product | Where {$_.Name -match 'Chef Client'}
       windows: "c:\\opscode\\chef\\version-manifest.json",
-      linux: "/opt/chef/version-manifest.json"
+      linux: "/opt/chef/version-manifest.json",
+      macos: "/opt/chef/version-manifest.json"
     }
 
     def get_chef_version_manifest

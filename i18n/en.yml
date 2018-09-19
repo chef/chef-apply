@@ -148,7 +148,6 @@ cli:
         %1
 
       Please verify that the configuration file is correct. If the
-      # PENDING: need to finalize this email, or decide if we want to keep it beta
       problem continues, contact beta@chef.io for further assistance.
 
     unsupported_installation: |

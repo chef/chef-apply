@@ -25,7 +25,8 @@ RSpec.describe ChefApply::Startup do
 
   describe "#run" do
     it "performs ordered startup tasks and invokes the CLI" do
-      ordered_messages = [:first_run_tasks,
+      ordered_messages = [:verify_not_in_chefdk,
+                          :first_run_tasks,
                           :setup_workstation_user_directories,
                           :setup_error_handling,
                           :load_config,
@@ -37,6 +38,7 @@ RSpec.describe ChefApply::Startup do
       end
       subject.run()
     end
+
     context "when errors happen" do
       let(:error) { nil }
       let(:error_text) { ChefApply::Text.cli.error }
@@ -90,6 +92,16 @@ RSpec.describe ChefApply::Startup do
         end
       end
 
+      context "when a UnsupportedInstallation exception is raised" do
+        let(:error) { ChefApply::Startup::UnsupportedInstallation.new }
+
+        it "shows the correct error" do
+          expected_text = error_text.unsupported_installation
+          expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+          subject.run
+        end
+      end
+
       context "when a Tomlrb::ParserError is raised" do
         let(:msg) { "Parse failed." }
         let(:error) { Tomlrb::ParseError.new(msg) }
@@ -102,12 +114,40 @@ RSpec.describe ChefApply::Startup do
       end
     end
   end
+
   describe "#init_terminal" do
     it "initializees the terminal for stdout" do
       expect(ChefApply::UI::Terminal).to receive(:init).with($stdout)
       subject.init_terminal
     end
   end
+
+  describe "#verify_not_in_chefdk" do
+    before do
+      allow(subject).to receive(:script_path).and_return script_path
+    end
+
+    context "when chef-run has been loaded from a *nix chefdk path" do
+      let(:script_path) { "/opt/chefdk/embedded/lib/ruby/gems/2.5.0/gems/chef-apply/startup.rb" }
+      it "raises an UnsupportedInstallation error" do
+        expect { subject.verify_not_in_chefdk }.to raise_error(ChefApply::Startup::UnsupportedInstallation)
+      end
+    end
+    context "when chef-run has been loaded from a Windows chefdk path" do
+      let(:script_path) { "C:\\chefdk\\embedded\\lib\\ruby\\gems\\2.5.0\\gems\\chef-apply\\startup.rb" }
+      it "raises an UnsupportedInstallation error" do
+        expect { subject.verify_not_in_chefdk }.to raise_error(ChefApply::Startup::UnsupportedInstallation)
+      end
+    end
+
+    context "when chef-run has been loaded from anywhere else" do
+      let(:script_path) { "/home/user1/dev/chef-apply" }
+      it "runs without error" do
+        subject.verify_not_in_chefdk
+      end
+    end
+  end
+
   describe "#first_run_tasks" do
     let(:first_run_complete) { true }
     before do
@@ -122,6 +162,7 @@ RSpec.describe ChefApply::Startup do
         subject.first_run_tasks
       end
     end
+
     context "when first run has not already occurred" do
       let(:first_run_complete) { false }
       it "Performs required first-run tasks" do

@@ -34,6 +34,10 @@ module ChefApply
     end
 
     def run
+      # This component is not supported in ChefDK; an exception will be raised
+      # if running in that context.
+      verify_not_in_chefdk
+
       # Some tasks we do only once in an installation:
       first_run_tasks
 
@@ -68,6 +72,8 @@ module ChefApply
       UI::Terminal.output(T.error.bad_config_file(e.path))
     rescue ConfigPathNotProvided
       UI::Terminal.output(T.error.missing_config_path)
+    rescue UnsupportedInstallation
+      UI::Terminal.output(T.error.unsupported_installation)
     rescue Mixlib::Config::UnknownConfigOptionError => e
       # Ideally we'd update the exception in mixlib to include
       # a field with the faulty value, line number, and nested context -
@@ -87,6 +93,15 @@ module ChefApply
 
     def init_terminal
       UI::Terminal.init($stdout)
+    end
+
+    # Verify that chef-run gem is not executing out of ChefDK by checking the
+    # runtime path of this file.
+    #
+    # NOTE: This is imperfect - someone could theoretically
+    # install chefdk to a path other than the default.
+    def verify_not_in_chefdk
+      raise UnsupportedInstallation.new if script_path =~ /chefdk/
     end
 
     def first_run_tasks
@@ -173,6 +188,13 @@ module ChefApply
       require "chef_apply/cli"
       ChefApply::CLI.new(@argv).run
     end
+
+    private
+
+    def script_path
+      File.expand_path File.dirname(__FILE__)
+    end
+
     class ConfigPathNotProvided < StandardError; end
     class ConfigPathInvalid < StandardError
       attr_reader :path
@@ -180,5 +202,6 @@ module ChefApply
         @path = path
       end
     end
+    class UnsupportedInstallation < StandardError; end
   end
 end

@@ -149,6 +149,17 @@ cli:
       Please verify that the configuration file is correct. If the
       problem continues, contact beta@chef.io for further assistance.
 
+    unsupported_installation: |
+
+      Use of chef-run within ChefDK is not supported.
+
+      Chef Workstation is the successor to the ChefDK, and contains the
+      same components including a supported chef-run.
+
+      Download the latest here:
+
+      https://downloads.chef.io/chef-workstation/stable
+
   version:
     description: Show the current version of Chef Run.
     show: "chef-run: %1"

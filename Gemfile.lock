@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.1.26)
+    chef-apply (0.1.27)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,15 +21,17 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.111)
-      aws-sdk-resources (= 2.11.111)
-    aws-sdk-core (2.11.111)
+    aws-sdk (2.11.134)
+      aws-sdk-resources (= 2.11.134)
+    aws-sdk-core (2.11.134)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.111)
-      aws-sdk-core (= 2.11.111)
+    aws-sdk-resources (2.11.134)
+      aws-sdk-core (= 2.11.134)
     aws-sigv4 (1.0.3)
-    azure_mgmt_resources (0.17.0)
+    azure_graph_rbac (0.17.0)
+      ms_rest_azure (~> 0.11.0)
+    azure_mgmt_resources (0.17.1)
       ms_rest_azure (~> 0.11.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
@@ -72,7 +74,7 @@ GEM
       mixlib-config (>= 2.2.12, < 3.0)
       mixlib-shellout (~> 2.0)
       tomlrb (~> 1.2)
-    chef-dk (3.1.0)
+    chef-dk (3.2.30)
       addressable (>= 2.3.5, < 2.6)
       chef (~> 14.0)
       chef-provisioning (~> 2.0)
@@ -128,7 +130,7 @@ GEM
     equatable (0.5.0)
     erubis (2.7.0)
     excon (0.62.0)
-    faraday (0.15.2)
+    faraday (0.15.3)
       multipart-post (>= 1.2, < 3)
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)
@@ -144,7 +146,7 @@ GEM
       mime-types (~> 3.0)
       representable (~> 3.0)
       retriable (>= 2.0, < 4.0)
-    googleauth (0.6.4)
+    googleauth (0.6.6)
       faraday (~> 0.12)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.12)
@@ -185,7 +187,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     minitar (0.6.1)
-    mixlib-archive (0.4.13)
+    mixlib-archive (0.4.16)
       mixlib-log
     mixlib-authentication (2.1.1)
     mixlib-cli (1.7.0)
@@ -222,7 +224,7 @@ GEM
       net-ssh-gateway (>= 1.2.0)
     net-telnet (0.2.0)
     nori (2.6.0)
-    ohai (14.4.0)
+    ohai (14.5.4)
       chef-config (>= 12.8, < 15)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
@@ -255,9 +257,9 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (3.0.3)
-    r18n-core (3.1.1)
-    r18n-desktop (3.1.1)
-      r18n-core (= 3.1.1)
+    r18n-core (3.1.2)
+    r18n-desktop (3.1.2)
+      r18n-core (= 3.1.2)
     rack (2.0.5)
     rainbow (3.0.0)
     rake (12.3.1)
@@ -294,7 +296,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
     rubyntlm (0.6.2)
-    rubyzip (1.2.1)
+    rubyzip (1.2.2)
     semverse (2.0.0)
     serverspec (2.41.3)
       multi_json
@@ -302,7 +304,7 @@ GEM
       rspec-its
       specinfra (~> 2.72)
     sfl (2.3)
-    signet (0.8.1)
+    signet (0.9.2)
       addressable (~> 2.3)
       faraday (~> 0.9)
       jwt (>= 1.5, < 3.0)
@@ -315,7 +317,7 @@ GEM
     solve (4.0.0)
       molinillo (~> 0.6)
       semverse (>= 1.1, < 3.0)
-    specinfra (2.76.0)
+    specinfra (2.76.1)
       net-scp
       net-ssh (>= 2.7)
       net-telnet
@@ -327,8 +329,9 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.7)
-    train (1.4.31)
+    train (1.4.37)
       aws-sdk (~> 2)
+      azure_graph_rbac (~> 0.16)
       azure_mgmt_resources (~> 0.15)
       docker-api (~> 1.26)
       google-api-client (~> 0.19.8)
@@ -362,7 +365,7 @@ GEM
     winrm-elevated (1.1.0)
       winrm (~> 2.0)
       winrm-fs (~> 1.0)
-    winrm-fs (1.2.1)
+    winrm-fs (1.3.0)
       erubis (~> 2.7)
       logging (>= 1.6.1, < 3.0)
       rubyzip (~> 1.1)
@@ -385,4 +388,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   1.16.3
+   1.16.5

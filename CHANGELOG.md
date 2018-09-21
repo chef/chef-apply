@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.26 -->
++<!-- latest_release 0.1.27 -->
+## [0.1.27](https://github.com/chef/chef-apply/tree/0.1.27) (2018-09-21)
+
+#### Merged Pull Requests
+- [SHACK-359] Prevent chef-run from executing in the context of ChefDK. [#45](https://github.com/chef/chef-apply/pull/45) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.26](https://github.com/chef/chef-apply/tree/0.1.26) (2018-08-20)
 
 #### Merged Pull Requests
 - Make pry breakpoints work with MultiSpinner [#37](https://github.com/chef/chef-apply/pull/37) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.25](https://github.com/chef/chef-apply/tree/0.1.25) (2018-08-16)
 

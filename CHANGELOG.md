@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.27 -->
++<!-- latest_release 0.1.28 -->
+## [0.1.28](https://github.com/chef/chef-apply/tree/0.1.28) (2018-10-12)
+
+#### Merged Pull Requests
+- [SHACK-358] Updates to error and message text for product naming [#44](https://github.com/chef/chef-apply/pull/44) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.1.27](https://github.com/chef/chef-apply/tree/0.1.27) (2018-09-21)
 
 #### Merged Pull Requests
 - [SHACK-359] Prevent chef-run from executing in the context of ChefDK. [#45](https://github.com/chef/chef-apply/pull/45) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.1.26](https://github.com/chef/chef-apply/tree/0.1.26) (2018-08-20)
 

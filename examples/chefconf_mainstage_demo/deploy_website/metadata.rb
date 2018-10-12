@@ -1,6 +1,6 @@
 name "deploy_website"
 maintainer "Chef Workstation Team"
-maintainer_email "beta@chef.io"
+maintainer_email "workstation@chef.io"
 license "Apache-2.0"
 description "Installs/Configures deploy_website"
 long_description "Installs/Configures deploy_website"

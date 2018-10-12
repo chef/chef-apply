@@ -148,7 +148,7 @@ cli:
         %1
 
       Please verify that the configuration file is correct. If the
-      problem continues, contact beta@chef.io for further assistance.
+      problem continues, contact workstation@chef.io for further assistance.
 
     unsupported_installation: |
 

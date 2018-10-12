@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.name          = "chef-apply"
   spec.version       = ChefApply::VERSION
   spec.authors       = ["Chef Software, Inc"]
-  spec.email         = ["beta@chef.io"]
+  spec.email         = ["workstation@chef.io"]
 
   spec.summary       = "The ad-hoc execution tool for the Chef ecosystem."
   spec.description   = "Ad-hoc management of individual nodes and devices."

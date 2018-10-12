@@ -18,8 +18,8 @@
 cli:
   telemetry_enabled: |
     Telemetry has been enabled by default for this beta release
-    of Chef Workstation. The anonymous data we gather is used to
-    determine how we can impove your Chef Workstation experience.
+    of chef-run. The anonymous data we gather is used to
+    determine how we can impove your chef-run experience.
 
     To disable it, add the following entry to
     %1:
@@ -28,7 +28,8 @@ cli:
     enable=false
 
     For more information about what we data gather and additional opt-out
-    options, please visit https://chef.sh/TODO.
+    options, visit https://chef.sh/docs/chef-workstation/privacy/
+
   description: |
     Chef Run is a tool to execute ad-hoc tasks using Chef.
   creating_config: "Creating config file in %1."

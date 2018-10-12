@@ -148,5 +148,11 @@ module ChefApply
       default :url, nil
       default :token, nil
     end
+
+    config_context :updates do
+      default :enabled, true
+      default :channel, "stable"
+      default :interval_minutes, 480 # 8 hr
+    end
   end
 end

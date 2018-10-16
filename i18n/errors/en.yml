@@ -435,7 +435,7 @@ errors:
   footer:
     both: |
       If you are not able to resolve this issue, please contact Chef support
-      at beta@chef.io and include the log file and stack trace from the
+      at workstation@chef.io and include the log file and stack trace from the
       locations below:
 
         %1
@@ -443,14 +443,14 @@ errors:
 
     log_only:  |
       If you are not able to resolve this issue, please contact Chef support
-      at beta@chef.io and include the log file from the location below:
+      at workstation@chef.io and include the log file from the location below:
         %1
 
     stack_only:  |
       If you are not able to resolve this issue, please contact Chef support
-      at beta@chef.io and include the stack trace from the location below:
+      at workstation@chef.io and include the stack trace from the location below:
         %1
 
     neither:  |
       If you are not able to resolve this issue, please contact Chef support
-      at beta@chef.io
+      at workstation@chef.io

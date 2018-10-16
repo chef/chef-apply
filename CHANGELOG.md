@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.30 -->
++<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Bumping minor version for GA Release [#48](https://github.com/chef/chef-apply/pull/48) ([jonsmorrow](https://github.com/jonsmorrow))
+<!-- latest_release -->
+
 ## [0.1.30](https://github.com/chef/chef-apply/tree/0.1.30) (2018-10-16)
 
 #### Merged Pull Requests
 - Updating maintainer email to remove beta since Workstation is going GA [#47](https://github.com/chef/chef-apply/pull/47) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.1.29](https://github.com/chef/chef-apply/tree/0.1.29) (2018-10-16)
 

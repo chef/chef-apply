@@ -1,9 +1,14 @@
-+<!-- latest_release 0.1.29 -->
++<!-- latest_release 0.1.30 -->
+## [0.1.30](https://github.com/chef/chef-apply/tree/0.1.30) (2018-10-16)
+
+#### Merged Pull Requests
+- Updating maintainer email to remove beta since Workstation is going GA [#47](https://github.com/chef/chef-apply/pull/47) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.1.29](https://github.com/chef/chef-apply/tree/0.1.29) (2018-10-16)
 
 #### Merged Pull Requests
 - [SHACK-377] Add app config values to schema [#46](https://github.com/chef/chef-apply/pull/46) ([jonsmorrow](https://github.com/jonsmorrow))
-<!-- latest_release -->
 
 ## [0.1.28](https://github.com/chef/chef-apply/tree/0.1.28) (2018-10-12)
 

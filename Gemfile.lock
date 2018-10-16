@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.1.29)
+    chef-apply (0.1.30)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -354,7 +354,7 @@ GEM
     unf_ext (0.0.7.5)
     unicode-display_width (1.4.0)
     uuidtools (2.1.5)
-    winrm (2.2.3)
+    winrm (2.3.0)
       builder (>= 2.1.2)
       erubis (~> 2.7)
       gssapi (~> 1.2)

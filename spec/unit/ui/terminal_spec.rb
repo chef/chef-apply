@@ -54,6 +54,13 @@ RSpec.describe ChefApply::UI::Terminal do
       expect(@job1ran).to eq true
       expect(@job2ran).to eq true
     end
+    it "always resets the cursor to visible" do
+      job1 = Terminal::Job.new("prefix", nil) do
+        raise "Cursor should be set visible"
+      end
+      expect(Terminal).to receive(:show_cursor)
+      Terminal.render_parallel_jobs("a message", [job1])
+    end
   end
 
   describe ChefApply::UI::Terminal::Job do

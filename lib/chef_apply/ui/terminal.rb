@@ -16,6 +16,7 @@
 #
 
 require "tty-spinner"
+require "tty-cursor"
 require "chef_apply/status_reporter"
 require "chef_apply/config"
 require "chef_apply/log"
@@ -49,7 +50,10 @@ module ChefApply
           # @option options [Hash] :style
           #   keys :top :middle and :bottom can contain Strings that are used to
           #   indent the spinners. Ignored if message is blank
-          multispinner = get_multispinner.new("[:spinner] #{header}", output: @location, hide_cursor: true, style: indent_style)
+          multispinner = get_multispinner.new("[:spinner] #{header}",
+                                              output: @location,
+                                              hide_cursor: true,
+                                              style: indent_style)
           jobs.each do |job|
             multispinner.register(spinner_prefix(job.prefix), hide_cursor: true) do |spinner|
               reporter = StatusReporter.new(spinner, prefix: job.prefix, key: :status)
@@ -57,6 +61,10 @@ module ChefApply
             end
           end
           multispinner.auto_spin
+        ensure
+          # Spinners hide the cursor for better appearance, so we need to make sure
+          # we always bring it back
+          show_cursor
         end
 
         def render_job(initial_msg, job)
@@ -80,6 +88,10 @@ module ChefApply
 
         def get_spinner
           ChefApply::Config.dev.spinner ? TTY::Spinner : PlainTextElement
+        end
+
+        def show_cursor
+          TTY::Cursor.show()
         end
       end
     end

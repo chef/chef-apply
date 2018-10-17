@@ -127,18 +127,15 @@ module ChefApply
       backend.platform
     end
 
-    def run_command!(command, sudo_as_user = false)
-      result = run_command(command, sudo_as_user)
+    def run_command!(command)
+      result = run_command(command)
       if result.exit_status != 0
         raise RemoteExecutionFailed.new(@config[:host], command, result)
       end
       result
     end
 
-    def run_command(command, sudo_as_user = false)
-      if config[:sudo] && sudo_as_user && base_os == :linux
-        command = "-u #{config[:user]} #{command}"
-      end
+    def run_command(command)
       backend.run_command command
     end
 
@@ -177,6 +174,56 @@ module ChefApply
       manifest = backend.file(path)
       return :not_found unless manifest.file?
       JSON.parse(manifest.content)
+    end
+
+    # create a dir.  set owner to the connecting user if host isn't windows
+    # so that scp -- which uses the connecting user -- can upload into it.
+    def mkdir(path)
+      if base_os == :windows
+        run_command!("New-Item -ItemType Directory -Force -Path #{path}")
+      else
+        # This will also set ownership to the connecting user instead of default of
+        # root when sudo'd, so that the dir can be used to upload files using scp -
+        # which is done as the connecting user.
+        run_command!("mkdir -p #{path}")
+        chown(path, user)
+      end
+      nil
+    end
+
+    # TODO make these platform-specific classes instead of conditionals
+
+    # Simplified chown - just sets user , defaults to connection user. Does not touch
+    # group.  Only has effect on non-windows targets
+    def chown(path, owner = nil)
+      return if base_os == :windows
+      owner ||= user
+      run_command!("chown #{owner} '#{path}'")
+    end
+
+    MKTMP_WIN_CMD = "$parent = [System.IO.Path]::GetTempPath();" +
+      "[string] $name = [System.Guid]::NewGuid();" +
+      "$tmp = New-Item -ItemType Directory -Path " +
+      "(Join-Path $parent $name);" +
+      "$tmp.FullName"
+
+    MKTMP_LINUX_CMD = "d=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); echo $d"
+
+    # Create temporary dir and return the path.
+    # This will also set ownership to the connecting user instead of default of
+    # root when sudo'd, so that the dir can be used to upload files using scp -
+    # which is done as the connecting user.
+    def mktemp
+      if base_os == :windows
+        res = run_command!(MKTMP_WIN_CMD)
+        res.stdout.chomp.strip
+      else
+        # # TODO should we keep chmod 777?
+        res = run_command!("bash -c '#{MKTMP_LINUX_CMD}'")
+        path = res.stdout.chomp.strip
+        chown(path)
+        path
+      end
     end
 
     private

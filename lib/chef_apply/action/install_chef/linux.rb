@@ -30,8 +30,7 @@ module ChefApply::Action::InstallChef
 
     def setup_remote_temp_path
       installer_dir = "/tmp/chef-installer"
-      target_host.run_command!("mkdir -p #{installer_dir}")
-      target_host.run_command!("chmod 777 #{installer_dir}")
+      target_host.mkdir(installer_dir)
       installer_dir
     end
   end

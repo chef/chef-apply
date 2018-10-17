@@ -1,7 +1,8 @@
-+<!-- latest_release unreleased -->
-## Unreleased
++<!-- latest_release 0.2.1 -->
+## [0.2.1](https://github.com/chef/chef-apply/tree/0.2.1) (2018-10-17)
 
 #### Merged Pull Requests
+- Ensure cursor is always restored to visible [#49](https://github.com/chef/chef-apply/pull/49) ([marcparadise](https://github.com/marcparadise))
 - Bumping minor version for GA Release [#48](https://github.com/chef/chef-apply/pull/48) ([jonsmorrow](https://github.com/jonsmorrow))
 <!-- latest_release -->
 

@@ -26,8 +26,10 @@ module ChefApply::Action
 
     def perform_action
       local_policy_path = config.delete :local_policy_path
-      remote_tmp = target_host.run_command!(mktemp, true)
-      remote_dir_path = escape_windows_path(remote_tmp.stdout.strip)
+      remote_tmp = target_host.mktemp()
+      remote_dir_path = escape_windows_path(remote_tmp)
+      # Ensure the directory is owned by the connecting user,
+      # otherwise we won't be able to put things into it over scp as that user.
       remote_policy_path = create_remote_policy(local_policy_path, remote_dir_path)
       remote_config_path = create_remote_config(remote_dir_path)
       create_remote_handler(remote_dir_path)
@@ -134,11 +136,7 @@ module ChefApply::Action
       return if certs.empty?
       notify(:uploading_trusted_certs)
       remote_tcd = "#{dir}/trusted_certs"
-      # We create the trusted_certs dir with the connection user (instead of the root
-      # user it would get as default since we run in sudo mode) because the `upload_file`
-      # uploads as the connection user. Without this upload_file would fail because
-      # it tries to write to a root-owned folder.
-      target_host.run_command("#{mkdir} #{remote_tcd}", true)
+      target_host.mkdir(remote_tcd)
       certs.each do |cert_file|
         target_host.upload_file(cert_file, "#{remote_tcd}/#{File.basename(cert_file)}")
       end

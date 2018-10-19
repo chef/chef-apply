@@ -232,7 +232,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       let!(:cert2) { FileUtils.touch(File.join(certs_dir, "2.pem"))[0] }
 
       it "uploads the local certs" do
-        expect(target_host).to receive(:run_command).with("#{subject.mkdir} #{remote_tcd}", true)
+        expect(target_host).to receive(:mkdir).with(remote_tcd)
         expect(target_host).to receive(:upload_file).with(cert1, File.join(remote_tcd, File.basename(cert1)))
         expect(target_host).to receive(:upload_file).with(cert2, File.join(remote_tcd, File.basename(cert2)))
         subject.upload_trusted_certs(remote_folder)
@@ -254,9 +254,9 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     let(:remote_archive) { File.join(remote_folder, File.basename(archive)) }
     let(:remote_config) { "#{remote_folder}/workstation.rb" }
     let(:remote_handler) { "#{remote_folder}/reporter.rb" }
-    let(:tmpdir) { double("tmpdir", exit_status: 0, stdout: remote_folder) }
+    let(:tmpdir) { remote_folder }
     before do
-      expect(target_host).to receive(:run_command!).with(subject.mktemp, true).and_return(tmpdir)
+      expect(target_host).to receive(:mktemp).and_return(tmpdir)
     end
     let(:result) { double("command result", exit_status: 0, stdout: "") }
 

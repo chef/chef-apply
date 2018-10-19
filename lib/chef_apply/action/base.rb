@@ -60,22 +60,17 @@ module ChefApply
           windows: "%TEMP%",
           other: "$TMPDIR",
         },
-        mkdir: {
-          windows: "New-Item -ItemType Directory -Force -Path ",
-          other: "mkdir -p ",
-        },
-        # TODO this is duplicating some stuff in the install_chef folder
-        # TODO maybe we start to break these out into actual functions, so
-        # we don't have to try and make really long one-liners
-        mktemp: {
-          windows: "$parent = [System.IO.Path]::GetTempPath(); [string] $name = [System.Guid]::NewGuid(); $tmp = New-Item -ItemType Directory -Path (Join-Path $parent $name); $tmp.FullName",
-          other: "bash -c 'd=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); chmod 777 $d; echo $d'"
-        },
         delete_folder: {
           windows: "Remove-Item -Recurse -Force –Path",
           other: "rm -rf",
         }
       }
+
+      # TODO - I'd like to consider PATH_MAPPING in action::base
+      #        to platform subclasses/mixins for target_host.  This way our 'target host'
+      #        which reprsents a node, the data and actions we can perform on it
+      #        knows how to `read_chef_report`, `mkdir`, etc.
+      #        -mp 2018-10-17
 
       PATH_MAPPING.keys.each do |m|
         define_method(m) { PATH_MAPPING[m][family] }

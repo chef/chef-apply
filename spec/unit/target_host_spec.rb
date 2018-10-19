@@ -129,15 +129,6 @@ RSpec.describe ChefApply::TargetHost do
       it "returns the result" do
         expect(subject.run_command!(command)).to eq result
       end
-
-      context "when sudo_as_user is true" do
-        let(:family) { "debian" }
-        let(:is_linux) { true }
-        it "returns the result" do
-          expect(backend).to receive(:run_command).with("-u user #{command}").and_return(result)
-          expect(subject.run_command!(command, true)).to eq result
-        end
-      end
     end
 
     context "when an error occurs" do
@@ -228,4 +219,83 @@ RSpec.describe ChefApply::TargetHost do
     end
   end
 
+  context "target host operations" do
+    let(:base_os) { :unknown }
+    let(:user) { "testuser" }
+    before do
+      allow(subject).to receive(:base_os).and_return base_os
+      allow(subject).to receive(:user).and_return user
+    end
+    context "#mkdir" do
+      context "when the target is Windows" do
+        let(:base_os) { :windows }
+        it "creates the directory using the correct command PowerShell command" do
+          # TODO - testing command strings always feels a bit like an antipattern. Do we have alternatives?
+          expect(subject).to receive(:run_command!).with("New-Item -ItemType Directory -Force -Path C:\\temp\\dir")
+          subject.mkdir("C:\\temp\\dir")
+        end
+
+      end
+      context "when the target is Linux" do
+        let(:base_os) { :linux }
+        it "uses a properly formed mkdir to create the directory and changes ownership to connected user" do
+          expect(subject).to receive(:run_command!).with("mkdir -p /tmp/dir")
+          expect(subject).to receive(:run_command!).with("chown testuser '/tmp/dir'")
+          subject.mkdir("/tmp/dir")
+
+        end
+      end
+    end
+
+    context "#chown" do
+      context "when the target is Windows" do
+        let(:base_os) { :windows }
+        xit "does nothing - this is not implemented until we need it"
+      end
+
+      context "when the target is Linux" do
+        let(:base_os) { :linux }
+        let(:path) { "/tmp/blah" }
+
+        context "and an owner is provided" do
+          it "uses a properly formed chown to change owning user to the connected user" do
+            expect(subject).to receive(:run_command!).with("chown newowner '/tmp/dir'")
+            subject.chown("/tmp/dir", "newowner")
+          end
+        end
+
+        context "and an owner is not provided" do
+          it "uses a properly formed chown to change owning user to the connected user" do
+            expect(subject).to receive(:run_command!).with("chown #{user} '/tmp/dir'")
+            subject.chown("/tmp/dir")
+          end
+        end
+      end
+    end
+
+    context "#mktemp" do
+      context "when the target is Windows" do
+        let(:base_os) { :windows }
+        let(:path) { "C:\\temp\\blah" }
+        it "creates the temporary directory using the correct PowerShell command and returns the path" do
+          expect(subject).to receive(:run_command!).
+            with(ChefApply::TargetHost::MKTMP_WIN_CMD).
+            and_return(instance_double("result", stdout: path))
+          expect(subject.mktemp()).to eq(path)
+        end
+      end
+
+      context "when the target is Linux" do
+        let(:base_os) { :linux }
+        let(:path) { "/tmp/blah" }
+        it "creates the directory using a properly formed mktemp, changes ownership to connecting user, and returns the path" do
+          expect(subject).to receive(:run_command!).
+            with("bash -c '#{ChefApply::TargetHost::MKTMP_LINUX_CMD}'").
+            and_return(instance_double("result", stdout: "/tmp/blah"))
+          expect(subject).to receive(:chown).with(path)
+          expect(subject.mktemp()).to eq path
+        end
+      end
+    end
+  end
 end

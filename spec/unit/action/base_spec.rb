@@ -57,7 +57,7 @@ RSpec.describe ChefApply::Action::Base do
   end
 
   shared_examples "check path fetching" do
-    [:chef_client, :cache_path, :read_chef_report, :delete_chef_report, :tempdir, :mktemp, :delete_folder].each do |path|
+    [:chef_client, :cache_path, :read_chef_report, :delete_chef_report, :tempdir, :delete_folder].each do |path|
       it "correctly returns path #{path}" do
         expect(action.send(path)).to be_a(String)
       end

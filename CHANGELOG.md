@@ -1,10 +1,15 @@
-+<!-- latest_release 0.2.1 -->
++<!-- latest_release 0.2.2 -->
+## [0.2.2](https://github.com/chef/chef-apply/tree/0.2.2) (2018-10-19)
+
+#### Merged Pull Requests
+- Correct error &#39;bash: - invalid option&#39; [#50](https://github.com/chef/chef-apply/pull/50) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.2.1](https://github.com/chef/chef-apply/tree/0.2.1) (2018-10-17)
 
 #### Merged Pull Requests
 - Ensure cursor is always restored to visible [#49](https://github.com/chef/chef-apply/pull/49) ([marcparadise](https://github.com/marcparadise))
 - Bumping minor version for GA Release [#48](https://github.com/chef/chef-apply/pull/48) ([jonsmorrow](https://github.com/jonsmorrow))
-<!-- latest_release -->
 
 ## [0.1.30](https://github.com/chef/chef-apply/tree/0.1.30) (2018-10-16)
 

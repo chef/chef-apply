@@ -59,19 +59,19 @@ module ChefApply
       # using a sha1 digest will allow us to anonymously see
       # unique hosts to derive number of hosts affected by a command
       target = action.target_host
-      target_data = { platform: {}, hostname_sha1: nil, transport_type: nil }
+      target_data = { "platform" =>  {}, "hostname_sha1" => nil, "transport_type" => nil }
       if target
-        target_data[:platform][:name] = target.base_os # :windows, :linux, eventually :macos
-        target_data[:platform][:version] = target.version
-        target_data[:platform][:architecture] = target.architecture
-        target_data[:hostname_sha1] = Digest::SHA1.hexdigest(target.hostname.downcase)
-        target_data[:transport_type] = target.transport_type
+        target_data["platform"]["name"] = target.base_os.to_s # :windows, :linux, eventually :macos
+        target_data["platform"]["version"] = target.version.to_s
+        target_data["platform"]["architecture"] = target.architecture.to_s
+        target_data["hostname_sha1"] = Digest::SHA1.hexdigest(target.hostname.downcase )
+        target_data["transport_type"] = target.transport_type
       end
-      timed_capture(:action, { action: action.name, target: target_data }, &block)
+      timed_capture("action", { "action" => action.name, "target" => target_data }, &block)
     end
 
     def timed_run_capture(arguments, &block)
-      timed_capture(:run, arguments: arguments, &block)
+      timed_capture("run", {"arguments" => arguments}, &block)
     end
 
     def capture(name, data = {})
@@ -83,7 +83,7 @@ module ChefApply
 
     def timed_capture(name, data = {})
       time = Benchmark.measure { yield }
-      data[:duration] = time.real
+      data["duration"] = time.real
       capture(name, data)
     end
 
@@ -97,12 +97,12 @@ module ChefApply
 
     def make_event_payload(name, data)
       {
-        event: name,
-        properties: {
-          installation_id: installation_id,
-          run_timestamp: run_timestamp,
-          host_platform: host_platform,
-          event_data: data
+        "event" => name,
+        "properties" => {
+          "installation_id" => installation_id,
+          "run_timestamp" => run_timestamp,
+          "host_platform" => host_platform,
+          "event_data" => data
         }
       }
     end

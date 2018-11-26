@@ -137,10 +137,12 @@ module ChefApply
         @temp_cookbook = generate_temp_cookbook(arguments, reporter)
       end
       UI::Terminal.render_job("...", job)
+      handle_failed_job(job)
       job = UI::Terminal::Job.new("", nil) do |reporter|
         @archive_file_location = generate_local_policy(reporter)
       end
       UI::Terminal.render_job("...", job)
+      handle_failed_job(job)
     end
 
     def render_converge(target_hosts)
@@ -154,7 +156,7 @@ module ChefApply
       end
       header = TS.converge.header(target_hosts.length, temp_cookbook.descriptor, temp_cookbook.from)
       UI::Terminal.render_parallel_jobs(header, jobs)
-      handle_job_failures(jobs)
+      handle_failed_jobs(jobs)
     end
 
     # Accepts a target_host and establishes the connection to that host
@@ -286,7 +288,7 @@ module ChefApply
     # job to avoid interrupting other jobs in process.  This function
     # collects them and raises directly (in the case of just one job in the list)
     # or raises a MultiJobFailure (when more than one job was being run)
-    def handle_job_failures(jobs)
+    def handle_failed_jobs(jobs)
       failed_jobs = jobs.select { |j| !j.exception.nil? }
       return if failed_jobs.empty?
       if jobs.length == 1
@@ -295,6 +297,10 @@ module ChefApply
         raise jobs.first.exception
       end
       raise ChefApply::MultiJobFailure.new(failed_jobs)
+    end
+
+    def handle_failed_job(job)
+      raise job.exception unless job.exception.nil?
     end
 
     # A handler for common action messages

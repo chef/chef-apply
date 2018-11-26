@@ -95,7 +95,7 @@ module ChefApply
         {
           name: m.name,
           recipe_name: File.basename(existing_recipe_path, File.extname(existing_recipe_path)),
-          path: File.expand_path(File.join(metadata, "../"))
+          path: File.expand_path(File.join(metadata, "../")),
         }
       else
         nil

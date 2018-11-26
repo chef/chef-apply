@@ -160,8 +160,8 @@ RSpec.describe ChefApply::CLI do
     let(:host) { double("TargetHost", config: {}, user: "root" ) }
     let(:reporter) { double("reporter", update: :ok, success: :ok) }
     it "invokes do_connect with correct options" do
-      expect(subject).to receive(:do_connect).
-        with(host, reporter)
+      expect(subject).to receive(:do_connect)
+        .with(host, reporter)
       subject.connect_target(host, reporter)
     end
   end

@@ -25,7 +25,7 @@ require "chef-config/workstation_config_loader"
 module ChefApply
   class Config
     WS_BASE_PATH = File.join(Dir.home, ".chef-workstation/")
-    SUPPORTED_PROTOCOLS = %w{ssh winrm}
+    SUPPORTED_PROTOCOLS = %w{ssh winrm}.freeze
 
     class << self
       @custom_location = nil

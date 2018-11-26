@@ -145,16 +145,16 @@ RSpec.describe ChefApply::TargetHost do
     let(:expected_manifest_path) do
       {
         windows: "c:\\opscode\\chef\\version-manifest.json",
-        linux: "/opt/chef/version-manifest.json"
+        linux: "/opt/chef/version-manifest.json",
       }
     end
     let(:base_os) { :unknown }
     before do
       remote_file_mock = double("remote_file", file?: manifest_exists, content: manifest_content)
       backend_mock = double("backend")
-      expect(backend_mock).to receive(:file).
-        with(expected_manifest_path[base_os]).
-        and_return(remote_file_mock)
+      expect(backend_mock).to receive(:file)
+        .with(expected_manifest_path[base_os])
+        .and_return(remote_file_mock)
       allow(subject).to receive(:backend).and_return backend_mock
       allow(subject).to receive(:base_os).and_return base_os
     end
@@ -278,9 +278,9 @@ RSpec.describe ChefApply::TargetHost do
         let(:base_os) { :windows }
         let(:path) { "C:\\temp\\blah" }
         it "creates the temporary directory using the correct PowerShell command and returns the path" do
-          expect(subject).to receive(:run_command!).
-            with(ChefApply::TargetHost::MKTMP_WIN_CMD).
-            and_return(instance_double("result", stdout: path))
+          expect(subject).to receive(:run_command!)
+            .with(ChefApply::TargetHost::MKTMP_WIN_CMD)
+            .and_return(instance_double("result", stdout: path))
           expect(subject.mktemp()).to eq(path)
         end
       end
@@ -289,9 +289,9 @@ RSpec.describe ChefApply::TargetHost do
         let(:base_os) { :linux }
         let(:path) { "/tmp/blah" }
         it "creates the directory using a properly formed mktemp, changes ownership to connecting user, and returns the path" do
-          expect(subject).to receive(:run_command!).
-            with("bash -c '#{ChefApply::TargetHost::MKTMP_LINUX_CMD}'").
-            and_return(instance_double("result", stdout: "/tmp/blah"))
+          expect(subject).to receive(:run_command!)
+            .with("bash -c '#{ChefApply::TargetHost::MKTMP_LINUX_CMD}'")
+            .and_return(instance_double("result", stdout: "/tmp/blah"))
           expect(subject).to receive(:chown).with(path)
           expect(subject.mktemp()).to eq path
         end

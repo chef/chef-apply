@@ -33,7 +33,7 @@ module ChefApply::UI
       ChefApply::Text.errors
     end
 
-    DEFAULT_ERROR_NO = "CHEFINT001"
+    DEFAULT_ERROR_NO = "CHEFINT001".freeze
 
     def self.show_error(e)
       # Name is misleading - it's unwrapping but also doing further

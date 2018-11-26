@@ -299,8 +299,8 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       let(:report_result) { double("report result", exit_status: 0, stdout: '{ "exception": "thing" }') }
       let(:exception_mapper) { double("mapper") }
       before do
-        expect(ChefApply::Errors::CCRFailureMapper).to receive(:new).
-          and_return exception_mapper
+        expect(ChefApply::Errors::CCRFailureMapper).to receive(:new)
+          .and_return exception_mapper
       end
 
       it "reports back failure and reads the remote report" do

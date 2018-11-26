@@ -73,13 +73,13 @@ def assert_string_lookup(key, retval = "testvalue")
     # we need to add this individually instead of using
     # `receive_messages`, which doesn't appear to give a way to
     # guarantee ordering
-    expect(ChefApply::Text).to receive(top_level_method).
-      and_return(tmock)
+    expect(ChefApply::Text).to receive(top_level_method)
+      .and_return(tmock)
     call_seq.each do |m|
       expect(tmock).to receive(m).ordered.and_return(tmock)
     end
-    expect(tmock).to receive(terminal_method).
-      ordered.and_return(retval)
+    expect(tmock).to receive(terminal_method)
+      .ordered.and_return(retval)
     subject.call
   end
 end

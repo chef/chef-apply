@@ -17,7 +17,7 @@
 
 require "bundler/gem_tasks"
 
-task :default => [:spec, :style]
+task default: [:spec, :style]
 
 require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
@@ -29,4 +29,4 @@ RuboCop::RakeTask.new(:chefstyle) do |t|
   t.options = %w{--display-cop-names}
 end
 
-task :style => :chefstyle
+task style: :chefstyle

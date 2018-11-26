@@ -177,12 +177,12 @@ RSpec.describe ChefApply::Startup do
     it "touches the configuration file to create it and notifies that it has done so" do
       expected_config_path = ChefApply::Config.default_location
       expected_message = ChefApply::Text.cli.creating_config(expected_config_path)
-      expect(ChefApply::UI::Terminal).to receive(:output).
-        with(expected_message)
-      expect(ChefApply::UI::Terminal).to receive(:output).
-        with("")
-      expect(FileUtils).to receive(:touch).
-        with(expected_config_path)
+      expect(ChefApply::UI::Terminal).to receive(:output)
+        .with(expected_message)
+      expect(ChefApply::UI::Terminal).to receive(:output)
+        .with("")
+      expect(FileUtils).to receive(:touch)
+        .with(expected_config_path)
       subject.create_default_config
 
     end
@@ -192,8 +192,8 @@ RSpec.describe ChefApply::Startup do
     let(:mock_guid) { "1234" }
     it "sets up a telemetry installation id and notifies the operator that telemetry is enabled" do
       expect(SecureRandom).to receive(:uuid).and_return(mock_guid)
-      expect(File).to receive(:write).
-        with(ChefApply::Config.telemetry_installation_identifier_file, mock_guid)
+      expect(File).to receive(:write)
+        .with(ChefApply::Config.telemetry_installation_identifier_file, mock_guid)
       subject.setup_telemetry
     end
   end
@@ -303,10 +303,10 @@ RSpec.describe ChefApply::Startup do
     end
 
     it "sets up the logging for ChefApply and Chef" do
-      expect(ChefApply::Log).to receive(:setup).
-        with(log_path, log_level)
-      expect(Chef::Log).to receive(:init).
-        with(ChefApply::Log.location)
+      expect(ChefApply::Log).to receive(:setup)
+        .with(log_path, log_level)
+      expect(Chef::Log).to receive(:init)
+        .with(ChefApply::Log.location)
       subject.setup_logging
       expect(ChefConfig.logger).to eq(ChefApply::Log)
     end

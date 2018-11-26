@@ -74,7 +74,7 @@ module ChefApply::Action::InstallChef
         product_name: "chef",
         product_version: :latest,
         channel: :stable,
-        platform_version_compatibility_mode: true
+        platform_version_compatibility_mode: true,
       }
       case platform.name
       when /windows/

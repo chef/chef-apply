@@ -18,7 +18,7 @@
 module ChefApply
   module Text
     class ErrorTranslation
-      ATTRIBUTES = :decorations, :header, :footer, :stack, :log
+      ATTRIBUTES = [:decorations, :header, :footer, :stack, :log].freeze
       attr_reader :message, *ATTRIBUTES
 
       def initialize(id, params: [])

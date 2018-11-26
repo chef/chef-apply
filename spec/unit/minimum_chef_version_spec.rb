@@ -28,8 +28,8 @@ RSpec.describe ChefApply::MinimumChefVersion do
   context "#check!" do
     context "when chef is not already installed on target" do
       before do
-        expect(target).to receive(:installed_chef_version).
-          and_raise ChefApply::TargetHost::ChefNotInstalled.new
+        expect(target).to receive(:installed_chef_version)
+          .and_raise ChefApply::TargetHost::ChefNotInstalled.new
       end
 
       it "should return :client_not_installed" do
@@ -71,7 +71,7 @@ RSpec.describe ChefApply::MinimumChefVersion do
         Gem::Version.new("12.1.1") => ChefApply::MinimumChefVersion::Client13Outdated,
         Gem::Version.new("13.9.0") => ChefApply::MinimumChefVersion::Client13Outdated,
         Gem::Version.new("14.1.0") => ChefApply::MinimumChefVersion::Client14Outdated,
-      }
+      },
     }
     [:windows, :linux].each do |os|
       context "on #{os}" do

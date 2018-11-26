@@ -50,6 +50,6 @@ def fixture_content(name)
   # Replace $VERSION if present - this is updated automatically, so we can't include
   #                               the literal version value in the fixture without
   #                               having expeditor update it there too...
-  content.gsub("$VERSION", ChefApply::VERSION).
-    gsub("$HOME", Dir.home)
+  content.gsub("$VERSION", ChefApply::VERSION)
+    .gsub("$HOME", Dir.home)
 end

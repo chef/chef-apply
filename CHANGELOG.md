@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.2 -->
++<!-- latest_release 0.2.3 -->
+## [0.2.3](https://github.com/chef/chef-apply/tree/0.2.3) (2018-11-26)
+
+#### Merged Pull Requests
+- Adding subscriptions for gems so we stay up to date [#53](https://github.com/chef/chef-apply/pull/53) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.2.2](https://github.com/chef/chef-apply/tree/0.2.2) (2018-10-19)
 
 #### Merged Pull Requests
 - Correct error &#39;bash: - invalid option&#39; [#50](https://github.com/chef/chef-apply/pull/50) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.2.1](https://github.com/chef/chef-apply/tree/0.2.1) (2018-10-17)
 

@@ -24,11 +24,11 @@ module ChefApply::Action
     attr_reader :generated_cookbook
 
     def self.from_options(opts)
-      if opts.has_key?(:recipe_spec)
+      if opts.key?(:recipe_spec)
         GenerateCookbookFromRecipe.new(opts)
-      elsif opts.has_key?(:resource_name) &&
-          opts.has_key?(:resource_type) &&
-          opts.has_key?(:resource_properties)
+      elsif opts.key?(:resource_name) &&
+          opts.key?(:resource_type) &&
+          opts.key?(:resource_properties)
         GenerateCookbookFromResource.new(opts)
       else
         raise MissingOptions.new(opts)

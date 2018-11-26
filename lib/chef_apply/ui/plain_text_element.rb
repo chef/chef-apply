@@ -32,7 +32,7 @@ module ChefApply
         # Some of this is particular to our usage -
         # prefix does not cause a text update, but does
         # change the prefix for future messages.
-        if params.has_key?(:prefix)
+        if params.key?(:prefix)
           @format = @orig_format.gsub(":prefix", params[:prefix])
           return
         end

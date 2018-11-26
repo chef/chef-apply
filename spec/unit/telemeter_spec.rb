@@ -75,11 +75,11 @@ RSpec.describe ChefApply::Telemeter do
             platform: {
               name: "windows",
               version: "10.0.0",
-              architecture: "x86_64"
+              architecture: "x86_64",
             },
             hostname_sha1: Digest::SHA1.hexdigest("my_host"),
-            transport_type: "winrm"
-          }
+            transport_type: "winrm",
+          },
         }
         expect(subject).to receive(:timed_capture).with(:action, expected_data)
         subject.timed_action_capture(action) { :ok }
@@ -90,8 +90,8 @@ RSpec.describe ChefApply::Telemeter do
           expected_data = { action: "Base", target: { platform: {},
                                                       hostname_sha1: nil,
                                                       transport_type: nil } }
-          expect(subject).to receive(:timed_capture).
-            with(:action, expected_data)
+          expect(subject).to receive(:timed_capture)
+            .with(:action, expected_data)
           subject.timed_action_capture(
             ChefApply::Action::Base.new(target_host: nil)
           ) { :ok }
@@ -135,8 +135,8 @@ RSpec.describe ChefApply::Telemeter do
   context "#timed_run_capture" do
     it "invokes timed_capture with run data" do
       expected_data = { arguments: [ "arg1" ] }
-      expect(subject).to receive(:timed_capture).
-        with(:run, expected_data)
+      expect(subject).to receive(:timed_capture)
+        .with(:run, expected_data)
       subject.timed_run_capture(["arg1"])
     end
   end
@@ -182,8 +182,8 @@ RSpec.describe ChefApply::Telemeter do
           installation_id: "0000",
           run_timestamp: subject.run_timestamp,
           host_platform: host_platform,
-          event_data:  { hello: "world" }
-        }
+          event_data:  { hello: "world" },
+        },
       }
       expect(payload).to eq expected_payload
     end

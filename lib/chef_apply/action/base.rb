@@ -63,8 +63,8 @@ module ChefApply
         delete_folder: {
           windows: "Remove-Item -Recurse -Force –Path",
           other: "rm -rf",
-        }
-      }
+        },
+      }.freeze
 
       # TODO - I'd like to consider PATH_MAPPING in action::base
       #        to platform subclasses/mixins for target_host.  This way our 'target host'

@@ -24,7 +24,7 @@ module ChefApply
     # These values may exist in .ssh/config but will be ignored by train
     # in favor of its defaults unless we specify them explicitly.
     # See #apply_ssh_config
-    SSH_CONFIG_OVERRIDE_KEYS = [:user, :port, :proxy]
+    SSH_CONFIG_OVERRIDE_KEYS = [:user, :port, :proxy].freeze
 
     def self.instance_for_url(target, opts = {})
       opts = { target: @url }
@@ -52,13 +52,13 @@ module ChefApply
                           connection_retries: 2,
                           connection_retry_sleep: 0.15,
                           logger: ChefApply::Log }
-      if opts_in.has_key? :ssl
+      if opts_in.key? :ssl
         connection_opts[:ssl] = opts_in[:ssl]
         connection_opts[:self_signed] = (opts_in[:ssl_verify] === false ? true : false)
       end
 
       [:sudo_password, :sudo, :sudo_command, :password, :user].each do |key|
-        connection_opts[key] = opts_in[key] if opts_in.has_key? key
+        connection_opts[key] = opts_in[key] if opts_in.key? key
       end
 
       Train.target_config(connection_opts)
@@ -73,7 +73,7 @@ module ChefApply
       # been explicitly given.
       host_cfg = ssh_config_for_host(config[:host])
       SSH_CONFIG_OVERRIDE_KEYS.each do |key|
-        if host_cfg.has_key?(key) && opts_in[key].nil?
+        if host_cfg.key?(key) && opts_in[key].nil?
           config[key] = host_cfg[key]
         end
       end
@@ -166,8 +166,8 @@ module ChefApply
       #        on a virtualbox windows vm:
       #        (over winrm) Get-WmiObject Win32_Product | Where {$_.Name -match 'Chef Client'}
       windows: "c:\\opscode\\chef\\version-manifest.json",
-      linux: "/opt/chef/version-manifest.json"
-    }
+      linux: "/opt/chef/version-manifest.json",
+    }.freeze
 
     def get_chef_version_manifest
       path = MANIFEST_PATHS[base_os()]
@@ -207,7 +207,7 @@ module ChefApply
       "(Join-Path $parent $name);" +
       "$tmp.FullName"
 
-    MKTMP_LINUX_CMD = "d=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); echo $d"
+    MKTMP_LINUX_CMD = "d=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); echo $d".freeze
 
     # Create temporary dir and return the path.
     # This will also set ownership to the connecting user instead of default of

@@ -25,7 +25,7 @@ module ChefApply::Action::InstallChef
         product_name: "chef",
         channel: :stable,
         shell_type: :ps1,
-        version: "13"
+        version: "13",
       })
       target_host.run_command! installer.install_command
     end

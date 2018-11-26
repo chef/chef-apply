@@ -33,7 +33,7 @@ module ChefApply
   # a main 'timed_capture', and it would be good to see ordering within nested calls.
   class Telemeter
     include Singleton
-    DEFAULT_INSTALLATION_GUID = "00000000-0000-0000-0000-000000000000"
+    DEFAULT_INSTALLATION_GUID = "00000000-0000-0000-0000-000000000000".freeze
 
     class << self
       extend Forwardable
@@ -102,8 +102,8 @@ module ChefApply
           installation_id: installation_id,
           run_timestamp: run_timestamp,
           host_platform: host_platform,
-          event_data: data
-        }
+          event_data: data,
+        },
       }
     end
 

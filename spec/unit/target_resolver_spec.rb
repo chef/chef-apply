@@ -340,7 +340,7 @@ RSpec.describe ChefApply::TargetResolver do
       "ssh://user@example.com" => { password: nil, url: "ssh://example.com", user: "user" },
       "ssh://user:password@example.com" => { password: "password", user: "user", url: "ssh://example.com" },
       "ssh://user:pas:sw:ord@example.com" => { password: "pas:sw:ord", user: "user", url: "ssh://example.com" },
-      "ssh://user:!@#$%^&*()|\'\";:/?><.,{}[]+=`~@example.com" => { password: "!@#$%^&*()|\'\";:/?><.,{}[]+=`~", user: "user", url: "ssh://example.com" }
+      "ssh://user:!@#$%^&*()|\'\";:/?><.,{}[]+=`~@example.com" => { password: "!@#$%^&*()|\'\";:/?><.,{}[]+=`~", user: "user", url: "ssh://example.com" },
     }.each do |values|
       it "resolves #{values[0]} to #{values[1]}" do
         expect(subject.config_for_target(values[0])).to eq values[1]
@@ -370,8 +370,8 @@ RSpec.describe ChefApply::TargetResolver do
       end
       context "and it is not valid" do
         it "raises an error" do
-          expect { subject.prefix_from_target("bad://host.com") }.
-            to raise_error(ChefApply::TargetResolver::UnsupportedProtocol)
+          expect { subject.prefix_from_target("bad://host.com") }
+            .to raise_error(ChefApply::TargetResolver::UnsupportedProtocol)
         end
       end
     end

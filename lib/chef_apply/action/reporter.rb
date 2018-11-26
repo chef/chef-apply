@@ -28,7 +28,7 @@ module ChefApply
         Chef::Log.info("Creating run report")
       end
 
-      #ensure start time and end time are output in the json properly in the event activesupport happens to be on the system
+      # ensure start time and end time are output in the json properly in the event activesupport happens to be on the system
       run_data = data
       run_data[:start_time] = run_data[:start_time].to_s
       run_data[:end_time] = run_data[:end_time].to_s

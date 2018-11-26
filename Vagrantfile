@@ -60,7 +60,7 @@ Vagrant.configure("2") do |config|
     node.vm.network :forwarded_port, guest: 22, host: 2231, id: "ssh", auto_correct: true
 
     node.vm.provider :virtualbox do |v, override|
-      #v.gui = true
+      # v.gui = true
       v.customize ["modifyvm", :id, "--memory", 2048]
       v.customize ["modifyvm", :id, "--cpus", 2]
       v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

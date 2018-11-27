@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.2.3)
+    chef-apply (0.2.4)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,13 +21,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.177)
-      aws-sdk-resources (= 2.11.177)
-    aws-sdk-core (2.11.177)
+    aws-sdk (2.11.178)
+      aws-sdk-resources (= 2.11.178)
+    aws-sdk-core (2.11.178)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.177)
-      aws-sdk-core (= 2.11.177)
+    aws-sdk-resources (2.11.178)
+      aws-sdk-core (= 2.11.178)
     aws-sigv4 (1.0.3)
     azure_graph_rbac (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -131,7 +131,7 @@ GEM
     equatable (0.5.0)
     erubis (2.7.0)
     excon (0.62.0)
-    faraday (0.15.3)
+    faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)

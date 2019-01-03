@@ -110,13 +110,17 @@ module ChefApply
 
     config_context :log do
       default(:level, "warn")
-      default(:location, File.join(WS_BASE_PATH, "logs/default.log"))
+      configurable(:location)
+        .defaults_to(File.join(WS_BASE_PATH, "logs/default.log"))
+        .writes_value { |p| File.expand_path(p) }
       # set the log level for the target host's chef-client run
       default(:target_level, nil)
     end
 
     config_context :cache do
-      default(:path, File.join(WS_BASE_PATH, "cache"))
+      configurable(:path)
+        .defaults_to(File.join(WS_BASE_PATH, "cache"))
+        .writes_value { |p| File.expand_path(p) }
     end
 
     config_context :connection do

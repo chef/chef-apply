@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.4 -->
++<!-- latest_release 0.2.5 -->
+## [0.2.5](https://github.com/chef/chef-apply/tree/0.2.5) (2019-01-03)
+
+#### Merged Pull Requests
+- Expand user supplied config paths [#57](https://github.com/chef/chef-apply/pull/57) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.2.4](https://github.com/chef/chef-apply/tree/0.2.4) (2018-11-27)
 
 #### Merged Pull Requests
 - Handle single failed job when creating cookbook or policyfile [#54](https://github.com/chef/chef-apply/pull/54) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.2.3](https://github.com/chef/chef-apply/tree/0.2.3) (2018-11-26)
 

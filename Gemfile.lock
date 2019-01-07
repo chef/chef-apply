@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.2.5)
+    chef-apply (0.2.6)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,13 +21,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.198)
-      aws-sdk-resources (= 2.11.198)
-    aws-sdk-core (2.11.198)
+    aws-sdk (2.11.200)
+      aws-sdk-resources (= 2.11.200)
+    aws-sdk-core (2.11.200)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.198)
-      aws-sdk-core (= 2.11.198)
+    aws-sdk-resources (2.11.200)
+      aws-sdk-core (= 2.11.200)
     aws-sigv4 (1.0.3)
     azure_graph_rbac (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -136,7 +136,7 @@ GEM
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)
       http-cookie (~> 1.0.0)
-    ffi (1.9.25)
+    ffi (1.10.0)
     ffi-yajl (2.3.1)
       libyajl2 (~> 1.2)
     fuzzyurl (0.9.0)
@@ -187,7 +187,7 @@ GEM
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
-    minitar (0.7)
+    minitar (0.8)
     mixlib-archive (0.4.19)
       mixlib-log
     mixlib-authentication (2.1.1)

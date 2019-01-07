@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.5 -->
++<!-- latest_release 0.2.6 -->
+## [0.2.6](https://github.com/chef/chef-apply/tree/0.2.6) (2019-01-07)
+
+#### Merged Pull Requests
+- Using correct task to update dependencies [#58](https://github.com/chef/chef-apply/pull/58) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.2.5](https://github.com/chef/chef-apply/tree/0.2.5) (2019-01-03)
 
 #### Merged Pull Requests
 - Expand user supplied config paths [#57](https://github.com/chef/chef-apply/pull/57) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.2.4](https://github.com/chef/chef-apply/tree/0.2.4) (2018-11-27)
 

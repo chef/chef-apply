@@ -20,7 +20,7 @@ require "chef_apply/error"
 module ChefApply
   class CLI
     module Validation
-      PROPERTY_MATCHER = /^([a-zA-Z0-9_]+)=(.+)$/
+      PROPERTY_MATCHER = /^([a-zA-Z0-9_]+)=(.+)$/.freeze
       CB_MATCHER = '[\w\-]+'.freeze
 
       # The first param is always hostname. Then we either have

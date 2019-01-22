@@ -111,7 +111,7 @@ module ChefApply
     # This uses a greedy match (.*) to get include every character
     # up to the last "[" in PREFIX
     # $1 - prefix; $2 - x, $3 - y, $4 unproccessed/remaining text
-    TARGET_WITH_RANGE = /^(.*)\[([\p{Alnum}]+):([\p{Alnum}]+)\](.*)/
+    TARGET_WITH_RANGE = /^(.*)\[([\p{Alnum}]+):([\p{Alnum}]+)\](.*)/.freeze
 
     def do_parse(targets, depth = 0)
       raise TooManyRanges.new(@current_target) if depth > 2

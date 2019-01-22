@@ -336,7 +336,7 @@ RSpec.describe ChefApply::TargetResolver do
 
   context "#config_for_target" do
     { "example.com" => { password: nil, url: "ssh://example.com", user: nil },
-      "ssh://example.com" =>  { password: nil, url: "ssh://example.com", user: nil },
+      "ssh://example.com" => { password: nil, url: "ssh://example.com", user: nil },
       "ssh://user@example.com" => { password: nil, url: "ssh://example.com", user: "user" },
       "ssh://user:password@example.com" => { password: "password", user: "user", url: "ssh://example.com" },
       "ssh://user:pas:sw:ord@example.com" => { password: "pas:sw:ord", user: "user", url: "ssh://example.com" },

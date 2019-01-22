@@ -182,7 +182,7 @@ RSpec.describe ChefApply::Telemeter do
           installation_id: "0000",
           run_timestamp: subject.run_timestamp,
           host_platform: host_platform,
-          event_data:  { hello: "world" },
+          event_data: { hello: "world" },
         },
       }
       expect(payload).to eq expected_payload

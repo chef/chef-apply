@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.6 -->
++<!-- latest_release 0.2.7 -->
+## [0.2.7](https://github.com/chef/chef-apply/tree/0.2.7) (2019-01-22)
+
+#### Merged Pull Requests
+- Bump chef to 14.9.13 [#59](https://github.com/chef/chef-apply/pull/59) ([chef-ci](https://github.com/chef-ci))
+<!-- latest_release -->
+
 ## [0.2.6](https://github.com/chef/chef-apply/tree/0.2.6) (2019-01-07)
 
 #### Merged Pull Requests
 - Using correct task to update dependencies [#58](https://github.com/chef/chef-apply/pull/58) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
 
 ## [0.2.5](https://github.com/chef/chef-apply/tree/0.2.5) (2019-01-03)
 

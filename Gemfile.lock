@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.2.7)
+    chef-apply (0.2.8)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -21,13 +21,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.211)
-      aws-sdk-resources (= 2.11.211)
-    aws-sdk-core (2.11.211)
+    aws-sdk (2.11.212)
+      aws-sdk-resources (= 2.11.212)
+    aws-sdk-core (2.11.212)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.211)
-      aws-sdk-core (= 2.11.211)
+    aws-sdk-resources (2.11.212)
+      aws-sdk-core (= 2.11.212)
     aws-sigv4 (1.0.3)
     azure_graph_rbac (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -332,7 +332,7 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.8)
-    train (1.7.0)
+    train (1.7.1)
       aws-sdk (~> 2)
       azure_graph_rbac (~> 0.16)
       azure_mgmt_key_vault (~> 0.17)

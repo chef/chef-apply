@@ -28,7 +28,7 @@ module ChefApply::Errors
 
     def raise_mapped_exception!
       if @cause_line.nil?
-        raise RemoteChefRunFailedToResolveError.new(params[:stdout], params[:stderr])
+        raise RemoteChefRunFailedToResolveError.new(params[:failed_report_path])
       else
         errid, *args = exception_args_from_cause()
         if errid.nil?
@@ -85,7 +85,7 @@ module ChefApply::Errors
     end
 
     class RemoteChefRunFailedToResolveError < ChefApply::ErrorNoStack
-      def initialize(stdout, stderr); super("CHEFCCR001", stdout, stderr); end
+      def initialize(path); super("CHEFCCR001", path); end
     end
 
   end

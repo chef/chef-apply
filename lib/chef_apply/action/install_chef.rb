@@ -35,12 +35,6 @@ module ChefApply
         end
       end
 
-      def name
-        # We have subclasses - so this'll take the qualified name
-        # eg InstallChef::Windows, etc
-        self.class.name.split("::")[-2..-1].join("::")
-      end
-
       def upgrading?
         @upgrading
       end

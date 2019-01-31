@@ -22,7 +22,6 @@ module ChefApply
     def initialize(id, *params)
       @id = id
       @params = params || []
-      # Note that these errors
       @show_log = true
       @show_stack = true
       @decorate = true

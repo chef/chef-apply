@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2017 Chef Software Inc.
+# Copyright:: Copyright (c) 2017-2019 Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,17 +27,22 @@ module ChefApply
     # See #apply_ssh_config
     SSH_CONFIG_OVERRIDE_KEYS = [:user, :port, :proxy].freeze
 
-    # return a valid TargetHost with
     # We're borrowing a page from train here - because setting up a
     # reliable connection for testing is a multi-step process,
     # we'll provide this method which instantiates a TargetHost connected
-    # to a train mock backend.
+    # to a train mock backend. If the family/name provided resolves to a suported
+    # OS, this instance will mix-in the supporting methods for the given platform;
+    # otherwise those methods will raise NotImplementedError.
     def self.mock_instance(url, family: "unknown", name: "unknown",
                                 release: "unknown", arch: "x86_64")
       # Specifying sudo: false ensures that attempted operations
       # don't fail because the mock platform doesn't support sudo
       target_host = TargetHost.new(url, { sudo: false })
-      target_host.connect!(true)
+
+      # Don't pull in the platform-specific mixins automatically during connect
+      # Otherwise, it will raise since it can't resolve the OS without the mock.
+      target_host.instance_variable_set(:@mocked_connection, true)
+      target_host.connect!
 
       # We need to provide this mock before invoking mix_in_target_platform,
       # otherwise it will fail with an unknown OS (since we don't have a real connection).
@@ -48,8 +53,9 @@ module ChefApply
         arch: arch
       )
 
-      # Don't instantiate target platform bits if we don't have a valid OS
-      # in the mock - otherwise it'll raise.
+      # Only mix-in if we can identify the platform.  This
+      # prevents mix_in_target_platform! from raising on unknown platform during
+      # tests that validate unsupported platform behaviors.
       if target_host.base_os != :other
         target_host.mix_in_target_platform!
       end
@@ -105,15 +111,17 @@ module ChefApply
 
     # Establish connection to configured target.
     #
-    # To support testing no_platform_instance can be passed in as true.
-    # You must then invoke mix_in_target_platform! after the host
-    # platform is mocked in train.  Do not use this option outside of testing.
-    def connect!(no_platform_instance = false)
+    def connect!
       # Keep existing connections
       return unless @backend.nil?
       @backend = train_connection.connection
       @backend.wait_until_ready
-      mix_in_target_platform! unless no_platform_instance
+
+      # When the testing function `mock_instance` is used, it will set
+      # this instance variable to false and handle this function call
+      # after the platform data is mocked; this will allow binding
+      # of mixin functions based on the mocked platform.
+      mix_in_target_platform! unless @mocked_connection
     rescue Train::UserError => e
       raise ConnectionFailure.new(e, config)
     rescue Train::Error => e

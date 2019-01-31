@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2018 Chef Software Inc.
+# Copyright:: Copyright (c) 2018-2019 Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,8 +72,8 @@ RSpec.describe ChefApply::TargetHost do
   end
 
   context "connect!" do
-    # For all other tets, target_host is a globally mocked instance that is already connected
-    # In this case, we want to build a new one that is not yet connected
+    # For all other tets, target_host is a mocked instance that is already connected
+    # In this case, we want to build a new one that is not yet connected to test connect! itself.
     let(:target_host) { ChefApply::TargetHost.new(host, sudo: false) }
     let(:train_connection_mock) { double("train connection") }
     before do
@@ -91,6 +91,51 @@ RSpec.describe ChefApply::TargetHost do
         expect { target_host.connect! }.to raise_error(ChefApply::TargetHost::ConnectionFailure)
       end
     end
+  end
+
+  context "#mix_in_target_platform!" do
+    let(:base_os) { :none }
+    before do
+      allow(subject).to receive(:base_os).and_return base_os
+    end
+
+    context "when base_os is linux" do
+      let(:base_os) { :linux }
+      it "mixes in Linux support" do
+        expect(subject.class).to receive(:include).with(ChefApply::TargetHost::Linux)
+        subject.mix_in_target_platform!
+      end
+    end
+
+    context "when base_os is windows" do
+      let(:base_os) { :windows }
+      it "mixes in Windows support" do
+        expect(subject.class).to receive(:include).with(ChefApply::TargetHost::Windows)
+        subject.mix_in_target_platform!
+      end
+    end
+
+    context "when base_os is other" do
+      let(:base_os) { :other }
+      it "raises UnsupportedTargetOS" do
+        expect { subject.mix_in_target_platform! }.to raise_error(ChefApply::TargetHost::UnsupportedTargetOS)
+      end
+
+    end
+    context "after it connects" do
+      context "to a Windows host" do
+        it "includes the Windows TargetHost mixin" do
+        end
+
+      end
+
+      context "and the platform is linux" do
+        it "includes the Windows TargetHost mixin" do
+        end
+      end
+
+    end
+
   end
 
   context "#user" do

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.2.8)
+    chef-apply (0.2.9)
       chef (>= 14.0)
       chef-dk (>= 3.0)
       chef-telemetry
@@ -39,10 +39,10 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
     byebug (10.0.2)
-    chef (14.9.13)
+    chef (14.10.9)
       addressable
       bundler (>= 1.10)
-      chef-config (= 14.9.13)
+      chef-config (= 14.10.9)
       chef-zero (>= 13.0)
       diff-lcs (~> 1.2, >= 1.2.4)
       erubis (~> 2.7)
@@ -69,13 +69,13 @@ GEM
       specinfra (~> 2.10)
       syslog-logger (~> 1.6)
       uuidtools (~> 2.1.5)
-    chef-config (14.9.13)
+    chef-config (14.10.9)
       addressable
       fuzzyurl
       mixlib-config (>= 2.2.12, < 3.0)
       mixlib-shellout (~> 2.0)
       tomlrb (~> 1.2)
-    chef-dk (3.6.57)
+    chef-dk (3.7.23)
       addressable (>= 2.3.5, < 2.6)
       chef (~> 14.0)
       chef-provisioning (~> 2.0)
@@ -332,7 +332,7 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.8)
-    train (1.7.1)
+    train (1.7.2)
       aws-sdk (~> 2)
       azure_graph_rbac (~> 0.16)
       azure_mgmt_key_vault (~> 0.17)

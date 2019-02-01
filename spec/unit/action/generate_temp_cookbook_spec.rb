@@ -52,7 +52,6 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook do
   describe "#perform_action" do
     subject { ChefApply::Action::GenerateTempCookbook.new( {} ) }
     it "generates a cookbook, notifies caller, and makes the cookbook available" do
-
       expect(subject).to receive(:notify).ordered.with(:generating)
       expect(subject).to receive(:generate)
       expect(subject).to receive(:notify).ordered.with(:success)
@@ -65,11 +64,9 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook do
 end
 
 RSpec.describe ChefApply::Action::GenerateCookbookFromRecipe do
-  describe "#generate" do
-  end
+  xit "#generate", "Please implement me"
 end
 
 RSpec.describe ChefApply::Action::GenerateCookbookFromResource do
-  describe "#generate" do
-  end
+  xit "#generate", "Please implement me"
 end

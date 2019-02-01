@@ -24,10 +24,6 @@ require "chef-config/logger"
 require "chef_apply/cli/validation"
 require "chef_apply/cli/options"
 require "chef_apply/cli/help"
-require "chef_apply/action/converge_target"
-require "chef_apply/action/generate_local_policy"
-require "chef_apply/action/generate_temp_cookbook"
-require "chef_apply/action/install_chef"
 require "chef_apply/error"
 require "chef_apply/log"
 require "chef_apply/target_host"
@@ -38,6 +34,10 @@ require "chef_apply/ui/terminal"
 require "chef_apply/ui/terminal/job"
 require "license_acceptance/cli_flags/mixlib_cli"
 require "license_acceptance/acceptor"
+
+require "chef_apply/action/generate_temp_cookbook"
+require "chef_apply/action/generate_local_policy"
+require "chef_apply/action/converge_target"
 
 module ChefApply
   class CLI
@@ -182,6 +182,7 @@ module ChefApply
     end
 
     def install(target_host, reporter)
+      require "chef_apply/action/install_chef"
       context = TS.install_chef
       reporter.update(context.verifying)
       installer = Action::InstallChef.new(target_host: target_host, check_only: !parsed_options[:install])

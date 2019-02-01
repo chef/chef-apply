@@ -47,7 +47,7 @@ RSpec.describe ChefApply::Action::InstallChef do
   context "#perform_action" do
     context "when chef is already installed on target" do
       it "notifies of success and takes no further action" do
-        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
+        expect(ChefApply::Action::InstallChef::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
                        .and_return(:minimum_version_met)
         expect(install).not_to receive(:perform_local_install)
         install.perform_action
@@ -56,7 +56,7 @@ RSpec.describe ChefApply::Action::InstallChef do
 
     context "when chef is not already installed on target" do
       it "should invoke perform_local_install" do
-        expect(ChefApply::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
+        expect(ChefApply::Action::InstallChef::MinimumChefVersion).to receive(:check!).with(install.target_host, false)
                        .and_return(:client_not_installed)
         expect(install).to receive(:perform_local_install)
         install.perform_action

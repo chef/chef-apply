@@ -56,34 +56,4 @@ RSpec.describe ChefApply::Action::Base do
     end
   end
 
-  shared_examples "check path fetching" do
-    [:chef_client, :cache_path, :read_chef_report, :delete_chef_report, :tempdir, :delete_folder].each do |path|
-      it "correctly returns path #{path}" do
-        expect(action.send(path)).to be_a(String)
-      end
-    end
-  end
-
-  describe "when connecting to a windows target" do
-    include_examples "check path fetching"
-
-    it "correctly returns chef run string" do
-      expect(action.run_chef("a", "b", "c")).to eq(
-        "Set-Location -Path a; " \
-        "chef-client -z --config #{File.join("a", "b")} --recipe-url #{File.join("a", "c")} | Out-Null; " \
-        "Set-Location C:/; " \
-        "exit $LASTEXITCODE"
-      )
-    end
-  end
-
-  describe "when connecting to a non-windows target" do
-    let(:family) { "linux" }
-    include_examples "check path fetching"
-
-    it "correctly returns chef run string" do
-      expect(action.run_chef("a", "b", "c")).to eq("bash -c 'cd a; chef-client -z --config a/b --recipe-url a/c'")
-    end
-  end
-
 end

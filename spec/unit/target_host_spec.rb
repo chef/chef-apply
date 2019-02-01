@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2018 Chef Software Inc.
+# Copyright:: Copyright (c) 2018-2019 Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,19 +21,17 @@ require "chef_apply/target_host"
 
 RSpec.describe ChefApply::TargetHost do
   let(:host) { "mock://user@example.com" }
-  let(:sudo) { true }
-  let(:logger) { nil }
-  let(:family) { "windows" }
-  let(:is_linux) { false }
-  let(:platform_mock) { double("platform", linux?: is_linux, family: family, name: "an os") }
+  let(:family) { "debian" }
+  let(:name) { "ubuntu" }
+
   subject do
-    s = ChefApply::TargetHost.new(host, sudo: sudo, logger: logger)
-    allow(s).to receive(:platform).and_return(platform_mock)
-    s
+    ChefApply::TargetHost.mock_instance(host, family: family, name: name)
   end
 
   context "#base_os" do
     context "for a windows os" do
+      let(:family) { "windows" }
+      let(:name) { "windows" }
       it "reports :windows" do
         expect(subject.base_os).to eq :windows
       end
@@ -41,29 +39,25 @@ RSpec.describe ChefApply::TargetHost do
 
     context "for a linux os" do
       let(:family) { "debian" }
-      let(:is_linux) { true }
+      let(:name) { "ubuntu" }
       it "reports :linux" do
         expect(subject.base_os).to eq :linux
       end
     end
 
     context "for an unsupported OS" do
-      let(:family) { "other" }
-      let(:is_linux) { false }
-      it "raises UnsupportedTargetOS" do
-        expect { subject.base_os }.to raise_error(ChefApply::TargetHost::UnsupportedTargetOS)
+      let(:family) { "unknown" }
+      let(:name) { "unknown" }
+      it "reports :other" do
+        expect(subject.base_os).to eq :other
       end
     end
   end
 
   context "#installed_chef_version" do
-    let(:manifest) { :not_found }
-    before do
-      allow(subject).to receive(:get_chef_version_manifest).and_return manifest
-    end
-
     context "when no version manifest is present" do
       it "raises ChefNotInstalled" do
+        expect(subject).to receive(:read_chef_version_manifest).and_raise(ChefApply::TargetHost::ChefNotInstalled.new)
         expect { subject.installed_chef_version }.to raise_error(ChefApply::TargetHost::ChefNotInstalled)
       end
     end
@@ -71,28 +65,77 @@ RSpec.describe ChefApply::TargetHost do
     context "when version manifest is present" do
       let(:manifest) { { "build_version" => "14.0.1" } }
       it "reports version based on the build_version field" do
+        expect(subject).to receive(:read_chef_version_manifest).and_return manifest
         expect(subject.installed_chef_version).to eq Gem::Version.new("14.0.1")
       end
     end
   end
 
   context "connect!" do
+    # For all other tets, target_host is a mocked instance that is already connected
+    # In this case, we want to build a new one that is not yet connected to test connect! itself.
+    let(:target_host) { ChefApply::TargetHost.new(host, sudo: false) }
     let(:train_connection_mock) { double("train connection") }
     before do
-      allow(subject).to receive(:train_connection).and_return(train_connection_mock)
+      allow(target_host).to receive(:train_connection).and_return(train_connection_mock)
     end
     context "when an Train::UserError occurs" do
       it "raises a ConnectionFailure" do
         allow(train_connection_mock).to receive(:connection).and_raise Train::UserError
-        expect { subject.connect! }.to raise_error(ChefApply::TargetHost::ConnectionFailure)
+        expect { target_host.connect! }.to raise_error(ChefApply::TargetHost::ConnectionFailure)
       end
     end
     context "when a Train::Error occurs" do
       it "raises a ConnectionFailure" do
         allow(train_connection_mock).to receive(:connection).and_raise Train::Error
-        expect { subject.connect! }.to raise_error(ChefApply::TargetHost::ConnectionFailure)
+        expect { target_host.connect! }.to raise_error(ChefApply::TargetHost::ConnectionFailure)
       end
     end
+  end
+
+  context "#mix_in_target_platform!" do
+    let(:base_os) { :none }
+    before do
+      allow(subject).to receive(:base_os).and_return base_os
+    end
+
+    context "when base_os is linux" do
+      let(:base_os) { :linux }
+      it "mixes in Linux support" do
+        expect(subject.class).to receive(:include).with(ChefApply::TargetHost::Linux)
+        subject.mix_in_target_platform!
+      end
+    end
+
+    context "when base_os is windows" do
+      let(:base_os) { :windows }
+      it "mixes in Windows support" do
+        expect(subject.class).to receive(:include).with(ChefApply::TargetHost::Windows)
+        subject.mix_in_target_platform!
+      end
+    end
+
+    context "when base_os is other" do
+      let(:base_os) { :other }
+      it "raises UnsupportedTargetOS" do
+        expect { subject.mix_in_target_platform! }.to raise_error(ChefApply::TargetHost::UnsupportedTargetOS)
+      end
+
+    end
+    context "after it connects" do
+      context "to a Windows host" do
+        it "includes the Windows TargetHost mixin" do
+        end
+
+      end
+
+      context "and the platform is linux" do
+        it "includes the Windows TargetHost mixin" do
+        end
+      end
+
+    end
+
   end
 
   context "#user" do
@@ -140,56 +183,71 @@ RSpec.describe ChefApply::TargetHost do
     end
   end
 
-  context "#get_chef_version_manifest" do
+  context "#read_chef_version_manifest" do
     let(:manifest_content) { '{"build_version" : "1.2.3"}' }
-    let(:expected_manifest_path) do
-      {
-        windows: "c:\\opscode\\chef\\version-manifest.json",
-        linux: "/opt/chef/version-manifest.json",
-      }
-    end
-    let(:base_os) { :unknown }
     before do
-      remote_file_mock = double("remote_file", file?: manifest_exists, content: manifest_content)
-      backend_mock = double("backend")
-      expect(backend_mock).to receive(:file)
-        .with(expected_manifest_path[base_os])
-        .and_return(remote_file_mock)
-      allow(subject).to receive(:backend).and_return backend_mock
-      allow(subject).to receive(:base_os).and_return base_os
+      allow(subject).to receive(:fetch_file_contents).and_return(manifest_content)
+      allow(subject).to receive(:omnibus_manifest_path).and_return("/path/to/manifest.json")
     end
 
     context "when manifest is missing" do
-      let(:manifest_exists) { false }
-      context "on windows" do
-        let(:base_os) { :windows }
-        it "returns :not_found" do
-          expect(subject.get_chef_version_manifest).to eq :not_found
-        end
-
-      end
-      context "on linux" do
-        let(:base_os) { :linux }
-        it "returns :not_found" do
-          expect(subject.get_chef_version_manifest).to eq :not_found
-        end
+      let(:manifest_content) { nil }
+      it "raises ChefNotInstalled" do
+        expect { subject.read_chef_version_manifest }.to raise_error(ChefApply::TargetHost::ChefNotInstalled)
       end
     end
 
     context "when manifest is present" do
-      let(:manifest_exists) { true }
-      context "on windows" do
-        let(:base_os) { :windows }
-        it "should return the parsed manifest" do
-          expect(subject.get_chef_version_manifest).to eq({ "build_version" => "1.2.3" })
-        end
+      let(:manifest_content) { '{"build_version" : "1.2.3"}' }
+      it "should return the parsed manifest" do
+        expect(subject.read_chef_version_manifest).to eq({ "build_version" => "1.2.3" })
+      end
+    end
+  end
+
+  # What we test:
+  #   - file contents can be retrieved, and invalid conditions results in no content
+  # What we mock:
+  #   - the train `backend`
+  #   - the backend `file` method
+  #   Why?
+  #     - in this unit test, we're not testing round-trip behavior of the train API, only
+  #       that we are invoking the API and interpreting its results correctly.
+  context "#fetch_file_contents" do
+    let(:path) { "/path/to/file" }
+    let(:sample_content) { "content" }
+    let(:backend_mock) { double("backend") }
+    let(:path_exists) { true }
+    let(:path_is_file) { true }
+    let(:remote_file_mock) do
+      double("remote_file", exist?: path_exists,
+                                    file?: path_is_file, content: sample_content) end
+    before do
+      expect(subject).to receive(:backend).and_return backend_mock
+      expect(backend_mock).to receive(:file).with(path).and_return remote_file_mock
+    end
+
+    context "when path exists" do
+      let(:path_exists) { true }
+      before do
       end
 
-      context "on linux" do
-        let(:base_os) { :linux }
-        it "should return the parsed manifest" do
-          expect(subject.get_chef_version_manifest).to eq({ "build_version" => "1.2.3" })
+      context "but is not a file" do
+        let(:path_is_file) { false }
+        it "returns nil" do
+          expect(subject.fetch_file_contents(path)).to be_nil
         end
+      end
+      context "and is a file" do
+        it "returns the expected file contents" do
+          expect(subject.fetch_file_contents(path)).to eq sample_content
+        end
+      end
+    end
+    context "when path does not exist" do
+      let(:path_exists) { false }
+      it "returns nil" do
+        expect(subject.fetch_file_contents(path)).to be_nil
       end
     end
   end
@@ -219,83 +277,20 @@ RSpec.describe ChefApply::TargetHost do
     end
   end
 
-  context "target host operations" do
-    let(:base_os) { :unknown }
-    let(:user) { "testuser" }
-    before do
-      allow(subject).to receive(:base_os).and_return base_os
-      allow(subject).to receive(:user).and_return user
-    end
-    context "#mkdir" do
-      context "when the target is Windows" do
-        let(:base_os) { :windows }
-        it "creates the directory using the correct command PowerShell command" do
-          # TODO - testing command strings always feels a bit like an antipattern. Do we have alternatives?
-          expect(subject).to receive(:run_command!).with("New-Item -ItemType Directory -Force -Path C:\\temp\\dir")
-          subject.mkdir("C:\\temp\\dir")
-        end
-
-      end
-      context "when the target is Linux" do
-        let(:base_os) { :linux }
-        it "uses a properly formed mkdir to create the directory and changes ownership to connected user" do
-          expect(subject).to receive(:run_command!).with("mkdir -p /tmp/dir")
-          expect(subject).to receive(:run_command!).with("chown testuser '/tmp/dir'")
-          subject.mkdir("/tmp/dir")
-
-        end
-      end
-    end
-
-    context "#chown" do
-      context "when the target is Windows" do
-        let(:base_os) { :windows }
-        xit "does nothing - this is not implemented until we need it"
-      end
-
-      context "when the target is Linux" do
-        let(:base_os) { :linux }
-        let(:path) { "/tmp/blah" }
-
-        context "and an owner is provided" do
-          it "uses a properly formed chown to change owning user to the connected user" do
-            expect(subject).to receive(:run_command!).with("chown newowner '/tmp/dir'")
-            subject.chown("/tmp/dir", "newowner")
-          end
-        end
-
-        context "and an owner is not provided" do
-          it "uses a properly formed chown to change owning user to the connected user" do
-            expect(subject).to receive(:run_command!).with("chown #{user} '/tmp/dir'")
-            subject.chown("/tmp/dir")
-          end
-        end
-      end
-    end
-
-    context "#mktemp" do
-      context "when the target is Windows" do
-        let(:base_os) { :windows }
-        let(:path) { "C:\\temp\\blah" }
-        it "creates the temporary directory using the correct PowerShell command and returns the path" do
-          expect(subject).to receive(:run_command!)
-            .with(ChefApply::TargetHost::MKTMP_WIN_CMD)
-            .and_return(instance_double("result", stdout: path))
-          expect(subject.mktemp()).to eq(path)
-        end
-      end
-
-      context "when the target is Linux" do
-        let(:base_os) { :linux }
-        let(:path) { "/tmp/blah" }
-        it "creates the directory using a properly formed mktemp, changes ownership to connecting user, and returns the path" do
-          expect(subject).to receive(:run_command!)
-            .with("bash -c '#{ChefApply::TargetHost::MKTMP_LINUX_CMD}'")
-            .and_return(instance_double("result", stdout: "/tmp/blah"))
-          expect(subject).to receive(:chown).with(path)
-          expect(subject.mktemp()).to eq path
-        end
-      end
+  context "#temp_dir" do
+    it "creates the temp directory and changes ownership" do
+      expect(subject).to receive(:make_temp_dir).and_return("/tmp/dir")
+      expect(subject).to receive(:chown).with("/tmp/dir", subject.user)
+      subject.temp_dir()
     end
   end
+
+  context "#make_directory" do
+    it "creates the directory and sets ownership to connecting user" do
+      expect(subject).to receive(:mkdir).with("/tmp/mkdir")
+      expect(subject).to receive(:chown).with("/tmp/mkdir", subject.user)
+      subject.make_directory("/tmp/mkdir")
+    end
+  end
+
 end

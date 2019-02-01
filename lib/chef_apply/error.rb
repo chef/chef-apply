@@ -28,6 +28,7 @@ module ChefApply
     end
   end
 
+  # These helpers are obsolete
   class ErrorNoLogs < Error
     def initialize(id, *params)
       super

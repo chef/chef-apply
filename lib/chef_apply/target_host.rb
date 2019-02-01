@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2017 Chef Software Inc.
+# Copyright:: Copyright (c) 2017-2019 Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@
 require "chef_apply/log"
 require "chef_apply/error"
 require "train"
+
 module ChefApply
   class TargetHost
     attr_reader :config, :reporter, :backend, :transport_type
@@ -26,10 +27,39 @@ module ChefApply
     # See #apply_ssh_config
     SSH_CONFIG_OVERRIDE_KEYS = [:user, :port, :proxy].freeze
 
-    def self.instance_for_url(target, opts = {})
-      opts = { target: @url }
-      target_host = new(target, opts)
+    # We're borrowing a page from train here - because setting up a
+    # reliable connection for testing is a multi-step process,
+    # we'll provide this method which instantiates a TargetHost connected
+    # to a train mock backend. If the family/name provided resolves to a suported
+    # OS, this instance will mix-in the supporting methods for the given platform;
+    # otherwise those methods will raise NotImplementedError.
+    def self.mock_instance(url, family: "unknown", name: "unknown",
+                                release: "unknown", arch: "x86_64")
+      # Specifying sudo: false ensures that attempted operations
+      # don't fail because the mock platform doesn't support sudo
+      target_host = TargetHost.new(url, { sudo: false })
+
+      # Don't pull in the platform-specific mixins automatically during connect
+      # Otherwise, it will raise since it can't resolve the OS without the mock.
+      target_host.instance_variable_set(:@mocked_connection, true)
       target_host.connect!
+
+      # We need to provide this mock before invoking mix_in_target_platform,
+      # otherwise it will fail with an unknown OS (since we don't have a real connection).
+      target_host.backend.mock_os(
+        family: family,
+        name: name,
+        release: release,
+        arch: arch
+      )
+
+      # Only mix-in if we can identify the platform.  This
+      # prevents mix_in_target_platform! from raising on unknown platform during
+      # tests that validate unsupported platform behaviors.
+      if target_host.base_os != :other
+        target_host.mix_in_target_platform!
+      end
+
       target_host
     end
 
@@ -79,10 +109,19 @@ module ChefApply
       end
     end
 
+    # Establish connection to configured target.
+    #
     def connect!
+      # Keep existing connections
       return unless @backend.nil?
       @backend = train_connection.connection
       @backend.wait_until_ready
+
+      # When the testing function `mock_instance` is used, it will set
+      # this instance variable to false and handle this function call
+      # after the platform data is mocked; this will allow binding
+      # of mixin functions based on the mocked platform.
+      mix_in_target_platform! unless @mocked_connection
     rescue Train::UserError => e
       raise ConnectionFailure.new(e, config)
     rescue Train::Error => e
@@ -91,8 +130,20 @@ module ChefApply
       raise ConnectionFailure.new(e.cause || e, config)
     end
 
+    def mix_in_target_platform!
+      case base_os
+      when :linux
+        require "chef_apply/target_host/linux"
+        class << self; include ChefApply::TargetHost::Linux; end
+      when :windows
+        require "chef_apply/target_host/windows"
+        class << self; include ChefApply::TargetHost::Windows; end
+      when :other
+        raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
+      end
+    end
+
     # Returns the user being used to connect. Defaults to train's default user if not specified
-    # defaulted in .ssh/config (for ssh connections), as set up in '#apply_ssh_config'.
     def user
       return config[:user] unless config[:user].nil?
       require "train/transports/ssh"
@@ -112,17 +163,16 @@ module ChefApply
     end
 
     def base_os
-      if platform.family == "windows"
+      if platform.windows?
         :windows
       elsif platform.linux?
         :linux
       else
-        # TODO - this seems like it shouldn't happen here, when
-        # all the caller is doing is asking about the OS
-        raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
+        :other
       end
     end
 
+    # TODO 2019-01-29  not expose this, it's internal implemenation. Same with #backend.
     def platform
       backend.platform
     end
@@ -143,6 +193,17 @@ module ChefApply
       backend.upload(local_path, remote_path)
     end
 
+    # Retrieve the contents of a remote file. Returns nil
+    # if the file didn't exist or couldn't be read.
+    def fetch_file_contents(remote_path)
+      result = backend.file(remote_path)
+      if result.exist? && result.file?
+        result.content
+      else
+        nil
+      end
+    end
+
     # Returns the installed chef version as a Gem::Version,
     # or raised ChefNotInstalled if chef client version manifest can't
     # be found.
@@ -150,81 +211,62 @@ module ChefApply
       return @installed_chef_version if @installed_chef_version
       # Note: In the case of a very old version of chef (that has no manifest - pre 12.0?)
       #       this will report as not installed.
-      manifest = get_chef_version_manifest()
-      raise ChefNotInstalled.new if manifest == :not_found
-      # We'll split the version here because  unstable builds (where we currently
-      # install from) are in the form "Major.Minor.Build+HASH" which is not a valid
+      manifest = read_chef_version_manifest()
+
+      # We split the version here because  unstable builds install from)
+      # are in the form "Major.Minor.Build+HASH" which is not a valid
       # version string.
       @installed_chef_version = Gem::Version.new(manifest["build_version"].split("+")[0])
     end
 
-    MANIFEST_PATHS = {
-      # TODO - use a proper method to query the win installation path -
-      #        currently we're assuming the default, but this can be customized
-      #        at install time.
-      #        A working approach is below - but it runs very slowly in testing
-      #        on a virtualbox windows vm:
-      #        (over winrm) Get-WmiObject Win32_Product | Where {$_.Name -match 'Chef Client'}
-      windows: "c:\\opscode\\chef\\version-manifest.json",
-      linux: "/opt/chef/version-manifest.json",
-    }.freeze
-
-    def get_chef_version_manifest
-      path = MANIFEST_PATHS[base_os()]
-      manifest = backend.file(path)
-      return :not_found unless manifest.file?
-      JSON.parse(manifest.content)
+    def read_chef_version_manifest
+      manifest = fetch_file_contents(omnibus_manifest_path)
+      raise ChefNotInstalled.new if manifest.nil?
+      JSON.parse(manifest)
     end
 
-    # create a dir.  set owner to the connecting user if host isn't windows
-    # so that scp -- which uses the connecting user -- can upload into it.
-    def mkdir(path)
-      if base_os == :windows
-        run_command!("New-Item -ItemType Directory -Force -Path #{path}")
-      else
-        # This will also set ownership to the connecting user instead of default of
-        # root when sudo'd, so that the dir can be used to upload files using scp -
-        # which is done as the connecting user.
-        run_command!("mkdir -p #{path}")
-        chown(path, user)
-      end
-      nil
-    end
-
-    # TODO make these platform-specific classes instead of conditionals
-
-    # Simplified chown - just sets user , defaults to connection user. Does not touch
-    # group.  Only has effect on non-windows targets
-    def chown(path, owner = nil)
-      return if base_os == :windows
-      owner ||= user
-      run_command!("chown #{owner} '#{path}'")
-    end
-
-    MKTMP_WIN_CMD = "$parent = [System.IO.Path]::GetTempPath();" +
-      "[string] $name = [System.Guid]::NewGuid();" +
-      "$tmp = New-Item -ItemType Directory -Path " +
-      "(Join-Path $parent $name);" +
-      "$tmp.FullName"
-
-    MKTMP_LINUX_CMD = "d=$(mktemp -d -p${TMPDIR:-/tmp} chef_XXXXXX); echo $d".freeze
-
-    # Create temporary dir and return the path.
+    # Creates and caches location of temporary directory on the remote host
+    # using platform-specific implementations of make_temp_dir
     # This will also set ownership to the connecting user instead of default of
-    # root when sudo'd, so that the dir can be used to upload files using scp -
-    # which is done as the connecting user.
-    def mktemp
-      if base_os == :windows
-        res = run_command!(MKTMP_WIN_CMD)
-        res.stdout.chomp.strip
-      else
-        # # TODO should we keep chmod 777?
-        res = run_command!("bash -c '#{MKTMP_LINUX_CMD}'")
-        path = res.stdout.chomp.strip
-        chown(path)
-        path
-      end
+    # root when sudo'd, so that the dir can be used to upload files using scp
+    # as the connecting user.
+    #
+    # The base temp dir is cached and will only be created once per connection lifetime.
+    def temp_dir
+      dir = make_temp_dir()
+      chown(dir, user)
+      dir
     end
+
+    # create a directory.  because we run all commands as root, this will also set group:owner
+    # to the connecting user if host isn't windows so that scp -- which uses the connecting user --
+    # will have permissions to upload into it.
+    def make_directory(path)
+      mkdir(path)
+      chown(path, user)
+      path
+    end
+
+    # normalizes path across OS's
+    def normalize_path(p) # NOTE BOOTSTRAP: was action::base::escape_windows_path
+      p.tr("\\", "/")
+    end
+
+    # Simplified chown - just sets user, defaults to connection user. Does not touch
+    # group.  Only has effect on non-windows targets
+    def chown(path, owner); raise NotImplementedError; end
+
+    # Platform-specific installation of packages
+    def install_package(target_package_path); raise NotImplementedError; end
+
+    def ws_cache_path; raise NotImplementedError; end
+
+    # Recursively delete directory
+    def del_dir(path); raise NotImplementedError; end
+
+    def del_file(path); raise NotImplementedError; end
+
+    def omnibus_manifest_path(); raise NotImplementedError; end
 
     private
 
@@ -276,9 +318,7 @@ module ChefApply
         super(*(Array(init_params).flatten))
       end
     end
-
     class ChefNotInstalled < StandardError; end
-
     class UnsupportedTargetOS < ChefApply::ErrorNoLogs
       def initialize(os_name); super("CHEFTARG001", os_name); end
     end

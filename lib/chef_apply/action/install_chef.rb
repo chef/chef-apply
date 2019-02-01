@@ -16,7 +16,7 @@
 #
 
 require "chef_apply/action/base"
-require "chef_apply/minimum_chef_version"
+require "chef_apply/action/install_chef/minimum_chef_version"
 require "fileutils"
 
 module ChefApply
@@ -28,7 +28,7 @@ module ChefApply
       end
 
       def perform_action
-        if ChefApply::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
+        if InstallChef::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
           notify(:already_installed)
         else
           perform_local_install

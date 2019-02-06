@@ -16,9 +16,9 @@
 #
 
 require "spec_helper"
-require "chef_apply/action/converge_target"
 require "chef_apply/target_host"
-require "chef_apply/errors/ccr_failure_mapper"
+require "chef_apply/action/converge_target"
+require "chef_apply/action/converge_target/ccr_failure_mapper"
 
 RSpec.describe ChefApply::Action::ConvergeTarget do
   let(:archive) { "archive.tgz" }
@@ -332,7 +332,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       let(:report_result) { '{ "exception": "thing" }' }
       let(:exception_mapper) { double("mapper") }
       before do
-        expect(ChefApply::Errors::CCRFailureMapper).to receive(:new)
+        expect(ChefApply::Action::ConvergeTarget::CCRFailureMapper).to receive(:new)
           .and_return exception_mapper
       end
 

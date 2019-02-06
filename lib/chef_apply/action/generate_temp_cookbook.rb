@@ -16,10 +16,9 @@
 #
 require "chef_apply/action/base"
 require "chef_apply/error"
-
 module ChefApply
   module Action
-    class GenerateTempCookbook < ChefApply::Action::Base
+    class GenerateTempCookbook < Base
       attr_reader :generated_cookbook
 
       def self.from_options(opts)
@@ -36,6 +35,7 @@ module ChefApply
 
       def initialize(options)
         super(options)
+        require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
         @generated_cookbook ||= TempCookbook.new
       end
 

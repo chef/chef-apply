@@ -16,15 +16,15 @@
 #
 
 require "spec_helper"
-require "chef_apply/recipe_lookup"
+require "chef_apply/action/generate_temp_cookbook/recipe_lookup"
 require "chef/exceptions"
 require "chef/cookbook/cookbook_version_loader"
 require "chef/cookbook_version"
 require "chef/cookbook_loader"
 
-RSpec.describe ChefApply::RecipeLookup do
+RSpec.describe ChefApply::Action::GenerateTempCookbook::RecipeLookup do
   let(:repo_path) { "repo_path" }
-  subject(:rp) { ChefApply::RecipeLookup.new([repo_path]) }
+  subject(:rp) { ChefApply::Action::GenerateTempCookbook::RecipeLookup.new([repo_path]) }
   VL = Chef::Cookbook::CookbookVersionLoader
   let(:version_loader) { instance_double(VL) }
   let(:cookbook_version) { instance_double(Chef::CookbookVersion, root_dir: "dir", name: "name") }
@@ -56,7 +56,7 @@ RSpec.describe ChefApply::RecipeLookup do
       context "the directory is not a cookbook" do
         it "raise an InvalidCookbook error" do
           expect(version_loader).to receive(:load!).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new)
-          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::RecipeLookup::InvalidCookbook)
+          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::InvalidCookbook)
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe ChefApply::RecipeLookup do
         it "raises an InvalidCookbook error" do
           expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new())
           expect(File).to receive(:directory?).with(File.join(repo_path, recipe_specifier)).and_return(true)
-          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::RecipeLookup::InvalidCookbook)
+          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::InvalidCookbook)
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe ChefApply::RecipeLookup do
         it "raises an CookbookNotFound error" do
           expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new())
           expect(File).to receive(:directory?).with(File.join(repo_path, recipe_specifier)).and_return(false)
-          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::RecipeLookup::CookbookNotFound)
+          expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::CookbookNotFound)
         end
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe ChefApply::RecipeLookup do
       end
       it "when there is no default recipe it raises a NoDefaultRecipe error" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({})
-        expect { rp.find_recipe(cookbook_version) }.to raise_error(ChefApply::RecipeLookup::NoDefaultRecipe)
+        expect { rp.find_recipe(cookbook_version) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::NoDefaultRecipe)
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe ChefApply::RecipeLookup do
       end
       it "when there is no recipe with that name it raises a RecipeNotFound error" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({})
-        expect { rp.find_recipe(cookbook_version, desired_recipe) }.to raise_error(ChefApply::RecipeLookup::RecipeNotFound)
+        expect { rp.find_recipe(cookbook_version, desired_recipe) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::RecipeNotFound)
       end
     end
   end

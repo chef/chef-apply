@@ -16,6 +16,7 @@
 #
 
 require "chef_apply/text"
+require "chef_apply/action/install_chef"
 
 # Moving the options into here so the cli.rb file is smaller and easier to read
 # For options that need to be merged back into the global ChefApply::Config object

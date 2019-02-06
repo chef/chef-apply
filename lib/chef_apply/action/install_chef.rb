@@ -16,18 +16,19 @@
 #
 
 require "chef_apply/action/base"
-require "chef_apply/action/install_chef/minimum_chef_version"
+require "chef_apply/minimum_chef_version"
 require "fileutils"
 
 module ChefApply
   module Action
-    class InstallChef < Base
+    class InstallChef < ChefApply::Action::Base
+
       def initialize(opts = { check_only: false })
         super
       end
 
       def perform_action
-        if InstallChef::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
+        if ChefApply::MinimumChefVersion.check!(target_host, config[:check_only]) == :minimum_version_met
           notify(:already_installed)
         else
           perform_local_install
@@ -53,13 +54,13 @@ module ChefApply
         # TODO BOOTSTRAP - we'll need to implement this for both platforms
         # require "mixlib/install"
         # installer = Mixlib::Install.new({
-        #   platform: "windows",/etc -
+        #   platform: "windows",
         #   product_name: "chef",
         #   channel: :stable,
         #   shell_type: :ps1,
         #   version: "13",
         # })
-        # target_host.run_command! installer.install_command
+        target_host.run_command! installer.install_command
         raise NotImplementedError
       end
 

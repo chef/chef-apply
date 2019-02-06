@@ -15,15 +15,15 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/install_chef/minimum_chef_version"
+require "chef_apply/minimum_chef_version"
 require "chef_apply/target_host"
 require "spec_helper"
 
-RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
+RSpec.describe ChefApply::MinimumChefVersion do
   let(:base_os) { :linux }
   let(:version) { 14 }
   let(:target) { instance_double(ChefApply::TargetHost, base_os: base_os, installed_chef_version: version) }
-  subject(:klass) { ChefApply::Action::InstallChef::MinimumChefVersion }
+  subject(:klass) { ChefApply::MinimumChefVersion }
 
   context "#check!" do
     context "when chef is not already installed on target" do
@@ -41,7 +41,7 @@ RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
         it "raises ClientNotInstalled" do
           expect do
             klass.check!(target, true)
-          end.to raise_error(ChefApply::Action::InstallChef::MinimumChefVersion::ClientNotInstalled)
+          end.to raise_error(ChefApply::MinimumChefVersion::ClientNotInstalled)
         end
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
         let(:base_os) { os }
         [13, 14].each do |major_version|
           context "when chef is already installed at the correct minimum Chef #{major_version} version" do
-            let(:version) { ChefApply::Action::InstallChef::MinimumChefVersion::CONSTRAINTS[os][major_version] }
+            let(:version) { ChefApply::MinimumChefVersion::CONSTRAINTS[os][major_version] }
             it "should return :minimum_version_met" do
               actual = klass.check!(target, false)
               expect(:minimum_version_met).to eq(actual)
@@ -63,14 +63,14 @@ RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
 
     installed_expected = {
       windows: {
-        Gem::Version.new("12.1.1") => ChefApply::Action::InstallChef::MinimumChefVersion::Client13Outdated,
-        Gem::Version.new("13.9.0") => ChefApply::Action::InstallChef::MinimumChefVersion::Client13Outdated,
-        Gem::Version.new("14.3.37") => ChefApply::Action::InstallChef::MinimumChefVersion::Client14Outdated,
+        Gem::Version.new("12.1.1") => ChefApply::MinimumChefVersion::Client13Outdated,
+        Gem::Version.new("13.9.0") => ChefApply::MinimumChefVersion::Client13Outdated,
+        Gem::Version.new("14.3.37") => ChefApply::MinimumChefVersion::Client14Outdated,
       },
       linux: {
-        Gem::Version.new("12.1.1") => ChefApply::Action::InstallChef::MinimumChefVersion::Client13Outdated,
-        Gem::Version.new("13.9.0") => ChefApply::Action::InstallChef::MinimumChefVersion::Client13Outdated,
-        Gem::Version.new("14.1.0") => ChefApply::Action::InstallChef::MinimumChefVersion::Client14Outdated,
+        Gem::Version.new("12.1.1") => ChefApply::MinimumChefVersion::Client13Outdated,
+        Gem::Version.new("13.9.0") => ChefApply::MinimumChefVersion::Client13Outdated,
+        Gem::Version.new("14.1.0") => ChefApply::MinimumChefVersion::Client14Outdated,
       },
     }
     [:windows, :linux].each do |os|

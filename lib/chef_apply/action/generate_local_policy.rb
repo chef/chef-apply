@@ -17,45 +17,43 @@
 
 require "chef_apply/action/base"
 require "chef_apply/error"
-module ChefApply
-  module Action
-    class GenerateLocalPolicy < Base
-      attr_reader :archive_file_location
-      def initialize(config)
-        super(config)
-        @cookbook = config.delete :cookbook
-      end
-
-      def perform_action
-        notify(:generating)
-        installer.run
-        notify(:exporting)
-        exporter.run
-        @archive_file_location = exporter.archive_file_location
-        notify(:success)
-      rescue ChefDK::PolicyfileInstallError => e
-        raise PolicyfileInstallError.new(e)
-      end
-
-      def exporter
-        require "chef-dk/policyfile_services/export_repo"
-        @exporter ||=
-          ChefDK::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
-                                                     root_dir: @cookbook.path,
-                                                     export_dir: @cookbook.export_path,
-                                                     archive: true, force: true)
-      end
-
-      def installer
-        require "chef-dk/policyfile_services/install"
-        require "chef-dk/ui"
-        @installer ||=
-          ChefDK::PolicyfileServices::Install.new(ui: ChefDK::UI.null(), root_dir: @cookbook.path)
-      end
-
+module ChefApply::Action
+  class GenerateLocalPolicy < Base
+    attr_reader :archive_file_location
+    def initialize(config)
+      super(config)
+      @cookbook = config.delete :cookbook
     end
-    class PolicyfileInstallError < ChefApply::Error
-      def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
+
+    def perform_action
+      notify(:generating)
+      installer.run
+      notify(:exporting)
+      exporter.run
+      @archive_file_location = exporter.archive_file_location
+      notify(:success)
+    rescue ChefDK::PolicyfileInstallError => e
+      raise PolicyfileInstallError.new(e)
     end
+
+    def exporter
+      require "chef-dk/policyfile_services/export_repo"
+      @exporter ||=
+        ChefDK::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
+                                                   root_dir: @cookbook.path,
+                                                   export_dir: @cookbook.export_path,
+                                                   archive: true, force: true)
+    end
+
+    def installer
+      require "chef-dk/policyfile_services/install"
+      require "chef-dk/ui"
+      @installer ||=
+        ChefDK::PolicyfileServices::Install.new(ui: ChefDK::UI.null(), root_dir: @cookbook.path)
+    end
+
+  end
+  class PolicyfileInstallError < ChefApply::Error
+    def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
   end
 end

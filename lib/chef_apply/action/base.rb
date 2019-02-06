@@ -38,77 +38,6 @@ module ChefApply
         @config = c
       end
 
-      run_report = "$env:APPDATA/chef-workstation/cache/run-report.json"
-      PATH_MAPPING = {
-        chef_client: {
-          windows: "cmd /c C:/opscode/chef/bin/chef-client",
-          other: "/opt/chef/bin/chef-client",
-        },
-        cache_path: {
-          windows: '#{ENV[\'APPDATA\']}/chef-workstation',
-          other: "/var/chef-workstation",
-        },
-        read_chef_report: {
-          windows: "type #{run_report}",
-          other: "cat /var/chef-workstation/cache/run-report.json",
-        },
-        delete_chef_report: {
-          windows: "If (Test-Path #{run_report}){ Remove-Item -Force -Path #{run_report} }",
-          other: "rm -f /var/chef-workstation/cache/run-report.json",
-        },
-        tempdir: {
-          windows: "%TEMP%",
-          other: "$TMPDIR",
-        },
-        delete_folder: {
-          windows: "Remove-Item -Recurse -Force –Path",
-          other: "rm -rf",
-        },
-      }.freeze
-
-      # TODO - I'd like to consider PATH_MAPPING in action::base
-      #        to platform subclasses/mixins for target_host.  This way our 'target host'
-      #        which reprsents a node, the data and actions we can perform on it
-      #        knows how to `read_chef_report`, `mkdir`, etc.
-      #        -mp 2018-10-17
-
-      PATH_MAPPING.keys.each do |m|
-        define_method(m) { PATH_MAPPING[m][family] }
-      end
-
-      # Chef will try 'downloading' the policy from the internet unless we pass it a valid, local file
-      # in the working directory. By pointing it at a local file it will just copy it instead of trying
-      # to download it.
-      #
-      # Chef 13 on Linux requires full path specifiers for --config and --recipe-url while on Chef 13 and 14 on
-      # Windows must use relative specifiers to prevent URI from causing an error
-      # (https://github.com/chef/chef/pull/7223/files).
-      def run_chef(working_dir, config_file, policy)
-        case family
-        when :windows
-          "Set-Location -Path #{working_dir}; " +
-            # We must 'wait' for chef-client to finish before changing directories and Out-Null does that
-            "chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)} | Out-Null; " +
-            # We have to leave working dir so we don't hold a lock on it, which allows us to delete this tempdir later
-            "Set-Location C:/; " +
-            "exit $LASTEXITCODE"
-        else
-          # cd is shell a builtin, so much call bash. This also means all commands are executed
-          # with sudo (as long as we are hardcoding our sudo use)
-          "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
-        end
-      end
-
-      # Trying to perform File or Pathname operations on a Windows path with '\'
-      # characters in it fails. So lets convert them to '/' which these libraries
-      # handle better.
-      def escape_windows_path(p)
-        if family == :windows
-          p = p.tr("\\", "/")
-        end
-        p
-      end
-
       def run(&block)
         @notification_handler = block
         Telemeter.timed_action_capture(self) do
@@ -138,19 +67,6 @@ module ChefApply
         return if @notification_handler.nil?
         ChefApply::Log.debug("[#{self.class.name}] Action: #{action}, Action Data: #{args}")
         @notification_handler.call(action, args) if @notification_handler
-      end
-
-      private
-
-      def family
-        @family ||= begin
-          f = target_host.platform.family
-          if f == "windows"
-            :windows
-          else
-            :other
-          end
-        end
       end
     end
   end

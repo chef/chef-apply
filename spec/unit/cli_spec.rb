@@ -354,12 +354,12 @@ RSpec.describe ChefApply::CLI do
                           upgrading?: upgrading,
                           version_to_install: "14.0") end
 
-    it "updates status, gets an InstallChef via instance_for_target and executes it" do
+    it "updates status, creates an InstallChef action and executes it" do
       expect(reporter)
         .to receive(:update)
         .with(ChefApply::CLI::TS.install_chef.verifying)
-      expect(ChefApply::Action::InstallChef).to receive(:instance_for_target)
-        .with(target_host, check_only: false)
+      expect(ChefApply::Action::InstallChef).to receive(:new)
+        .with(target_host: target_host, check_only: false)
         .and_return action
       expect(action).to receive(:run)
       subject.install(target_host, reporter)
@@ -371,7 +371,7 @@ RSpec.describe ChefApply::CLI do
 
       before do
         allow(ChefApply::Action::InstallChef)
-          .to receive(:instance_for_target).and_return action
+          .to receive(:new).and_return action
         allow(action)
           .to receive(:run) { |&block| block.call(event, event_args) }
         allow(reporter)

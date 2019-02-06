@@ -24,7 +24,7 @@ require "chef_apply/target_host"
 RSpec.describe ChefApply::UI::ErrorPrinter do
 
   let(:orig_exception) { StandardError.new("test") }
-  let(:target_host) { ChefApply::TargetHost.instance_for_url("mock://localhost") }
+  let(:target_host) { ChefApply::TargetHost.mock_instance("mock://localhost") }
   let(:wrapped_exception) { ChefApply::WrappedError.new(orig_exception, target_host) }
 
   let(:show_footer) { true }

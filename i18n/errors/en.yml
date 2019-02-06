@@ -114,18 +114,11 @@ errors:
     text: |
       Could not determine reason for converge failure.
 
-      STDOUT (may be blank)
-
-        %1
-
-      STDERR (may be blank)
-
-        %2
-
       An error occurred while converging the remote host.
       I was unable to retrieve the log file which would allow
-      me to provide more information.  Above is the output
-      that occurred while trying to retrieve the remote log file.
+      me to provide more information.  Here's where I looked:
+
+        %1
 
   CHEFCCR002:
     text: |

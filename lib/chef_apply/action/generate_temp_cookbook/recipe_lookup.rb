@@ -23,7 +23,7 @@ require "chef_apply/action/base"
 
 module ChefApply
   module Action
-    class GenerateTempCookbook
+    class GenerateTempCookbook < Base
       # When users are trying to converge a local recipe on a remote target, there
       # is a very specific (but expansive) set of things they can specify. This
       # class encapsulates that logic for testing purposes. We either return

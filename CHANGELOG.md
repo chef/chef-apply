@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.9 -->
++<!-- latest_release 0.2.10 -->
+## [0.2.10](https://github.com/chef/chef-apply/tree/0.2.10) (2019-02-06)
+
+#### Merged Pull Requests
+- [tech-debt] group related classes together [#63](https://github.com/chef/chef-apply/pull/63) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
+
 ## [0.2.9](https://github.com/chef/chef-apply/tree/0.2.9) (2019-02-01)
 
 #### Merged Pull Requests
 - consolidate platform-specific behaviors ahead of splitting out actions gem [#61](https://github.com/chef/chef-apply/pull/61) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.2.8](https://github.com/chef/chef-apply/tree/0.2.8) (2019-01-29)
 

@@ -40,7 +40,7 @@ module ChefApply
 
       def run(&block)
         @notification_handler = block
-        Telemeter.timed_action_capture(self) do
+        timed_action_capture(action) do
           begin
             perform_action
           rescue StandardError => e
@@ -62,6 +62,27 @@ module ChefApply
       def perform_action
         raise NotImplemented
       end
+
+      # TODO bootstrap 2019-02-07  - we'll need to find the right way to keep this in telemeter,
+      # there are a bunch of exposed details here that the caller shouldn't care about.
+      # I've moved it here temporarily to keep things running until we come back to this
+      # for telemetry updates.
+      def timed_action_capture(action, &block)
+        # Note: we do not directly capture hostname for privacy concerns, but
+        # using a sha1 digest will allow us to anonymously see
+        # unique hosts to derive number of hosts affected by a command
+        target = action.target_host
+        target_data = { platform: {}, hostname_sha1: nil, transport_type: nil }
+        if target
+          target_data[:platform][:name] = target.base_os # :windows, :linux, eventually :macos
+          target_data[:platform][:version] = target.version
+          target_data[:platform][:architecture] = target.architecture
+          target_data[:hostname_sha1] = Digest::SHA1.hexdigest(target.hostname.downcase)
+          target_data[:transport_type] = target.transport_type
+        end
+        timed_capture(:action, { action: action.name, target: target_data }, &block)
+      end
+
 
       def notify(action, *args)
         return if @notification_handler.nil?

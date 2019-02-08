@@ -31,7 +31,7 @@ RSpec.describe ChefApply::Startup do
                           :setup_error_handling,
                           :load_config,
                           :setup_logging,
-                          :start_telemeter_upload,
+                          :start_telemeter,
                           :start_chef_apply]
       ordered_messages.each do |msg|
         expect(subject).to receive(msg).ordered
@@ -198,10 +198,12 @@ RSpec.describe ChefApply::Startup do
     end
   end
 
-  describe "#start_telemeter_upload" do
+  # TODO this now
+  describe "#start_telemeter" do
     it "launches telemetry uploads" do
-      expect(ChefApply::Telemeter::Sender).to receive(:start_upload_thread)
-      subject.start_telemeter_upload
+      # TODO 2019-02-07 verify config is sourced
+      expect(ChefCore::Telemeter).to receive(:setup)
+      subject.start_telemeter
     end
   end
 

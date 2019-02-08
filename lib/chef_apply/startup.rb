@@ -59,7 +59,7 @@ module ChefApply
 
       # Begin upload of previous session telemetry. (If telemetry is not enabled,
       # in config the uploader will clean up previous session(s) without sending)
-      start_telemeter_upload
+      start_telemeter
 
       # Launch the actual Chef Apply behavior
       start_chef_apply
@@ -128,8 +128,14 @@ module ChefApply
       UI::Terminal.output ""
     end
 
-    def start_telemeter_upload
-      ChefApply::Telemeter::Sender.start_upload_thread()
+    def start_telemeter
+      telemtry_config = { payload_dir: Config.telemetry_path,
+                          session_file: Config.telemetry_session_file,
+                          installation_identifier_file: ChefCore::Config.telemetry_installation_identifier_file,
+                          enabled: Config.telemetry.enabled,
+                          dev_mode: Config.telemetry.dev }
+
+      ChefCore::Telemeter::setup(telemetry_config)
     end
 
     def setup_workstation_user_directories

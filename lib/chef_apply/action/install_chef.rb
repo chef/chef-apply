@@ -104,7 +104,8 @@ module ChefApply
 
       def download_to_workstation(url_path)
         require "chef_apply/file_fetcher"
-        ChefApply::FileFetcher.fetch(url_path)
+        ChefApply::FileFetcher.fetch(Chef::Config.cache.path,
+                                     url_path)
       end
 
       def upload_to_target(local_path)

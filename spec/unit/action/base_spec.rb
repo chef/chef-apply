@@ -55,5 +55,47 @@ RSpec.describe ChefApply::Action::Base do
       expect(@args).to eq ["some arg", "some other arg"]
     end
   end
+  context "#timed_action_capture" do
+    context "when a valid target_host is present" do
+      it "invokes timed_capture with action and valid target data" do
+        target = instance_double("TargetHost",
+                                 base_os: "windows",
+                                 version: "10.0.0",
+                                 architecture: "x86_64",
+                                 hostname: "My_Host",
+                                 transport_type: "winrm")
+        action = instance_double("Action::Base", name: "test_action",
+                                                 target_host: target)
+        expected_data = {
+          action: "test_action",
+          target: {
+            platform: {
+              name: "windows",
+              version: "10.0.0",
+              architecture: "x86_64",
+            },
+            hostname_sha1: Digest::SHA1.hexdigest("my_host"),
+            transport_type: "winrm",
+          },
+        }
+        expect(subject).to receive(:timed_capture).with(:action, expected_data)
+        subject.timed_action_capture(action) { :ok }
+      end
+
+      context "when a valid target_host is not present" do
+        it "invokes timed_capture with empty target values" do
+          expected_data = { action: "Base", target: { platform: {},
+                                                      hostname_sha1: nil,
+                                                      transport_type: nil } }
+          expect(subject).to receive(:timed_capture)
+            .with(:action, expected_data)
+          subject.timed_action_capture(
+            ChefCore::Action::Base.new(target_host: nil)
+          ) { :ok }
+        end
+      end
+    end
+  end
+
 
 end

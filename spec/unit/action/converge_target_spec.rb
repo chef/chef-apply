@@ -20,7 +20,7 @@ require "chef_apply/target_host"
 require "chef_apply/action/converge_target"
 require "chef_apply/action/converge_target/ccr_failure_mapper"
 
-RSpec.describe ChefApply::Action::ConvergeTarget do
+RSpec.describe ChefCore::Actions::ConvergeTarget do
   let(:archive) { "archive.tgz" }
   let(:cache_path) { "/var/chef-workstation" }
   let(:platform_family) { "windows" }
@@ -32,7 +32,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
   end
   let(:local_policy_path) { "/local/policy/path/archive.tgz" }
   let(:opts) { { target_host: target_host, local_policy_path: local_policy_path } }
-  subject { ChefApply::Action::ConvergeTarget.new(opts) }
+  subject { ChefCore::Actions::ConvergeTarget.new(opts) }
 
   before do
     allow(target_host).to receive(:normalize_path) { |arg| arg }
@@ -47,7 +47,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
     it "raises an error if the upload fails" do
       expect(target_host).to receive(:upload_file).with(local_policy_path, remote_archive).and_raise("foo")
-      err = ChefApply::Action::ConvergeTarget::PolicyUploadFailed
+      err = ChefCore::Actions::ConvergeTarget::PolicyUploadFailed
       expect { subject.create_remote_policy(local_policy_path, cache_path) }.to raise_error(err)
     end
   end
@@ -73,16 +73,14 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
     it "raises an error if the upload fails" do
       expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path).and_raise("foo")
-      err = ChefApply::Action::ConvergeTarget::ConfigUploadFailed
+      err = ChefCore::Action::ConvergeTarget::ConfigUploadFailed
       expect { subject.create_remote_config(remote_folder) }.to raise_error(err)
       # ensure the tempfile is deleted locally
       expect(local_tempfile.closed?).to eq(true)
     end
 
     describe "when target_level is left default" do
-      before do
-        ChefApply::Config.reset
-      end
+      let(:log_level) { nil }
       # TODO - this is a windows config, but we don't set windows?
       it "creates a config file without a specific log_level (leaving default for chef-client)" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)
@@ -104,13 +102,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     end
 
     describe "when target_level is set to a value" do
-      before do
-        ChefApply::Config.log.target_level = "info"
-      end
-
-      after do
-        ChefApply::Config.reset
-      end
+      let(:log_level) { "info"}
 
       it "creates a config file with the log_level set to the right value" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)
@@ -133,14 +125,8 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     end
 
     describe "when data_collector is set in config" do
-      before do
-        ChefApply::Config.data_collector.url = "dc.url"
-        ChefApply::Config.data_collector.token = "dc.token"
-      end
-
-      after do
-        ChefApply::Config.reset
-      end
+      let(:data_collector_url) { "dc.url" }
+      let(:data_collector_token) { "dc.token" }
 
       it "creates a config file with data collector config values" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)
@@ -167,10 +153,8 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     end
 
     describe "when data_collector is not set" do
-      before do
-        ChefApply::Config.data_collector.url = nil
-        ChefApply::Config.data_collector.token = nil
-      end
+      let(:data_collector_url) { nil }
+      let(:data_collector_token) { nil }
 
       it "creates a config file without data collector config values" do
         expect(Tempfile).to receive(:new).and_return(local_tempfile)
@@ -180,7 +164,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           cache_path "#{cache_path}"
           chef_repo_path "#{cache_path}"
           require_relative "reporter"
-          reporter = ChefApply::Reporter.new
+          reporter = ChefCore::Actions::Reporter.new
           report_handlers << reporter
           exception_handlers << reporter
         EOM
@@ -209,7 +193,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     it "raises an error if the upload fails" do
       expect(Tempfile).to receive(:new).and_return(local_tempfile)
       expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_reporter).and_raise("foo")
-      err = ChefApply::Action::ConvergeTarget::HandlerUploadFailed
+      err = ChefCore::Actions::ConvergeTarget::HandlerUploadFailed
       expect { subject.create_remote_handler(remote_folder) }.to raise_error(err)
       # ensure the tempfile is deleted locally
       expect(local_tempfile.closed?).to eq(true)
@@ -223,12 +207,10 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
     let(:certs_dir) { File.join(tmpdir, "weird/glob/chars[/") }
 
     before do
-      ChefApply::Config.chef.trusted_certs_dir = certs_dir
       FileUtils.mkdir_p(certs_dir)
     end
 
     after do
-      ChefApply::Config.reset
       FileUtils.remove_entry tmpdir
     end
 
@@ -246,6 +228,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
     context "when there are no local certificates" do
       it "does not upload any certs" do
+        expect(target_host).to_not receive(:make_directory)
         expect(target_host).to_not receive(:run_command)
         expect(target_host).to_not receive(:upload_file)
         subject.upload_trusted_certs(remote_folder)
@@ -303,7 +286,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       let(:report_result) { '{ "exception": "thing" }' }
       let(:exception_mapper) { double("mapper") }
       before do
-        expect(ChefApply::Action::ConvergeTarget::CCRFailureMapper).to receive(:new)
+        expect(ChefCore::Actions::ConvergeTarget::CCRFailureMapper).to receive(:new)
           .and_return exception_mapper
       end
 

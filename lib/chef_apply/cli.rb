@@ -17,6 +17,10 @@
 #
 require "mixlib/cli"
 
+require "chef_core/error"
+require "chef_core/log"
+require "chef_core/target_host"
+require "chef_core/telemeter"
 require "chef_apply/config"
 require "chef-config/config"
 require "chef-config/logger"
@@ -24,11 +28,7 @@ require "chef-config/logger"
 require "chef_apply/cli/validation"
 require "chef_apply/cli/options"
 require "chef_apply/cli/help"
-require "chef_apply/error"
-require "chef_apply/log"
-require "chef_apply/target_host"
 require "chef_apply/target_resolver"
-require "chef_apply/telemeter"
 require "chef_apply/ui/error_printer"
 require "chef_apply/ui/terminal"
 require "chef_apply/ui/terminal/job"
@@ -86,7 +86,7 @@ module ChefApply
       when nil
         RC_OK
       when WrappedError
-        UI::ErrorPrinter.show_error(e)
+        UI::ErrorPrinter.show_error(e, Config.error_output_path)
         RC_COMMAND_FAILED
       when SystemExit
         e.status
@@ -171,7 +171,14 @@ module ChefApply
       require "chef_apply/action/install_chef"
       context = TS.install_chef
       reporter.update(context.verifying)
-      installer = Action::InstallChef.new(target_host: target_host, check_only: !parsed_options[:install])
+      installer = Action::InstallChef.new(target_host: target_host,
+                                          check_only: !parsed_options[:install],
+                                          trusted_certs_dir:
+                                          data_collector_url: Config.data_collector.url,
+                                          data_collector_token: Config.data_collector.token,
+                                          cache_path: Config.cache.path,
+                                          # TODO - should this be Config.chef.log_level?
+                                          target_log_level: Config.log.target_level )
       installer.run do |event, data|
         case event
         when :installing

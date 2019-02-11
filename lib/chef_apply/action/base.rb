@@ -40,7 +40,7 @@ module ChefApply
 
       def run(&block)
         @notification_handler = block
-        timed_action_capture(action) do
+        timed_action_capture(self) do
           begin
             perform_action
           rescue StandardError => e

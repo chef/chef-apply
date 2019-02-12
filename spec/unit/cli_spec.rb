@@ -64,7 +64,7 @@ RSpec.describe ChefApply::CLI do
 
       it "prints the error and exits" do
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefApply::UI::ErrorPrinter).to receive(:show_error).with(e)
+        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:show_error).with(e)
         expect { subject.run }.to exit_with_code(1)
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe ChefApply::CLI do
 
       it "exits with code 64" do
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefApply::UI::ErrorPrinter).to receive(:dump_unexpected_error).with(e)
+        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:dump_unexpected_error).with(e)
         expect { subject.run }.to exit_with_code(64)
       end
     end
@@ -295,16 +295,16 @@ RSpec.describe ChefApply::CLI do
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
     # before do
-    #   allow(ChefApply::UI::Terminal).to receive(:render_job).and_yield(reporter)
+    #   allow(ChefCore::CLIUX::UI::Terminal).to receive(:render_job).and_yield(reporter)
     # end
 
     it "generates the cookbook and local policy" do
-      expect(ChefApply::UI::Terminal).to receive(:render_job) do |initial_msg, job|
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:render_job) do |initial_msg, job|
         job.run(reporter)
       end
       expect(subject).to receive(:generate_temp_cookbook)
         .with(args, reporter).and_return temp_cookbook
-      expect(ChefApply::UI::Terminal).to receive(:render_job) do |initial_msg, job|
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:render_job) do |initial_msg, job|
         job.run(reporter)
       end
       expect(subject).to receive(:generate_local_policy)
@@ -329,7 +329,7 @@ RSpec.describe ChefApply::CLI do
       allow(subject).to receive(:temp_cookbook).and_return temp_cookbook
       allow(subject).to receive(:archive_file_location).and_return archive_file_location
       expected_header = ChefApply::CLI::TS.converge.header(2, temp_cookbook.descriptor, temp_cookbook.from)
-      allow(ChefApply::UI::Terminal).to receive(:render_parallel_jobs) do |header, jobs|
+      allow(ChefCore::CLIUX::UI::Terminal).to receive(:render_parallel_jobs) do |header, jobs|
         expect(header).to eq expected_header
         jobs.each { |j| j.run(reporter) }
       end

@@ -9,7 +9,7 @@ RSpec.describe ChefApply::Startup do
     ChefApply::Startup.new(argv)
   end
   before do
-    allow(ChefApply::UI::Terminal).to receive(:init)
+    allow(ChefCore::CLIUX::UI::Terminal).to receive(:init)
   end
 
   after do
@@ -55,7 +55,7 @@ RSpec.describe ChefApply::Startup do
           let(:error) { Mixlib::Config::UnknownConfigOptionError.new("unsupported config value #{bad_option}.") }
           it "shows the correct error" do
             expected_text = error_text.invalid_config_key(bad_option, ChefApply::Config.location)
-            expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+            expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
             subject.run
           end
         end
@@ -65,7 +65,7 @@ RSpec.describe ChefApply::Startup do
           let(:error) { Mixlib::Config::UnknownConfigOptionError.new(msg) }
           it "shows the correct error" do
             expected_text = error_text.unknown_config_error(msg, ChefApply::Config.location)
-            expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+            expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
             subject.run
           end
         end
@@ -77,7 +77,7 @@ RSpec.describe ChefApply::Startup do
 
         it "shows the correct error" do
           expected_text = error_text.bad_config_file(bad_path)
-          expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+          expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end
       end
@@ -87,7 +87,7 @@ RSpec.describe ChefApply::Startup do
 
         it "shows the correct error" do
           expected_text = error_text.missing_config_path
-          expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+          expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end
       end
@@ -97,7 +97,7 @@ RSpec.describe ChefApply::Startup do
 
         it "shows the correct error" do
           expected_text = error_text.unsupported_installation
-          expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+          expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end
       end
@@ -108,7 +108,7 @@ RSpec.describe ChefApply::Startup do
 
         it "shows the correct error" do
           expected_text = error_text.unknown_config_error(msg, ChefApply::Config.location)
-          expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
+          expect(ChefCore::CLIUX::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end
       end
@@ -117,7 +117,7 @@ RSpec.describe ChefApply::Startup do
 
   describe "#init_terminal" do
     it "initializees the terminal for stdout" do
-      expect(ChefApply::UI::Terminal).to receive(:init).with($stdout)
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:init).with($stdout)
       subject.init_terminal
     end
   end
@@ -177,9 +177,9 @@ RSpec.describe ChefApply::Startup do
     it "touches the configuration file to create it and notifies that it has done so" do
       expected_config_path = ChefApply::Config.default_location
       expected_message = ChefApply::Text.cli.creating_config(expected_config_path)
-      expect(ChefApply::UI::Terminal).to receive(:output)
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:output)
         .with(expected_message)
-      expect(ChefApply::UI::Terminal).to receive(:output)
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:output)
         .with("")
       expect(FileUtils).to receive(:touch)
         .with(expected_config_path)

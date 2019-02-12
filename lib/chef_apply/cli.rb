@@ -315,7 +315,7 @@ module ChefApply
     def handle_message(message, data, reporter)
       if message == :error # data[0] = exception
         # Mark the current task as failed with whatever data is available to us
-        reporter.error(ChefApply::UI::ErrorPrinter.error_summary(data[0]))
+        reporter.error(ChefCore::CLIUX::UI::ErrorPrinter.error_summary(data[0]))
       end
     end
 
@@ -329,7 +329,7 @@ module ChefApply
       target_host.connect!
       reporter.update(T.status.connected)
     rescue StandardError => e
-      message = ChefApply::UI::ErrorPrinter.error_summary(e)
+      message = ChefCore::CLIUX::UI::ErrorPrinter.error_summary(e)
       reporter.error(message)
       raise
     end

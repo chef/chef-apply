@@ -1,19 +1,46 @@
+GIT
+  remote: https://github.com/chef/chef_core
+  revision: 5db6114ebb169c8c7f255943a5e3a577b4485899
+  branch: chef-core-split
+  specs:
+    chef_core (0.0.1)
+      chef-telemetry
+      mixlib-log
+      r18n-desktop
+      train
+
+GIT
+  remote: https://github.com/chef/chef_core-actions
+  revision: 000eb2b6f884c539eb4201cf06610c005e32a113
+  branch: chef-core-split
+  specs:
+    chef_core-actions (0.0.1)
+      chef
+      chef-dk
+      chef_core
+
+GIT
+  remote: https://github.com/chef/chef_core-cliux
+  revision: 294f9f4746097465cac38ce1e0781096618d9a31
+  branch: chef-core-split
+  specs:
+    chef_core-cliux (0.0.1)
+      chef_core
+      pastel
+      tty-color
+      tty-cursor
+      tty-spinner
+
 PATH
   remote: .
   specs:
     chef-apply (0.2.10)
-      chef (>= 14.0)
-      chef-dk (>= 3.0)
-      chef-telemetry
+      chef_core
+      chef_core-actions
+      chef_core-cliux
       mixlib-cli
       mixlib-config
-      mixlib-install
-      mixlib-log
-      pastel
-      r18n-desktop
       toml-rb
-      train
-      tty-spinner
 
 GEM
   remote: https://rubygems.org/
@@ -21,13 +48,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.214)
-      aws-sdk-resources (= 2.11.214)
-    aws-sdk-core (2.11.214)
+    aws-sdk (2.11.218)
+      aws-sdk-resources (= 2.11.218)
+    aws-sdk-core (2.11.218)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.214)
-      aws-sdk-core (= 2.11.214)
+    aws-sdk-resources (2.11.218)
+      aws-sdk-core (= 2.11.218)
     aws-sigv4 (1.0.3)
     azure_graph_rbac (0.17.0)
       ms_rest_azure (~> 0.11.0)
@@ -328,7 +355,7 @@ GEM
     syslog-logger (1.6.8)
     systemu (2.6.5)
     thor (0.20.3)
-    timeliness (0.3.10)
+    timeliness (0.4.0)
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.8)
@@ -382,6 +409,9 @@ PLATFORMS
 DEPENDENCIES
   bundler
   chef-apply!
+  chef_core!
+  chef_core-actions!
+  chef_core-cliux!
   chefstyle
   pry
   pry-byebug
@@ -392,4 +422,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   1.17.3
+   2.0.1

@@ -18,57 +18,6 @@
 require "bundler/setup"
 require "simplecov"
 require "rspec/expectations"
-require "support/matchers/output_to_terminal"
-
-# class << Kernel
-#   alias :_require :require
-#   def require(*args)
-#
-#     show = false
-#     args.each do |a|
-#       if a =~ /chef_apply.*/
-#         show = true
-#         break
-#       end
-#     end
-#
-#     $stderr.puts "from #{File.basename(caller[1])}: require: %s" % [args.inspect] if show
-#     _require(*args)
-#   end
-#
-#   alias :_load :load
-#   def load(*args)
-#     show = false
-#     args.each do |a|
-#       if a =~ /chef_apply.*/
-#         show = true
-#         break
-#       end
-#     end
-#     $stderr.puts "from #{File.basename(caller[1])}: load: %s" % [args.inspect] if show
-#     _load(*args)
-#   end
-#
-# end
-#
-# module Kernel
-#   def require(*args)
-#     Kernel.require(*args)
-#   end
-#   def load(*args)
-#     Kernel.load(*args)
-#   end
-# end
-
-RemoteExecResult = Struct.new(:exit_status, :stdout, :stderr)
-
-class ChefApply::MockReporter
-  def update(msg); ChefApply::UI::Terminal.output msg; end
-
-  def success(msg); ChefApply::UI::Terminal.output "SUCCESS: #{msg}"; end
-
-  def error(msg); ChefApply::UI::Terminal.output "FAILURE: #{msg}"; end
-end
 
 RSpec::Matchers.define :exit_with_code do |expected_code|
   actual_code = nil
@@ -96,31 +45,6 @@ RSpec::Matchers.define :exit_with_code do |expected_code|
 
   supports_block_expectations do
     true
-  end
-end
-# TODO would read better to make this a custom matcher.
-# Simulates a recursive string lookup on the Text object
-#
-# assert_string_lookup("tree.tree.tree.leaf", "a returned string")
-# TODO this can be more cleanly expressed as a custom matcher...
-def assert_string_lookup(key, retval = "testvalue")
-  it "should look up string #{key}" do
-    top_level_method, *call_seq = key.split(".")
-    terminal_method = call_seq.pop
-    tmock = double()
-    # Because ordering is important
-    # (eg calling errors.hello is different from hello.errors),
-    # we need to add this individually instead of using
-    # `receive_messages`, which doesn't appear to give a way to
-    # guarantee ordering
-    expect(ChefApply::Text).to receive(top_level_method)
-      .and_return(tmock)
-    call_seq.each do |m|
-      expect(tmock).to receive(m).ordered.and_return(tmock)
-    end
-    expect(tmock).to receive(terminal_method)
-      .ordered.and_return(retval)
-    subject.call
   end
 end
 

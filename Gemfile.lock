@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/chef/chef_core-cliux
-  revision: 294f9f4746097465cac38ce1e0781096618d9a31
+  revision: f72d02cdd01a4ef4dffa80ac4a133077b9c5f6e7
   branch: chef-core-split
   specs:
     chef_core-cliux (0.0.1)

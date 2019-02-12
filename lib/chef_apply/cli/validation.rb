@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/error"
+require "chef_core/error"
 
 module ChefApply
   class CLI
@@ -85,7 +85,7 @@ module ChefApply
       end
     end
 
-    class OptionValidationError < ChefApply::ErrorNoLogs
+    class OptionValidationError < ChefCore::ErrorNoLogs
       attr_reader :command
       def initialize(id, calling_command, *args)
         super(id, *args)

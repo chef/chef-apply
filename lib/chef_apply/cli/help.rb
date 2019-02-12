@@ -18,7 +18,7 @@
 module ChefApply
   class CLI
     module Help
-      T = ChefApply::Text.cli
+      T = ChefCore::Text.cli
       def show_help
         UI::Terminal.output format_help
       end

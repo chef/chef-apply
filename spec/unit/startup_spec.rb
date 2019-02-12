@@ -1,6 +1,6 @@
 require "chef_apply/startup"
-require "chef_apply/text"
-require "chef_apply/ui/terminal"
+require "chef_core/text"
+require "chef_core/cliux/ui/terminal"
 
 RSpec.describe ChefApply::Startup do
   let(:argv) { [] }
@@ -41,7 +41,7 @@ RSpec.describe ChefApply::Startup do
 
     context "when errors happen" do
       let(:error) { nil }
-      let(:error_text) { ChefApply::Text.cli.error }
+      let(:error_text) { ChefCore::Text.cli.error }
       before do
         # Force the error to happen in first_run_tasks, since it's always... well, first.
         expect(subject).to receive(:first_run_tasks).and_raise(error)
@@ -176,7 +176,7 @@ RSpec.describe ChefApply::Startup do
   describe "#create_default_config" do
     it "touches the configuration file to create it and notifies that it has done so" do
       expected_config_path = ChefApply::Config.default_location
-      expected_message = ChefApply::Text.cli.creating_config(expected_config_path)
+      expected_message = ChefCore::Text.cli.creating_config(expected_config_path)
       expect(ChefCore::CLIUX::UI::Terminal).to receive(:output)
         .with(expected_message)
       expect(ChefCore::CLIUX::UI::Terminal).to receive(:output)
@@ -305,12 +305,12 @@ RSpec.describe ChefApply::Startup do
     end
 
     it "sets up the logging for ChefApply and Chef" do
-      expect(ChefApply::Log).to receive(:setup)
+      expect(ChefCore::Log).to receive(:setup)
         .with(log_path, log_level)
       expect(Chef::Log).to receive(:init)
-        .with(ChefApply::Log.location)
+        .with(ChefCore::Log.location)
       subject.setup_logging
-      expect(ChefConfig.logger).to eq(ChefApply::Log)
+      expect(ChefConfig.logger).to eq(ChefCore::Log)
     end
   end
 

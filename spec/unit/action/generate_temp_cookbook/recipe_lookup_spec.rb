@@ -16,7 +16,7 @@
 #
 
 require "spec_helper"
-require "chef_apply/action/generate_temp_cookbook/recipe_lookup"
+require "chef_core/actions/generate_temp_cookbook/recipe_lookup"
 require "chef/exceptions"
 require "chef/cookbook/cookbook_version_loader"
 require "chef/cookbook_version"

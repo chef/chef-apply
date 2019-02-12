@@ -17,12 +17,12 @@
 
 require "spec_helper"
 require "chef_apply/cli"
-require "chef_apply/error"
-require "chef_apply/telemeter"
-require "chef_apply/telemeter/sender"
-require "chef_apply/ui/terminal"
-require "chef_apply/action/generate_temp_cookbook"
-require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
+require "chef_core/error"
+require "chef_core/telemeter"
+require "chef_core/telemeter/sender"
+require "chef_core/cliux/ui/terminal"
+require "chef_core/actions/generate_temp_cookbook"
+require "chef_core/actions/generate_temp_cookbook/temp_cookbook"
 
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
@@ -60,7 +60,7 @@ RSpec.describe ChefApply::CLI do
     end
 
     context "perform_run raises WrappedError" do
-      let(:e) { ChefApply::WrappedError.new(RuntimeError.new("Test"), "host") }
+      let(:e) { ChefCore::WrappedError.new(RuntimeError.new("Test"), "host") }
 
       it "prints the error and exits" do
         expect(subject).to receive(:perform_run).and_raise(e)
@@ -290,7 +290,7 @@ RSpec.describe ChefApply::CLI do
   end
 
   describe "#render_cookbook_setup" do
-    let(:reporter) { instance_double(ChefApply::StatusReporter) }
+    let(:reporter) { instance_double(ChefCore::CLIUX::StatusReporter) }
     let(:temp_cookbook) { double(ChefCore::Actions::GenerateTempCookbook::TempCookbook) }
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
@@ -315,9 +315,9 @@ RSpec.describe ChefApply::CLI do
 
   describe "#render_converge" do
 
-    let(:reporter) { instance_double(ChefApply::StatusReporter) }
-    let(:host1) { ChefApply::TargetHost.new("ssh://host1") }
-    let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
+    let(:reporter) { instance_double(ChefCore::CLIUX::StatusReporter) }
+    let(:host1) { ChefCore::TargetHost.new("ssh://host1") }
+    let(:host2) { ChefCore::TargetHost.new("ssh://host2") }
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
       instance_double(ChefCore::Actions::GenerateTempCookbook::TempCookbook,
@@ -368,7 +368,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when generator posts event:" do
       let(:event_args) { nil }
-      let(:text_context) { ChefApply::Text.status.install_chef }
+      let(:text_context) { ChefCore::Text.status.install_chef }
 
       before do
         allow(ChefCore::Actions::InstallChef)

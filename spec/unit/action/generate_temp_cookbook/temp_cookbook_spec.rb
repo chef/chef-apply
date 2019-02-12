@@ -18,7 +18,7 @@
 require "spec_helper"
 require "tempfile"
 require "securerandom"
-require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
+require "chef_core/actions/generate_temp_cookbook/temp_cookbook"
 RSpec.describe "ChefCore::Actions::GenerateTempCookbook::TempCookbook" do
   subject(:tc) { ChefCore::Actions::GenerateTempCookbook::TempCookbook.new }
   let(:uuid) { SecureRandom.uuid }

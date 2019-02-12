@@ -1,5 +1,5 @@
 require "spec_helper"
-require "chef_apply/error"
+require "chef_core/error"
 require "chef_apply/cli/validation"
 
 RSpec.describe ChefApply::CLI::Validation do

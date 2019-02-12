@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/target_host"
-require "chef_apply/error"
+require "chef_core/target_host"
+require "chef_core/error"
 
 module ChefApply
   class TargetResolver
@@ -174,25 +174,25 @@ module ChefApply
       end
     end
 
-    class InvalidRange < ErrorNoLogs
+    class InvalidRange < ChefCore::ErrorNoLogs
       def initialize(unresolved_target, given_range)
         super("CHEFRANGE001", unresolved_target, given_range)
       end
     end
 
-    class TooManyRanges < ErrorNoLogs
+    class TooManyRanges < ChefCore::ErrorNoLogs
       def initialize(unresolved_target)
         super("CHEFRANGE002", unresolved_target)
       end
     end
 
-    class TooManyTargets < ErrorNoLogs
+    class TooManyTargets < ChefCore::ErrorNoLogs
       def initialize(num_top_level_targets, max_targets)
         super("CHEFRANGE003", num_top_level_targets, max_targets)
       end
     end
 
-    class UnsupportedProtocol < ErrorNoLogs
+    class UnsupportedProtocol < ChefCore::ErrorNoLogs
       def initialize(attempted_protocol)
         super("CHEFVAL011", attempted_protocol,
               ChefApply::Config::SUPPORTED_PROTOCOLS.join(" "))

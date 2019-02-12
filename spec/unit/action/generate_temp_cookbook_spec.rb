@@ -15,17 +15,17 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/generate_temp_cookbook"
+require "chef_apply/actions/generate_temp_cookbook"
 
-RSpec.describe ChefCore::Action::GenerateTempCookbook do
+RSpec.describe ChefApply::Actions::GenerateTempCookbook do
   let(:options) { {} }
-  subject { ChefCore::Action::GenerateTempCookbook }
+  subject { ChefApply::Actions::GenerateTempCookbook }
 
   describe ".from_options" do
     context "when given options for a recipe" do
       let(:options) { { recipe_spec: "some::recipe" } }
       it "returns a GenerateCookbookFromRecipe action" do
-        expect(subject.from_options(options)).to be_a(ChefCore::Action::GenerateCookbookFromRecipe)
+        expect(subject.from_options(options)).to be_a(ChefApply::Actions::GenerateCookbookFromRecipe)
       end
     end
 
@@ -36,21 +36,21 @@ RSpec.describe ChefCore::Action::GenerateTempCookbook do
           resource_properties: resource_properties } end
 
       it "returns a GenerateCookbookFromResource action" do
-        expect(subject.from_options(options)).to be_a ChefCore::Action::GenerateCookbookFromResource
+        expect(subject.from_options(options)).to be_a ChefApply::Actions::GenerateCookbookFromResource
       end
     end
 
     context "when not given sufficient options for either" do
       let(:options) { {} }
       it "raises MissingOptions" do
-        expect { subject.from_options(options) }.to raise_error ChefCore::Action::MissingOptions
+        expect { subject.from_options(options) }.to raise_error ChefCore::Actions::MissingOptions
       end
     end
 
   end
 
   describe "#perform_action" do
-    subject { ChefCore::Action::GenerateTempCookbook.new( {} ) }
+    subject { ChefApply::Actions::GenerateTempCookbook.new( {} ) }
     it "generates a cookbook, notifies caller, and makes the cookbook available" do
       expect(subject).to receive(:notify).ordered.with(:generating)
       expect(subject).to receive(:generate)
@@ -63,10 +63,10 @@ RSpec.describe ChefCore::Action::GenerateTempCookbook do
 
 end
 
-RSpec.describe ChefCore::Action::GenerateCookbookFromRecipe do
+RSpec.describe ChefApply::Actions::GenerateCookbookFromRecipe do
   xit "#generate", "Please implement me"
 end
 
-RSpec.describe ChefCore::Action::GenerateCookbookFromResource do
+RSpec.describe ChefApply::Actions::GenerateCookbookFromResource do
   xit "#generate", "Please implement me"
 end

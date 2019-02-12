@@ -66,7 +66,7 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    ChefApply::Log.setup "/dev/null", :error
+    ChefCore::Log.setup "/dev/null", :error
     ChefCore::CLIUX::UI::Terminal.init(File.open("/dev/null", "w"))
   end
 end

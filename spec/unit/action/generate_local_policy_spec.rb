@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 require "spec_helper"
-require "chef_apply/action/generate_local_policy"
+require "chef_core/actions/generate_local_policy"
 require "chef-dk/policyfile_services/install"
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"

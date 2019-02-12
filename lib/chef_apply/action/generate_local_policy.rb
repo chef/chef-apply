@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/base"
-require "chef_apply/error"
+require "chef_core/actions/base"
+require "chef_core/error"
 module ChefApply
   module Action
     class GenerateLocalPolicy < Base
@@ -54,7 +54,7 @@ module ChefApply
       end
 
     end
-    class PolicyfileInstallError < ChefApply::Error
+    class PolicyfileInstallError < ChefCore::Error
       def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
     end
   end

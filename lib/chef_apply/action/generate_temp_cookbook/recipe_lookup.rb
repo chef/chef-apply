@@ -17,9 +17,9 @@
 
 require "chef-config/config"
 require "chef_apply/config"
-require "chef_apply/error"
-require "chef_apply/log"
-require "chef_apply/action/base"
+require "chef_core/error"
+require "chef_core/log"
+require "chef_core/actions/base"
 
 module ChefApply
   module Action
@@ -93,22 +93,22 @@ module ChefApply
           end
         end
 
-        class InvalidCookbook < ChefApply::Error
+        class InvalidCookbook < ChefCore::Error
           def initialize(cookbook_path); super("CHEFVAL005", cookbook_path); end
         end
 
-        class CookbookNotFound < ChefApply::Error
+        class CookbookNotFound < ChefCore::Error
           def initialize(cookbook_name, repo_paths)
             repo_paths = repo_paths.join("\n")
             super("CHEFVAL006", cookbook_name, repo_paths)
           end
         end
 
-        class NoDefaultRecipe < ChefApply::Error
+        class NoDefaultRecipe < ChefCore::Error
           def initialize(cookbook_path, cookbook_name); super("CHEFVAL007", cookbook_path, cookbook_name); end
         end
 
-        class RecipeNotFound < ChefApply::Error
+        class RecipeNotFound < ChefCore::Error
           def initialize(cookbook_path, recipe_name, available_recipes, cookbook_name)
             available_recipes.map! { |r| "'#{r}'" }
             available_recipes = available_recipes.join(", ")

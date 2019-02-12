@@ -29,13 +29,13 @@ require "chef_apply/cli/validation"
 require "chef_apply/cli/options"
 require "chef_apply/cli/help"
 require "chef_apply/target_resolver"
-require "chef_apply/ui/error_printer"
-require "chef_apply/ui/terminal"
-require "chef_apply/ui/terminal/job"
+require "chef_core/cliux/ui/error_printer"
+require "chef_core/cliux/ui/terminal"
+require "chef_core/cliux/ui/terminal/job"
 
-require "chef_apply/action/generate_temp_cookbook"
-require "chef_apply/action/generate_local_policy"
-require "chef_apply/action/converge_target"
+require "chef_core/actions/generate_temp_cookbook"
+require "chef_core/actions/generate_local_policy"
+require "chef_core/actions/converge_target"
 
 module ChefApply
   class CLI
@@ -168,7 +168,7 @@ module ChefApply
     end
 
     def install(target_host, reporter)
-      require "chef_apply/action/install_chef"
+      require "chef_core/actions/install_chef"
       context = TS.install_chef
       reporter.update(context.verifying)
       installer = Action::InstallChef.new(target_host: target_host,
@@ -278,14 +278,14 @@ module ChefApply
     end
 
     def handle_perform_error(e)
-      require "chef_apply/errors/standard_error_resolver"
+      require "chef_core/errors/standard_error_resolver"
       id = e.respond_to?(:id) ? e.id : e.class.to_s
       # TODO: This is currently sending host information for certain ssh errors
       #       post release we need to scrub this data. For now I'm redacting the
       #       whole message.
       # message = e.respond_to?(:message) ? e.message : e.to_s
       ChefCore::Telemeter.capture(:error, exception: { id: id, message: "redacted" })
-      wrapper = ChefApply::Errors::StandardErrorResolver.wrap_exception(e)
+      wrapper = ChefCore::Errors::StandardErrorResolver.wrap_exception(e)
       capture_exception_backtrace(wrapper)
       # Now that our housekeeping is done, allow user-facing handling/formatting
       # in `run` to execute by re-raising

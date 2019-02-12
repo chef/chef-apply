@@ -15,15 +15,15 @@
 # limitations under the License.
 
 require "chef_apply/config"
-require "chef_apply/text"
-require "chef_apply/ui/terminal"
-require "chef_apply/telemeter/sender"
+require "chef_core/text"
+require "chef_core/cliux/ui/terminal"
+require "chef_core/telemeter/sender"
 require "chef/log"
 require "chef/config"
 module ChefApply
   class Startup
     attr_reader :argv
-    T = ChefApply::Text.cli
+    T = ChefCore::Text.cli
 
     def initialize(argv)
       @term_init = false
@@ -180,14 +180,14 @@ module ChefApply
     end
 
     def setup_logging
-      ChefApply::Log.setup(Config.log.location, Config.log.level.to_sym)
-      ChefApply::Log.info("Initialized logger")
+      ChefCore::Log.setup(Config.log.location, Config.log.level.to_sym)
+      ChefCore::Log.info("Initialized logger")
 
-      ChefConfig.logger = ChefApply::Log
+      ChefConfig.logger = ChefCore::Log
       # Setting the config isn't enough, we need to ensure the logger is initialized
       # or automatic initialization will still go to stdout
-      Chef::Log.init(ChefApply::Log.location)
-      Chef::Log.level = ChefApply::Log.level
+      Chef::Log.init(ChefCore::Log.location)
+      Chef::Log.level = ChefCore::Log.level
     end
 
     def start_chef_apply

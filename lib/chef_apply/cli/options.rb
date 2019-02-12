@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/text"
+require "chef_core/text"
 
 # Moving the options into here so the cli.rb file is smaller and easier to read
 # For options that need to be merged back into the global ChefApply::Config object
@@ -30,8 +30,8 @@ module ChefApply
   class CLI
     module Options
 
-      T = ChefApply::Text.cli
-      TS = ChefApply::Text.status
+      T = ChefCore::Text.cli
+      TS = ChefCore::Text.status
 
       def self.included(klass)
         klass.banner T.description + "\n" + T.usage_full

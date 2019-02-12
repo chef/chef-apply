@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "chef_apply/action/base"
-require "chef_apply/error"
+require "chef_core/actions/base"
+require "chef_core/error"
 module ChefApply
-  module Action
+  module Actions
     class GenerateTempCookbook < Base
       attr_reader :generated_cookbook
 
@@ -35,7 +35,7 @@ module ChefApply
 
       def initialize(options)
         super(options)
-        require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
+        require "chef_apply/actions/generate_temp_cookbook/temp_cookbook"
         @generated_cookbook ||= TempCookbook.new
       end
 
@@ -54,12 +54,12 @@ module ChefApply
       def generate
         recipe_specifier = config.delete :recipe_spec
         repo_paths = config.delete :cookbook_repo_paths
-        ChefApply::Log.debug("Beginning to look for recipe specified as #{recipe_specifier}")
+        ChefCore::Log.debug("Beginning to look for recipe specified as #{recipe_specifier}")
         if File.file?(recipe_specifier)
-          ChefApply::Log.debug("#{recipe_specifier} is a valid path to a recipe")
+          ChefCore::Log.debug("#{recipe_specifier} is a valid path to a recipe")
           recipe_path = recipe_specifier
         else
-          require "chef_apply/action/generate_temp_cookbook/recipe_lookup"
+          require "chef_apply/actions/generate_temp_cookbook/recipe_lookup"
           rl = RecipeLookup.new(repo_paths)
           cookbook_path_or_name, optional_recipe_name = rl.split(recipe_specifier)
           cookbook = rl.load_cookbook(cookbook_path_or_name)
@@ -74,7 +74,7 @@ module ChefApply
         type = config.delete :resource_type
         name = config.delete :resource_name
         props = config.delete :resource_properties
-        ChefApply::Log.debug("Generating cookbook for ad-hoc resource #{type}[#{name}]")
+        ChefCore::Log.debug("Generating cookbook for ad-hoc resource #{type}[#{name}]")
         generated_cookbook.from_resource(type, name, props)
       end
     end

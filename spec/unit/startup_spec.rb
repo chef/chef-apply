@@ -4,7 +4,7 @@ require "chef_apply/ui/terminal"
 
 RSpec.describe ChefApply::Startup do
   let(:argv) { [] }
-  let(:telemetry) { ChefApply::Telemeter.instance }
+  let(:telemetry) { ChefCore::Telemeter.instance }
   subject do
     ChefApply::Startup.new(argv)
   end

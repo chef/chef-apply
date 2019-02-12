@@ -32,7 +32,7 @@ RSpec.describe ChefApply::CLI do
   subject { ChefApply::CLI.new(argv) }
   let(:argv) { [] }
   # TODO why isn't this mocked?
-  let(:telemetry) { ChefApply::Telemeter.instance }
+  let(:telemetry) { ChefCore::Telemeter.instance }
 
   before do
     # Avoid messy object dumps in failures because subject is an object instance

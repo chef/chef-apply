@@ -67,7 +67,7 @@ module ChefApply
       # NOTE: We're not currently sending arguments to telemetry because we have not implemented
       #       pre-parsing of arguments to eliminate potentially sensitive data such as
       #       passwords in host name, or in ad-hoc converge properties.
-      Telemeter.timed_run_capture([:redacted]) do
+      ChefCore::Telemeter.timed_run_capture([:redacted]) do
         begin
           perform_run
         rescue Exception => e
@@ -77,7 +77,7 @@ module ChefApply
     rescue => e
       @rc = handle_run_error(e)
     ensure
-      Telemeter.commit
+      ChefCore::Telemeter.commit
       exit @rc
     end
 
@@ -218,7 +218,7 @@ module ChefApply
                  resource_name: arguments.shift,
                  resource_properties: properties_from_string(arguments) }
              end
-      action = ChefCore::Actions::GenerateTempCookbook.from_options(opts)
+      action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
       action.run do |event, data|
         case event
         when :generating
@@ -284,7 +284,7 @@ module ChefApply
       #       post release we need to scrub this data. For now I'm redacting the
       #       whole message.
       # message = e.respond_to?(:message) ? e.message : e.to_s
-      Telemeter.capture(:error, exception: { id: id, message: "redacted" })
+      ChefCore::Telemeter.capture(:error, exception: { id: id, message: "redacted" })
       wrapper = ChefApply::Errors::StandardErrorResolver.wrap_exception(e)
       capture_exception_backtrace(wrapper)
       # Now that our housekeeping is done, allow user-facing handling/formatting
@@ -315,7 +315,7 @@ module ChefApply
     def handle_message(message, data, reporter)
       if message == :error # data[0] = exception
         # Mark the current task as failed with whatever data is available to us
-        reporter.error(ChefCore::CLIUX::UI::ErrorPrinter.error_summary(data[0]))
+        reporter.error(ChefApply::UI::ErrorPrinter.error_summary(data[0]))
       end
     end
 
@@ -329,7 +329,7 @@ module ChefApply
       target_host.connect!
       reporter.update(T.status.connected)
     rescue StandardError => e
-      message = ChefCore::CLIUX::UI::ErrorPrinter.error_summary(e)
+      message = ChefApply::UI::ErrorPrinter.error_summary(e)
       reporter.error(message)
       raise
     end

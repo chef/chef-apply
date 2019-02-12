@@ -86,7 +86,7 @@ module ChefApply
       when nil
         RC_OK
       when WrappedError
-        UI::ErrorPrinter.show_error(e, Config.error_output_path)
+        UI::ErrorPrinter.show_error(e, error_config)
         RC_COMMAND_FAILED
       when SystemExit
         e.status
@@ -173,7 +173,7 @@ module ChefApply
       reporter.update(context.verifying)
       installer = Action::InstallChef.new(target_host: target_host,
                                           check_only: !parsed_options[:install],
-                                          trusted_certs_dir:
+                                          trusted_certs_dir: Config.trusted_certs_dir
                                           data_collector_url: Config.data_collector.url,
                                           data_collector_token: Config.data_collector.token,
                                           cache_path: Config.cache.path,
@@ -320,8 +320,10 @@ module ChefApply
     end
 
     def capture_exception_backtrace(e)
-      UI::ErrorPrinter.write_backtrace(e, @argv)
+      UI::ErrorPrinter.write_backtrace(e, @argv, error_config)
     end
+
+    private
 
     def do_connect(target_host, reporter)
       target_host.connect!
@@ -332,5 +334,12 @@ module ChefApply
       raise
     end
 
+    def error_config
+      {
+        log_location: Config.log.location,
+        output_path_for_multiple_errors: Config.error_output_path,
+        stack_trace_path: Config.stack_trace_path
+      }
+    end
   end
 end

@@ -337,7 +337,7 @@ module ChefApply
     def error_config
       {
         log_location: Config.log.location,
-        output_path_for_multiple_errors: Config.error_output_path,
+        error_output_path: Config.error_output_path,
         stack_trace_path: Config.stack_trace_path
       }
     end

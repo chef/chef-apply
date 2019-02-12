@@ -20,8 +20,8 @@ require "chef-dk/policyfile_services/install"
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
 
-RSpec.describe ChefApply::Action::GenerateLocalPolicy do
-  subject { ChefApply::Action::GenerateLocalPolicy.new(cookbook: cookbook) }
+RSpec.describe ChefCore::Actions::GenerateLocalPolicy do
+  subject { ChefCore::Actions::GenerateLocalPolicy.new(cookbook: cookbook) }
   let(:cookbook) do
     double("TempCookbook",
            path: "/my/temp/cookbook",
@@ -63,7 +63,7 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
       it "reraises as PolicyfileInstallError" do
         expect(subject).to receive(:installer).and_return installer_double
         expect(installer_double).to receive(:run).and_raise(ChefDK::PolicyfileInstallError.new("", nil))
-        expect { subject.perform_action }.to raise_error(ChefApply::Action::PolicyfileInstallError)
+        expect { subject.perform_action }.to raise_error(ChefCore::Actions::PolicyfileInstallError)
       end
     end
 

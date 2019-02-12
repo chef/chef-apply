@@ -173,7 +173,7 @@ module ChefApply
       reporter.update(context.verifying)
       installer = Action::InstallChef.new(target_host: target_host,
                                           check_only: !parsed_options[:install],
-                                          trusted_certs_dir: Config.trusted_certs_dir
+                                          trusted_certs_dir: Config.trusted_certs_dir,
                                           data_collector_url: Config.data_collector.url,
                                           data_collector_token: Config.data_collector.token,
                                           cache_path: Config.cache.path,
@@ -218,7 +218,7 @@ module ChefApply
                  resource_name: arguments.shift,
                  resource_properties: properties_from_string(arguments) }
              end
-      action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
+      action = ChefCore::Actions::GenerateTempCookbook.from_options(opts)
       action.run do |event, data|
         case event
         when :generating

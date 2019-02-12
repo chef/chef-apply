@@ -176,7 +176,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when a resource is provided" do
       it "gets an action via GenerateTempCookbook.from_options and executes it " do
-        expect(ChefApply::Action::GenerateTempCookbook)
+        expect(ChefCore::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .with(resource_type: "user",
                 resource_name: "test", resource_properties: {})
@@ -189,7 +189,7 @@ RSpec.describe ChefApply::CLI do
     context "when a recipe specifier is provided" do
 
       it "gets an action via GenerateTempCookbook.from_options and executes it" do
-        expect(ChefApply::Action::GenerateTempCookbook)
+        expect(ChefCore::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .with(recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp")
           .and_return(action)
@@ -201,7 +201,7 @@ RSpec.describe ChefApply::CLI do
     context "when generator posts event:" do
       let(:reporter) { double("reporter") }
       before do
-        expect(ChefApply::Action::GenerateTempCookbook)
+        expect(ChefCore::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .and_return(action)
         allow(action).to receive(:run) { |&block| block.call(event, event_args) }
@@ -241,7 +241,7 @@ RSpec.describe ChefApply::CLI do
       allow(action).to receive(:archive_file_location).and_return archive_file_location
     end
     it "creates a GenerateLocalPolicy action and executes it" do
-      expect(ChefApply::Action::GenerateLocalPolicy).to receive(:new)
+      expect(ChefCore::Actions::GenerateLocalPolicy).to receive(:new)
         .with(cookbook: temp_cookbook)
         .and_return(action)
       expect(action).to receive(:run)
@@ -250,7 +250,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when generator posts an event:" do
       before do
-        expect(ChefApply::Action::GenerateLocalPolicy).to receive(:new)
+        expect(ChefCore::Actions::GenerateLocalPolicy).to receive(:new)
           .with(cookbook: temp_cookbook)
           .and_return(action)
         allow(action).to receive(:run) { |&block| block.call(event, event_args) }
@@ -291,7 +291,7 @@ RSpec.describe ChefApply::CLI do
 
   describe "#render_cookbook_setup" do
     let(:reporter) { instance_double(ChefApply::StatusReporter) }
-    let(:temp_cookbook) { double(ChefApply::Action::GenerateTempCookbook::TempCookbook) }
+    let(:temp_cookbook) { double(ChefCore::Actions::GenerateTempCookbook::TempCookbook) }
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
     # before do
@@ -320,7 +320,7 @@ RSpec.describe ChefApply::CLI do
     let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
-      instance_double(ChefApply::Action::GenerateTempCookbook::TempCookbook,
+      instance_double(ChefCore::Actions::GenerateTempCookbook::TempCookbook,
                       descriptor: "resource[name]",
                       from: "resource") end
     let(:archive_file_location) { "/path/to/archive" }
@@ -351,7 +351,7 @@ RSpec.describe ChefApply::CLI do
     let(:target_host) { double("targethost", installed_chef_version: "14.0") }
     let(:reporter) { double("reporter") }
     let(:action) do
-      double("ChefApply::Actions::InstallChef",
+      double("ChefCore::Actionss::InstallChef",
                           upgrading?: upgrading,
                           version_to_install: "14.0") end
 
@@ -359,7 +359,7 @@ RSpec.describe ChefApply::CLI do
       expect(reporter)
         .to receive(:update)
         .with(ChefApply::CLI::TS.install_chef.verifying)
-      expect(ChefApply::Action::InstallChef).to receive(:new)
+      expect(ChefCore::Actions::InstallChef).to receive(:new)
         .with(target_host: target_host, check_only: false)
         .and_return action
       expect(action).to receive(:run)
@@ -371,7 +371,7 @@ RSpec.describe ChefApply::CLI do
       let(:text_context) { ChefApply::Text.status.install_chef }
 
       before do
-        allow(ChefApply::Action::InstallChef)
+        allow(ChefCore::Actions::InstallChef)
           .to receive(:new).and_return action
         allow(action)
           .to receive(:run) { |&block| block.call(event, event_args) }

@@ -18,7 +18,7 @@ require "chef_core/actions/base"
 require "chef_core/error"
 module ChefApply
   module Actions
-    class GenerateTempCookbook < Base
+    class GenerateTempCookbook < ChefCore::Actions::Base
       attr_reader :generated_cookbook
 
       def self.from_options(opts)
@@ -79,7 +79,7 @@ module ChefApply
       end
     end
 
-    class MissingOptions < ChefApply::APIError
+    class MissingOptions < ChefCore::APIError
       def initialize(*args); super("CHEFAPI001", *args); end
     end
   end

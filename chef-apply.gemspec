@@ -44,6 +44,7 @@ Gem::Specification.new do |spec|
                                       # simplifies managing a configuration file
   spec.add_dependency "toml-rb" # This isn't ideal because mixlib-config uses 'tomlrb'
                                 # but that library does not support a dumper
+  spec.add_dependency "chef-dk"   # Policyfile support, we use it to pre-configure remote ad-hoc runs
   spec.add_dependency "chef_core" # remote host connectity, logging, i18n, etc
   spec.add_dependency "chef_core-actions" # actions that can be used to construct UX flows
   spec.add_dependency "chef_core-cliux" # CLI UX - handles output, formatting, etc.

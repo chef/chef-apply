@@ -17,9 +17,10 @@
 
 require "chef_core/actions/base"
 require "chef_core/error"
+
 module ChefApply
-  module Action
-    class GenerateLocalPolicy < Base
+  module Actions
+    class GenerateLocalPolicy < ChefCore::Actions::Base
       attr_reader :archive_file_location
       def initialize(config)
         super(config)

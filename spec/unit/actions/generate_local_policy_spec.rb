@@ -15,13 +15,16 @@
 # limitations under the License.
 #
 require "spec_helper"
-require "chef_core/actions/generate_local_policy"
+# These are loaded on-demand out of generate_local_policy, so our use of
+# mocks here will cause failures without these requires.
+# TODO: switch to full mocks for policyfile
+require "chef_apply/actions/generate_local_policy"
 require "chef-dk/policyfile_services/install"
-require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
+require "chef-dk/ui"
 
-RSpec.describe ChefCore::Actions::GenerateLocalPolicy do
-  subject { ChefCore::Actions::GenerateLocalPolicy.new(cookbook: cookbook) }
+RSpec.describe ChefApply::Actions::GenerateLocalPolicy do
+  subject { ChefApply::Actions::GenerateLocalPolicy.new(cookbook: cookbook) }
   let(:cookbook) do
     double("TempCookbook",
            path: "/my/temp/cookbook",

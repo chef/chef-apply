@@ -33,9 +33,9 @@ require "chef_core/cliux/ui/error_printer"
 require "chef_core/cliux/ui/terminal"
 require "chef_core/cliux/ui/terminal/job"
 
-require "chef_core/actions/generate_temp_cookbook"
-require "chef_core/actions/generate_local_policy"
 require "chef_core/actions/converge_target"
+require "chef_apply/actions/generate_temp_cookbook"
+require "chef_apply/actions/generate_local_policy"
 
 module ChefApply
   class CLI

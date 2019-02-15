@@ -18,7 +18,7 @@
 #
 # General format:
 # ERRORID
-#   display: optional hash of display options. See display_defaults below.
+#   options: optional hash of display options. See display_defaults below.
 #   text: |
 #      text of the message
 #
@@ -37,62 +37,14 @@
 # Text.ERRORID(quanity, [other formatting params])
 
 errors:
-  # These are the default display attributes for all messages.
-  # If you want to override them for specific errors,
-  # you can do so as follows:
-  # EXAMPLERROR001:
-  #   display: { decorations: false }
-  #   text: |
-  #     Here is the message text.
-  display_defaults:
-    # Set 'decorations: false' in a message to show only text. Equivalent
-    # to setting all of the other attributes to false individually
-    decorations: true
-    stack: false # show reference to stack trace location in footer
-    log: false # show reference to log file location in footer
-    header: true  # Show error header (currently bolded error id)
-    footer: true # show standard footer
-
   # Catch-all for the worst case
   UNKNOWN:
-    display: { stack: true, log: true }
+    options: " { stack: true, log: true } "
     text: An unknown error has occurred.
-
-  # Installer action errors
-  CHEFINS002:
-    text: |
-      The target does not have chef-client installed.
-
-      This command is powered by the Chef client.  In order to make use of it
-      on this node, the Chef client must be installed first.
-
-      Re-running this command without the '--no-install' flag will
-      automatically perform the installation.
-
-  CHEFINS003: |
-    The target's installed version of Chef Client is too old.
-
-    Version %1 is installed, but this command requires a
-    minimum version of %2 (Chef 13) or %3 (Chef 14).
-
-  CHEFINS004: |
-    The target's installed version of Chef Client is too old.
-
-    Version %1 is installed, but this command requires a
-    minimum version of %2.
-
-  CHEFINS003:
-    text: |
-      The target has an older version of Chef client installed.
-
-      The target has version %1 installed, but this command
-      requires a minimum version of %2.
-
-      Please upgrade the Chef client on this node to version %2 or later.
 
 # Local errors trying to create policy to send to target
   CHEFPOLICY001:
-    display: { stack: true, log: true }
+    options: " { stack: true, log: true } "
     text: |
       Could not create local Policyfile bundle.
 
@@ -100,167 +52,19 @@ errors:
 
         %1
 
-# Remote execution and file operation errors are prefixed CHEFRMT
-  CHEFRMT001:
-    text: |
-      The command '%1' exited with return code '%2' on '%3'.
-
-      The following error was reported:
-
-      %4
-
-  # Remote chef client run failure start here.
-  CHEFCCR001:
-    text: |
-      Could not determine reason for converge failure.
-
-      An error occurred while converging the remote host.
-      I was unable to retrieve the log file which would allow
-      me to provide more information.  Here's where I looked:
-
-        %1
-
-  CHEFCCR002:
-    text: |
-      The converge of the remote host failed for the
-      following reason:
-
-        %1
-
-  CHEFCCR003:
-    text: |
-      The action '%1' is not valid.
-
-      Valid actions are:
-
-        %2
-
-      For more information, please consult the documentation
-      for this resource:
-
-        https://docs.chef.io/resource_reference.html
-
-  CHEFCCR004:
-    text: |
-      A property value you provided is not valid:
-
-        %1
-
-      Please consult the documentation for properties
-      supported by your resource and their valid values:
-
-        https://docs.chef.io/resource_reference.html
-
-  CHEFCCR005:
-    text: |
-      '%1' is not a valid Chef resource.
-
-      Please consult the documentation for a list of valid resources:
-
-        https://docs.chef.io/resource_reference.html
-
-  CHEFCCR006:
-    text: |
-      '%1' is not a property of '%2'.
-
-      Please consult the documentation for %2 for a list of
-      valid properties:
-
-        https://docs.chef.io/resource_reference.html
-
-  CHEFCCR099:
-    text: |
-      The converge of the remote host failed.
-
-      Please examine the log file for a detailed cause of failure.
-
-  # Train-related errors (connectivy, auth failure, etc)
-  # are prefixed CHEFTRN. Non-specific descendants of Train::Error
-  # will resolve to CHEFTRN001, and we can add additional
-  # more specific text as we need it.
-  CHEFTRN001:
-    text: |
-      An error has occurred on the %1 connection to %2:
-
-      %2.
-
-  CHEFTRN002:
-    text: |
-      An remote error has occurred:
-
-        %1.
-
-  CHEFTRN003:
-    text: |
-      Password required for sudo.
-
-      This target requires a password to perform sudo operations.  Please provide a
-      password using the --sudo-password option. For example if the sudo password is
-      in the environment variable $CHEF_RUN_SUDO_PASSWORD, you could use:
-
-      --sudo-password $CHEF_RUN_SUDO_PASSWORD
-
-  CHEFTRN004:
-    text: |
-      Incorrect sudo password provided.
-
-      Please ensure that the password you provided with "--sudo-password" is correct.
-
-  CHEFTRN005:
-    text: |
-      sudo command '%1' not found.
-
-      Please verify that the --sudo-command '%1' is valid
-      and installed on this node.
-
-  CHEFTRN006:
-    text: |
-      sudo requires tty on this system
-
-      In order to continue, sudo must be configured to no longer require tty.
-      You can do this by modifying /etc/sudoers:
-
-      For all users:
-        Defaults !requiretty
-
-      Per-user:
-        Defaults:username !requiretty
-
-  CHEFTRN007:
-    text: |
-      No authentication methods available.
-
-      Try...
-      - Provide a password with "--password PASSWORD"
-      - Provide a key with "-identity-file PATH/TO/FILE"
-      - Enable ssh-agent and add keys
-      - Add a host entry to your ssh configuration
-
-      Additional instructions can be found in the troubleshooting documentation:
-
-      https://www.chef.sh/docs/chef-workstation/troubleshooting/#error-code-cheftrn007
-
-  CHEFTRN999:
-    text: |
-      Connection failed: %1
-
-      The following error occured while attempting to connect and authenticate to the target.
-
-      %1
-
-  # CLI argument validation errors
+# CLI argument validation errors
   CHEFVAL002:
-    display: { decorations: false }
+    options: " { decorations: false } "
     text: |
       You must supply <TARGET[S]> and either <RESOURCE> and <RESOURCE_NAME> or <RECIPE>
 
   CHEFVAL003:
-    display: { decorations: false }
+    options: " { decorations: false } "
     text: |
       Property '%1' did not match the 'key=value' syntax required
 
   CHEFVAL004:
-    display: { decorations: false }
+    options: " { decorations: false } "
     text: |
       Please provide a recipe in the form 'path/to/recipe/file.rb',
       'path/to/cookbook', 'cookbook_name' or 'cookbook_name::recipe_name'.
@@ -268,7 +72,7 @@ errors:
       You provided '%1'.
 
   CHEFVAL005:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       The cookbook provided could not be loaded. Ensure it contains a valid
       'metadata.rb'.
@@ -276,14 +80,14 @@ errors:
       Cookbook path is '%1'.
 
   CHEFVAL006:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       Cookbook '%1' could not be found in any of the following directories
 
       %2
 
   CHEFVAL007:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       There is no default recipe in cookbook '%2'. Please provide the name of the recipe to run, for example:
         %2::some_recipe
@@ -291,7 +95,7 @@ errors:
       Cookbook path is '%1'.
 
   CHEFVAL008:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       There is no recipe named '%2' in the cookbook '%4', which I found at '%1'.
 
@@ -301,12 +105,12 @@ errors:
       %3
 
   CHEFVAL009:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       File extension '%1' is unsupported. Currently recipes must be specified with a `.rb` extension.
 
   CHEFVAL010:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       The flag '%1' does not exist.
 
@@ -314,7 +118,7 @@ errors:
         %2
 
   CHEFVAL011:
-    display: { decorations: false }
+    display: " { decorations: false } "
     text: |
       The protocol '%1' is not supported.
 
@@ -322,17 +126,9 @@ errors:
 
         %2
 
-  # General errors/unknown errors are handled with CHEFINT
-  CHEFINT001:
-    display: { log: true, stack: true }
-    text: |
-      An unexpected error has occurred:
-
-        %1
-
   # Internal API errors - give them some formatting
   CHEFAPI001:
-    display: { log: true, stack: true }
+    options: " { log: true, stack: true } "
     text: |
       API error: provide either :recipe_spec or :resouce_name, :resource_type,
       and :resource_properties
@@ -349,36 +145,6 @@ errors:
 
       Please verify the host name or address is correct and that the host is
       reachable before trying again.
-
-  # Remote chef client run failure start here.
-  CHEFUPL003:
-    display: { log: true, stack: true }
-    text: |
-      Uploading config to target failed.
-
-  CHEFUPL004:
-    display: { log: true, stack: true }
-    text: |
-      Uploading handler to target failed.
-
-  CHEFUPL005:
-    display: { log: true, stack: true }
-    text: |
-      Uploading policy bundle to target failed.
-
-  # Maps to: SSL::SSLError with message text indicating verification failure
-  CHEFNET002:
-    text: |
-      SSL host verification failed.
-
-      I could not verify the identity of the remote host.
-
-      If you are certain that you are connecting to the correct host,
-      you can specify the '--no-ssl-verify' option for this command, or
-      make it the default by setting the following in your configuration:
-
-        [connection.winrm]
-        ssl_verify=false
 
   # Errors specifying target ranges
   CHEFRANGE001: |
@@ -405,45 +171,3 @@ errors:
 
         At this time there is a limit of %2 hosts in a single operation.
 
-  # Errors related to multi-target execution
-  CHEFMULTI001:
-    text: |
-      One or more actions has failed.
-
-      A complete list of failures and possible resolutions can
-      be found in the file below:
-
-        %1
-
-  # Errors relating to target state:
-  CHEFTARG001:
-    text: |
-      '%1' is not a supported target operating system at this time.
-
-      We plan to support a range of target operating systems,
-      but during this targeted beta we are constraining our efforts
-      to Windows and Linux.
-
-
-  footer:
-    both: |
-      If you are not able to resolve this issue, please contact Chef support
-      at workstation@chef.io and include the log file and stack trace from the
-      locations below:
-
-        %1
-        %2
-
-    log_only:  |
-      If you are not able to resolve this issue, please contact Chef support
-      at workstation@chef.io and include the log file from the location below:
-        %1
-
-    stack_only:  |
-      If you are not able to resolve this issue, please contact Chef support
-      at workstation@chef.io and include the stack trace from the location below:
-        %1
-
-    neither:  |
-      If you are not able to resolve this issue, please contact Chef support
-      at workstation@chef.io

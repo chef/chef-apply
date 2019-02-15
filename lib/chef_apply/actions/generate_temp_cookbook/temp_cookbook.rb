@@ -21,7 +21,7 @@ require "chef_core/log"
 require "chef_core/error"
 require "chef_apply/actions/generate_temp_cookbook"
 module ChefApply
-  module Action
+  module Actions
     class GenerateTempCookbook
       # This class knows how to create a local cookbook in a temp file, populate
       # it with various recipes, attributes, config, etc. and delete it when the

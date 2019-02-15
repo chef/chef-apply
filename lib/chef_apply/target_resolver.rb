@@ -41,7 +41,7 @@ module ChefApply
       end
       @targets = expanded_urls.map do |url|
         config = @conn_options.merge(config_for_target(url))
-        TargetHost.new(config.delete(:url), config)
+        ChefCore::TargetHost.new(config.delete(:url), config)
       end
     end
 

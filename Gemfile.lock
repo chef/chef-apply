@@ -1,27 +1,12 @@
-GIT
-  remote: https://github.com/chef/chef_core
-  revision: 5db6114ebb169c8c7f255943a5e3a577b4485899
-  branch: chef-core-split
-  specs:
-    chef_core (0.0.1)
-      chef-telemetry
-      mixlib-log
-      r18n-desktop
-      train
-
-GIT
-  remote: https://github.com/chef/chef_core-actions
-  revision: 1f232665ec4b242dbcd75ee2ba367a281e694fa0
-  branch: chef-core-split
+PATH
+  remote: ../chef_core-actions
   specs:
     chef_core-actions (0.0.1)
-      chef (>= 14.10)
+      chef-config
       chef_core
 
-GIT
-  remote: https://github.com/chef/chef_core-cliux
-  revision: f72d02cdd01a4ef4dffa80ac4a133077b9c5f6e7
-  branch: chef-core-split
+PATH
+  remote: ../chef_core-cliux
   specs:
     chef_core-cliux (0.0.1)
       chef_core
@@ -31,9 +16,19 @@ GIT
       tty-spinner
 
 PATH
+  remote: ../chef_core
+  specs:
+    chef_core (0.0.1)
+      chef-telemetry
+      mixlib-log
+      r18n-desktop
+      train
+
+PATH
   remote: .
   specs:
     chef-apply (0.2.10)
+      chef (>= 14.10)
       chef-dk
       chef_core
       chef_core-actions
@@ -48,13 +43,13 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
-    aws-sdk (2.11.219)
-      aws-sdk-resources (= 2.11.219)
-    aws-sdk-core (2.11.219)
+    aws-sdk (2.11.221)
+      aws-sdk-resources (= 2.11.221)
+    aws-sdk-core (2.11.221)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.219)
-      aws-sdk-core (= 2.11.219)
+    aws-sdk-resources (2.11.221)
+      aws-sdk-core (= 2.11.221)
     aws-sigv4 (1.0.3)
     azure_graph_rbac (0.17.0)
       ms_rest_azure (~> 0.11.0)

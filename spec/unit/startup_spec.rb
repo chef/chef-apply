@@ -26,6 +26,7 @@ RSpec.describe ChefApply::Startup do
   describe "#run" do
     it "performs ordered startup tasks and invokes the CLI" do
       ordered_messages = [:verify_not_in_chefdk,
+                          :load_localizations,
                           :first_run_tasks,
                           :setup_workstation_user_directories,
                           :setup_error_handling,
@@ -323,4 +324,15 @@ RSpec.describe ChefApply::Startup do
       subject.start_chef_apply
     end
   end
+
+  describe "#load_localizations" do
+    it "loads localizations for gems that require them" do
+      ChefApply::Startup::I18NIZED_GEMS.each do |gem_name|
+        expect(ChefCore::Text).to receive(:add_gem_localization).with(gem_name)
+      end
+      subject.load_localizations
+    end
+
+  end
 end
+

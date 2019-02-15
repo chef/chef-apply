@@ -24,6 +24,7 @@ require "chef_core/cliux/ui/terminal"
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
 require "chef-dk/policyfile_services/install"
+require "chef_core/actions/install_chef"
 require "chef_apply/actions/generate_temp_cookbook"
 require "chef_apply/actions/generate_temp_cookbook/temp_cookbook"
 
@@ -62,8 +63,9 @@ RSpec.describe ChefApply::CLI do
       let(:e) { ChefCore::WrappedError.new(RuntimeError.new("Test"), "host") }
 
       it "prints the error and exits" do
+        allow(subject).to receive(:error_config).and_return({ "config" => "here"})
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:show_error).with(e)
+        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:show_error).with(e, { "config" => "here" })
         expect { subject.run }.to exit_with_code(1)
       end
     end
@@ -175,7 +177,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when a resource is provided" do
       it "gets an action via GenerateTempCookbook.from_options and executes it " do
-        expect(ChefCore::Actions::GenerateTempCookbook)
+        expect(ChefApply::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .with(resource_type: "user",
                 resource_name: "test", resource_properties: {})
@@ -188,7 +190,7 @@ RSpec.describe ChefApply::CLI do
     context "when a recipe specifier is provided" do
 
       it "gets an action via GenerateTempCookbook.from_options and executes it" do
-        expect(ChefCore::Actions::GenerateTempCookbook)
+        expect(ChefApply::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .with(recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp")
           .and_return(action)
@@ -200,7 +202,7 @@ RSpec.describe ChefApply::CLI do
     context "when generator posts event:" do
       let(:reporter) { double("reporter") }
       before do
-        expect(ChefCore::Actions::GenerateTempCookbook)
+        expect(ChefApply::Actions::GenerateTempCookbook)
           .to receive(:from_options)
           .and_return(action)
         allow(action).to receive(:run) { |&block| block.call(event, event_args) }
@@ -240,7 +242,7 @@ RSpec.describe ChefApply::CLI do
       allow(action).to receive(:archive_file_location).and_return archive_file_location
     end
     it "creates a GenerateLocalPolicy action and executes it" do
-      expect(ChefCore::Actions::GenerateLocalPolicy).to receive(:new)
+      expect(ChefApply::Actions::GenerateLocalPolicy).to receive(:new)
         .with(cookbook: temp_cookbook)
         .and_return(action)
       expect(action).to receive(:run)
@@ -249,7 +251,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when generator posts an event:" do
       before do
-        expect(ChefCore::Actions::GenerateLocalPolicy).to receive(:new)
+        expect(ChefApply::Actions::GenerateLocalPolicy).to receive(:new)
           .with(cookbook: temp_cookbook)
           .and_return(action)
         allow(action).to receive(:run) { |&block| block.call(event, event_args) }
@@ -290,7 +292,7 @@ RSpec.describe ChefApply::CLI do
 
   describe "#render_cookbook_setup" do
     let(:reporter) { instance_double(ChefCore::CLIUX::StatusReporter) }
-    let(:temp_cookbook) { double(ChefCore::Actions::GenerateTempCookbook::TempCookbook) }
+    let(:temp_cookbook) { double(ChefApply::Actions::GenerateTempCookbook::TempCookbook) }
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
     # before do
@@ -319,7 +321,7 @@ RSpec.describe ChefApply::CLI do
     let(:host2) { ChefCore::TargetHost.new("ssh://host2") }
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
-      instance_double(ChefCore::Actions::GenerateTempCookbook::TempCookbook,
+      instance_double(ChefApply::Actions::GenerateTempCookbook::TempCookbook,
                       descriptor: "resource[name]",
                       from: "resource") end
     let(:archive_file_location) { "/path/to/archive" }
@@ -350,16 +352,17 @@ RSpec.describe ChefApply::CLI do
     let(:target_host) { double("targethost", installed_chef_version: "14.0") }
     let(:reporter) { double("reporter") }
     let(:action) do
-      double("ChefCore::Actionss::InstallChef",
+      double("ChefCore::Actions::InstallChef",
                           upgrading?: upgrading,
-                          version_to_install: "14.0") end
+                          version_to_install: "14.0")
+    end
 
     it "updates status, creates an InstallChef action and executes it" do
       expect(reporter)
         .to receive(:update)
         .with(ChefApply::CLI::TS.install_chef.verifying)
       expect(ChefCore::Actions::InstallChef).to receive(:new)
-        .with(target_host: target_host, check_only: false)
+        .with(hash_including(target_host: target_host, check_only: false))
         .and_return action
       expect(action).to receive(:run)
       subject.install(target_host, reporter)

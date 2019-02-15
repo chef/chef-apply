@@ -43,7 +43,7 @@ RSpec.describe ChefApply::Actions::GenerateTempCookbook do
     context "when not given sufficient options for either" do
       let(:options) { {} }
       it "raises MissingOptions" do
-        expect { subject.from_options(options) }.to raise_error ChefCore::Actions::MissingOptions
+        expect { subject.from_options(options) }.to raise_error ChefApply::Actions::MissingOptions
       end
     end
 

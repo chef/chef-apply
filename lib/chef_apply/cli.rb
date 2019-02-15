@@ -39,6 +39,7 @@ require "chef_apply/actions/generate_local_policy"
 
 module ChefApply
   class CLI
+    UI = ChefCore::CLIUX::UI
     attr_reader :temp_cookbook, :archive_file_location, :target_hosts
 
     include Mixlib::CLI
@@ -85,7 +86,7 @@ module ChefApply
       case e
       when nil
         RC_OK
-      when WrappedError
+      when ChefCore::WrappedError
         UI::ErrorPrinter.show_error(e, error_config)
         RC_COMMAND_FAILED
       when SystemExit
@@ -97,6 +98,8 @@ module ChefApply
         UI::ErrorPrinter.dump_unexpected_error(e)
         RC_UNHANDLED_ERROR
       end
+    rescue  => e
+      require 'pry'; binding.pry
     end
 
     def perform_run
@@ -171,14 +174,14 @@ module ChefApply
       require "chef_core/actions/install_chef"
       context = TS.install_chef
       reporter.update(context.verifying)
-      installer = Action::InstallChef.new(target_host: target_host,
-                                          check_only: !parsed_options[:install],
-                                          trusted_certs_dir: Config.trusted_certs_dir,
-                                          data_collector_url: Config.data_collector.url,
-                                          data_collector_token: Config.data_collector.token,
-                                          cache_path: Config.cache.path,
-                                          # TODO - should this be Config.chef.log_level?
-                                          target_log_level: Config.log.target_level )
+      installer = ChefCore::Actions::InstallChef.new(target_host: target_host,
+                                                     check_only: !parsed_options[:install],
+                                                     trusted_certs_dir: Config.chef.trusted_certs_dir,
+                                                     data_collector_url: Config.data_collector.url,
+                                                     data_collector_token: Config.data_collector.token,
+                                                     cache_path: Config.cache.path,
+                                                     # TODO - should this be Config.chef.log_level?
+                                                     target_log_level: Config.log.target_level )
       installer.run do |event, data|
         case event
         when :installing
@@ -218,7 +221,7 @@ module ChefApply
                  resource_name: arguments.shift,
                  resource_properties: properties_from_string(arguments) }
              end
-      action = ChefApply::Action::GenerateTempCookbook.from_options(opts)
+      action = ChefApply::Actions::GenerateTempCookbook.from_options(opts)
       action.run do |event, data|
         case event
         when :generating
@@ -235,7 +238,7 @@ module ChefApply
     # Runs the GenerateLocalPolicy action and renders UI updates
     # as the action reports back
     def generate_local_policy(reporter)
-      action = Action::GenerateLocalPolicy.new(cookbook: temp_cookbook)
+      action = ChefApply::Actions::GenerateLocalPolicy.new(cookbook: temp_cookbook)
       action.run do |event, data|
         case event
         when :generating
@@ -256,7 +259,7 @@ module ChefApply
     def converge(reporter, local_policy_path, target_host)
       reporter.update(TS.converge.converging(temp_cookbook.descriptor))
       converge_args = { local_policy_path: local_policy_path, target_host: target_host }
-      converger = Action::ConvergeTarget.new(converge_args)
+      converger = ChefCore::Actions::ConvergeTarget.new(converge_args)
       converger.run do |event, data|
         case event
         when :success
@@ -315,7 +318,7 @@ module ChefApply
     def handle_message(message, data, reporter)
       if message == :error # data[0] = exception
         # Mark the current task as failed with whatever data is available to us
-        reporter.error(ChefApply::UI::ErrorPrinter.error_summary(data[0]))
+        reporter.error(UI::ErrorPrinter.error_summary(data[0]))
       end
     end
 
@@ -329,7 +332,7 @@ module ChefApply
       target_host.connect!
       reporter.update(T.status.connected)
     rescue StandardError => e
-      message = ChefApply::UI::ErrorPrinter.error_summary(e)
+      message = UI::ErrorPrinter.error_summary(e)
       reporter.error(message)
       raise
     end

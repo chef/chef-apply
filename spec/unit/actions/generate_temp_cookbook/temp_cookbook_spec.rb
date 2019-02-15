@@ -19,8 +19,6 @@ require "spec_helper"
 require "tempfile"
 require "securerandom"
 require "chef_apply/actions/generate_temp_cookbook/temp_cookbook"
-require "chef_apply/startup"
-ChefCore::Startup.new([]).load_localizations
 
 RSpec.describe "ChefApply::Actions::GenerateTempCookbook::TempCookbook" do
   subject(:tc) { ChefApply::Actions::GenerateTempCookbook::TempCookbook.new }

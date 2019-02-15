@@ -66,7 +66,7 @@ RSpec.describe ChefApply::Actions::GenerateLocalPolicy do
       it "reraises as PolicyfileInstallError" do
         expect(subject).to receive(:installer).and_return installer_double
         expect(installer_double).to receive(:run).and_raise(ChefDK::PolicyfileInstallError.new("", nil))
-        expect { subject.perform_action }.to raise_error(ChefCore::Actions::PolicyfileInstallError)
+        expect { subject.perform_action }.to raise_error(ChefApply::Actions::PolicyfileInstallError)
       end
     end
 

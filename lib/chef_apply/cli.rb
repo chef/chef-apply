@@ -176,12 +176,7 @@ module ChefApply
       reporter.update(context.verifying)
       installer = ChefCore::Actions::InstallChef.new(target_host: target_host,
                                                      check_only: !parsed_options[:install],
-                                                     trusted_certs_dir: Config.chef.trusted_certs_dir,
-                                                     data_collector_url: Config.data_collector.url,
-                                                     data_collector_token: Config.data_collector.token,
-                                                     cache_path: Config.cache.path,
-                                                     # TODO - should this be Config.chef.log_level?
-                                                     target_log_level: Config.log.target_level )
+                                                     cache_path: Config.cache.path )
       installer.run do |event, data|
         case event
         when :installing
@@ -258,7 +253,14 @@ module ChefApply
     # the action reports back
     def converge(reporter, local_policy_path, target_host)
       reporter.update(TS.converge.converging(temp_cookbook.descriptor))
-      converge_args = { local_policy_path: local_policy_path, target_host: target_host }
+			converge_args = {
+				target_host: target_host,
+				local_policy_path: local_policy_path,
+				target_log_level: Config.log.target_level,
+				trusted_certs_dir: Config.chef.trusted_certs_dir,
+				data_collector_url: Config.data_collector.url,
+				data_collector_token: Config.data_collector.token
+			}
       converger = ChefCore::Actions::ConvergeTarget.new(converge_args)
       converger.run do |event, data|
         case event
@@ -283,9 +285,8 @@ module ChefApply
     def handle_perform_error(e)
       require "chef_core/errors/standard_error_resolver"
       id = e.respond_to?(:id) ? e.id : e.class.to_s
-      # TODO: This is currently sending host information for certain ssh errors
-      #       post release we need to scrub this data. For now I'm redacting the
-      #       whole message.
+      # TODO: This was sending host information for certain ssh errors
+      #       For now we'll just  redact the whole message
       # message = e.respond_to?(:message) ? e.message : e.to_s
       ChefCore::Telemeter.capture(:error, exception: { id: id, message: "redacted" })
       wrapper = ChefCore::Errors::StandardErrorResolver.wrap_exception(e)
@@ -295,9 +296,9 @@ module ChefApply
       raise wrapper
     end
 
-    # When running multiple jobs, exceptions are captured to the
+    # When running multiple jobs, exceptions are captured within the
     # job to avoid interrupting other jobs in process.  This function
-    # collects them and raises directly (in the case of just one job in the list)
+    # collects failures and raises directly (in the case of just one job in the list)
     # or raises a MultiJobFailure (when more than one job was being run)
     def handle_failed_jobs(jobs)
       failed_jobs = jobs.select { |j| !j.exception.nil? }

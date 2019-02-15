@@ -20,12 +20,12 @@ require "chef_apply/cli"
 require "chef_core/error"
 require "chef_core/telemeter"
 require "chef_core/cliux/ui/terminal"
-require "chef_core/actions/generate_temp_cookbook"
-require "chef_core/actions/generate_temp_cookbook/temp_cookbook"
 
 require "chef-dk/ui"
 require "chef-dk/policyfile_services/export_repo"
 require "chef-dk/policyfile_services/install"
+require "chef_apply/actions/generate_temp_cookbook"
+require "chef_apply/actions/generate_temp_cookbook/temp_cookbook"
 
 RSpec.describe ChefApply::CLI do
   subject { ChefApply::CLI.new(argv) }

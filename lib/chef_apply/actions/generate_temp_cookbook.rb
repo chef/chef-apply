@@ -16,6 +16,7 @@
 #
 require "chef_core/actions/base"
 require "chef_core/error"
+
 module ChefApply
   module Actions
     class GenerateTempCookbook < ChefCore::Actions::Base

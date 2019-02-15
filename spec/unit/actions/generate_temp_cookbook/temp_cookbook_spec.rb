@@ -18,9 +18,12 @@
 require "spec_helper"
 require "tempfile"
 require "securerandom"
-require "chef_core/actions/generate_temp_cookbook/temp_cookbook"
-RSpec.describe "ChefCore::Actions::GenerateTempCookbook::TempCookbook" do
-  subject(:tc) { ChefCore::Actions::GenerateTempCookbook::TempCookbook.new }
+require "chef_apply/actions/generate_temp_cookbook/temp_cookbook"
+require "chef_apply/startup"
+ChefCore::Startup.new([]).load_localizations
+
+RSpec.describe "ChefApply::Actions::GenerateTempCookbook::TempCookbook" do
+  subject(:tc) { ChefApply::Actions::GenerateTempCookbook::TempCookbook.new }
   let(:uuid) { SecureRandom.uuid }
 
   before do
@@ -35,7 +38,7 @@ RSpec.describe "ChefCore::Actions::GenerateTempCookbook::TempCookbook" do
 
   describe "#from_existing_recipe" do
     it "raises an error if the recipe does not have a .rb extension" do
-      err = ChefCore::Actions::GenerateTempCookbook::TempCookbook::UnsupportedExtension
+      err = ChefApply::Actions::GenerateTempCookbook::TempCookbook::UnsupportedExtension
       expect { subject.from_existing_recipe("/some/file.chef") }.to raise_error(err)
     end
 

@@ -22,7 +22,7 @@ require "chef_core/log"
 require "chef_core/actions/base"
 
 module ChefApply
-  module Action
+  module Actions
     class GenerateTempCookbook
       # When users are trying to converge a local recipe on a remote target, there
       # is a very specific (but expansive) set of things they can specify. This

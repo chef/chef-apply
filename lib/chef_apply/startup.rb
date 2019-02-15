@@ -23,7 +23,7 @@ require "chef/config"
 module ChefApply
   class Startup
     attr_reader :argv
-    T = ChefCore::Text.cli
+    I18NIZED_GEMS = %w{chef_core chef_core-actions chef_core-cliux chef-apply}
 
     def initialize(argv)
       @term_init = false
@@ -37,6 +37,8 @@ module ChefApply
       # This component is not supported in ChefDK; an exception will be raised
       # if running in that context.
       verify_not_in_chefdk
+
+      load_localizations
 
       # Some tasks we do only once in an installation:
       first_run_tasks
@@ -65,15 +67,14 @@ module ChefApply
       start_chef_apply
 
     # NOTE: Because these exceptions occur outside of the
-    #       CLI handling, they won't be tracked in telemtry.
-    #       We can revisit this once the pending error handling rework
-    #       is underway.
+    #       CLI handling, they won't be tracked in telemetry.
     rescue ConfigPathInvalid => e
-      UI::Terminal.output(T.error.bad_config_file(e.path))
+
+      UI::Terminal.output(ChefCore::Text.cli.error.bad_config_file(e.path))
     rescue ConfigPathNotProvided
-      UI::Terminal.output(T.error.missing_config_path)
+      UI::Terminal.output(ChefCore::Text.error.missing_config_path)
     rescue UnsupportedInstallation
-      UI::Terminal.output(T.error.unsupported_installation)
+      UI::Terminal.output(ChefCore::Text.error.unsupported_installation)
     rescue Mixlib::Config::UnknownConfigOptionError => e
       # Ideally we'd update the exception in mixlib to include
       # a field with the faulty value, line number, and nested context -
@@ -82,17 +83,17 @@ module ChefApply
       if e.message =~ /.*unsupported config value (.*)[.]+$/
         # TODO - levenshteinian distance to figure out
         # what they may have meant instead.
-        UI::Terminal.output(T.error.invalid_config_key($1, Config.location))
+        UI::Terminal.output(ChefCore::Text.error.invalid_config_key($1, Config.location))
       else
         # Safety net in case the error text changes from under us.
-        UI::Terminal.output(T.error.unknown_config_error(e.message, Config.location))
+        UI::Terminal.output(ChefCore::Text.error.unknown_config_error(e.message, Config.location))
       end
     rescue Tomlrb::ParseError => e
-      UI::Terminal.output(T.error.unknown_config_error(e.message, Config.location))
+      UI::Terminal.output(ChefCore::Text.error.unknown_config_error(e.message, Config.location))
     end
 
     def init_terminal
-      UI::Terminal.init($stdout)
+      ChefCore::CLIUX::UI::Terminal.init($stdout)
     end
 
     # Verify that chef-run gem is not executing out of ChefDK by checking the
@@ -104,6 +105,16 @@ module ChefApply
       raise UnsupportedInstallation.new if script_path =~ /chefdk/
     end
 
+    def load_localizations
+      I18NIZED_GEMS.each do |gem_name|
+        ChefCore::Text.add_gem_localization(gem_name)
+      end
+      ChefCore::Text.add_gem_localization("chef_core-actions")
+      ChefCore::Text.add_gem_localization("chef_core-cliux")
+      ChefCore::Text.add_gem_localization("chef-apply")
+    end
+
+
     def first_run_tasks
       return if Dir.exist?(Config::WS_BASE_PATH)
       create_default_config
@@ -111,7 +122,7 @@ module ChefApply
     end
 
     def create_default_config
-      UI::Terminal.output T.creating_config(Config.default_location)
+      UI::Terminal.output ChefCore::Text.creating_config(Config.default_location)
       UI::Terminal.output ""
       FileUtils.mkdir_p(Config::WS_BASE_PATH)
       FileUtils.touch(Config.default_location)
@@ -124,7 +135,7 @@ module ChefApply
 
       # Tell the user we're anonymously tracking, give brief opt-out
       # and a link to detailed information.
-      UI::Terminal.output T.telemetry_enabled(Config.location)
+      UI::Terminal.output ChefCore::Text.telemetry_enabled(Config.location)
       UI::Terminal.output ""
     end
 

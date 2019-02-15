@@ -19,6 +19,13 @@ require "bundler/setup"
 require "simplecov"
 require "rspec/expectations"
 
+# Unit tests hit paths which expect i18n localizations
+# to have been loaded.
+require "chef_core/cliux/ui/terminal"
+require "chef_apply/startup"
+
+ChefApply::Startup.new([]).load_localizations
+
 RSpec::Matchers.define :exit_with_code do |expected_code|
   actual_code = nil
   match do |block|

@@ -42,16 +42,6 @@ errors:
     options: " { stack: true, log: true } "
     text: An unknown error has occurred.
 
-# Local errors trying to create policy to send to target
-  CHEFPOLICY001:
-    options: " { stack: true, log: true } "
-    text: |
-      Could not create local Policyfile bundle.
-
-      The following error was reported:
-
-        %1
-
 # CLI argument validation errors
   CHEFVAL002:
     options: " { decorations: false } "
@@ -136,16 +126,6 @@ errors:
       You provided: %1
 
 
-  # Maps to: NameError
-  CHEFNET001:
-    text: |
-      A network error occurred:
-
-        %1
-
-      Please verify the host name or address is correct and that the host is
-      reachable before trying again.
-
   # Errors specifying target ranges
   CHEFRANGE001: |
     text: |
@@ -170,4 +150,14 @@ errors:
         The targets provided resolve to too many hosts.
 
         At this time there is a limit of %2 hosts in a single operation.
+
+  # Local errors trying to create policy to send to target
+  CHEFPOLICY001:
+    options: " { stack: true, log: true } "
+    text: |
+      Could not create local Policyfile bundle.
+
+      The following error was reported:
+
+        %1
 

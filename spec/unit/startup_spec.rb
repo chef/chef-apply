@@ -335,4 +335,3 @@ RSpec.describe ChefApply::Startup do
 
   end
 end
-

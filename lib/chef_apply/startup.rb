@@ -23,7 +23,7 @@ require "chef/config"
 module ChefApply
   class Startup
     attr_reader :argv
-    I18NIZED_GEMS = %w{chef_core-actions chef_core-cliux chef-apply}
+    I18NIZED_GEMS = %w{chef_core-actions chef_core-cliux chef-apply}.freeze
     UI = ChefCore::CLIUX::UI
     def initialize(argv)
       @term_init = false
@@ -111,7 +111,6 @@ module ChefApply
       end
     end
 
-
     def first_run_tasks
       return if Dir.exist?(Config::WS_BASE_PATH)
       create_default_config
@@ -143,7 +142,7 @@ module ChefApply
                            enabled: Config.telemetry.enable,
                            dev_mode: Config.telemetry.dev }
 
-      ChefCore::Telemeter::setup(telemetry_config)
+      ChefCore::Telemeter.setup(telemetry_config)
     end
 
     def setup_workstation_user_directories

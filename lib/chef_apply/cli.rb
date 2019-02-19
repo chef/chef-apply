@@ -98,8 +98,6 @@ module ChefApply
         UI::ErrorPrinter.dump_unexpected_error(e)
         RC_UNHANDLED_ERROR
       end
-    rescue  => e
-      require 'pry'; binding.pry
     end
 
     def perform_run
@@ -253,14 +251,14 @@ module ChefApply
     # the action reports back
     def converge(reporter, local_policy_path, target_host)
       reporter.update(TS.converge.converging(temp_cookbook.descriptor))
-			converge_args = {
-				target_host: target_host,
-				local_policy_path: local_policy_path,
-				target_log_level: Config.log.target_level,
-				trusted_certs_dir: Config.chef.trusted_certs_dir,
-				data_collector_url: Config.data_collector.url,
-				data_collector_token: Config.data_collector.token
-			}
+      converge_args = {
+        target_host: target_host,
+        local_policy_path: local_policy_path,
+        target_log_level: Config.log.target_level,
+        trusted_certs_dir: Config.chef.trusted_certs_dir,
+        data_collector_url: Config.data_collector.url,
+        data_collector_token: Config.data_collector.token,
+      }
       converger = ChefCore::Actions::ConvergeTarget.new(converge_args)
       converger.run do |event, data|
         case event
@@ -342,7 +340,7 @@ module ChefApply
       {
         log_location: Config.log.location,
         error_output_path: Config.error_output_path,
-        stack_trace_path: Config.stack_trace_path
+        stack_trace_path: Config.stack_trace_path,
       }
     end
   end

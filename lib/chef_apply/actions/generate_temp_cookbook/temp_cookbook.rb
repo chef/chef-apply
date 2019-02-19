@@ -165,7 +165,7 @@ module ChefApply
           File.join(path, "export")
         end
 
-        class UnsupportedExtension < ChefCore::ErrorNoLogs
+        class UnsupportedExtension < ChefCore::Error
           def initialize(ext); super("CHEFVAL009", ext); end
         end
       end

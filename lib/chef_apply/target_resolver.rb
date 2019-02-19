@@ -174,25 +174,25 @@ module ChefApply
       end
     end
 
-    class InvalidRange < ChefCore::ErrorNoLogs
+    class InvalidRange < ChefCore::Error
       def initialize(unresolved_target, given_range)
         super("CHEFRANGE001", unresolved_target, given_range)
       end
     end
 
-    class TooManyRanges < ChefCore::ErrorNoLogs
+    class TooManyRanges < ChefCore::Error
       def initialize(unresolved_target)
         super("CHEFRANGE002", unresolved_target)
       end
     end
 
-    class TooManyTargets < ChefCore::ErrorNoLogs
+    class TooManyTargets < ChefCore::Error
       def initialize(num_top_level_targets, max_targets)
         super("CHEFRANGE003", num_top_level_targets, max_targets)
       end
     end
 
-    class UnsupportedProtocol < ChefCore::ErrorNoLogs
+    class UnsupportedProtocol < ChefCore::Error
       def initialize(attempted_protocol)
         super("CHEFVAL011", attempted_protocol,
               ChefApply::Config::SUPPORTED_PROTOCOLS.join(" "))

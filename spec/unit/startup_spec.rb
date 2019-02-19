@@ -117,8 +117,8 @@ RSpec.describe ChefApply::Startup do
   end
 
   describe "#init_terminal" do
-    it "initializees the terminal for stdout" do
-      expect(ChefCore::CLIUX::UI::Terminal).to receive(:init).with($stdout)
+    it "initializes the terminal for stdout" do
+      expect(ChefCore::CLIUX::UI::Terminal).to receive(:init).with($stdout, enable_spinners: ChefApply::Config.dev.spinner)
       subject.init_terminal
     end
   end

@@ -65,7 +65,8 @@ RSpec.describe ChefApply::CLI do
       it "prints the error and exits" do
         allow(subject).to receive(:error_config).and_return({ "config" => "here" })
         expect(subject).to receive(:perform_run).and_raise(e)
-        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:show_error).with(e, { "config" => "here" })
+        expect(ChefCore::CLIUX::UI::ErrorPrinter).to receive(:show_error).
+          with(e, { "config" => "here" })
         expect { subject.run }.to exit_with_code(1)
       end
     end

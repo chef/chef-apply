@@ -93,7 +93,7 @@ module ChefApply
     end
 
     def init_terminal
-      UI::Terminal.init($stdout)
+      UI::Terminal.init($stdout, enable_spinners: Config.dev.spinner )
     end
 
     # Verify that chef-run gem is not executing out of ChefDK by checking the

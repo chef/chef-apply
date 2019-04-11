@@ -23,7 +23,9 @@ require "chef/config"
 module ChefApply
   class Startup
     attr_reader :argv
-    I18NIZED_GEMS = %w{chef_core-actions chef_core-cliux chef-apply}.freeze
+    # Add the names of any gems with an i18n/ and i18n/errors/en.yml structure
+    # to this list to ensure their localizations get loaded.
+    I18NIZED_GEMS = %w{ chef-apply }.freeze
     UI = ChefCore::CLIUX::UI
     def initialize(argv)
       @term_init = false

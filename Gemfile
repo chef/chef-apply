@@ -16,7 +16,6 @@
 #
 
 source "https://rubygems.org"
-gem "chef_core", git: "https://github.com/chef/chef_core", branch: "chef-core-split"
-gem "chef_core-actions", git: "https://github.com/chef/chef_core-actions", branch: "chef-core-split"
-gem "chef_core-cliux", git: "https://github.com/chef/chef_core-cliux", branch: "chef-core-split"
+gem "chef-core", git: "https://github.com/chef/chef_core", branch: "master"
+gem "chef-core-actions", git: "https://github.com/chef/chef_core", branch: "master"
 gemspec

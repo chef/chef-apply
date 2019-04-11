@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.10 -->
++<!-- latest_release 0.2.11 -->
+## [0.2.11](https://github.com/chef/chef-apply/tree/0.2.11) (2019-02-20)
+
+#### Merged Pull Requests
+- Bump mixlib-install to 3.11.11 [#64](https://github.com/chef/chef-apply/pull/64) ([chef-ci](https://github.com/chef-ci))
+<!-- latest_release -->
+
 ## [0.2.10](https://github.com/chef/chef-apply/tree/0.2.10) (2019-02-06)
 
 #### Merged Pull Requests
 - [tech-debt] group related classes together [#63](https://github.com/chef/chef-apply/pull/63) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
 
 ## [0.2.9](https://github.com/chef/chef-apply/tree/0.2.9) (2019-02-01)
 

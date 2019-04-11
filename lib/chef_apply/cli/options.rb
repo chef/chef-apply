@@ -58,7 +58,8 @@ module ChefApply
           default: ChefApply::Config.default_location,
           proc: Proc.new { |path| ChefApply::Config.custom_location(path) }
 
-        klass.option :identity_file,
+        # We keep this as key_files instead of identity_file for compatibility with train.
+        klass.option :key_files,
           long: "--identity-file PATH",
           short: "-i PATH",
           description: T.identity_file,

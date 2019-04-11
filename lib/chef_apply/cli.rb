@@ -125,9 +125,9 @@ module ChefApply
     end
 
     def resolve_targets(host_spec, opts)
-      @target_hosts = TargetResolver.new(host_spec,
-                                         opts.delete(:protocol),
-                                         opts).targets
+      @target_hosts = ChefCore::TargetResolver.new(host_spec,
+                                                   opts.delete(:protocol),
+                                                   opts).targets
     end
 
     def render_cookbook_setup(arguments)

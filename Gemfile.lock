@@ -1,7 +1,6 @@
 GIT
   remote: https://github.com/chef/chef_core
   revision: f32fbbe8fa17f17476f84f7ea12f8b80a74929e0
-  branch: master
   specs:
     chef-core (0.0.1)
       chef-telemetry
@@ -18,13 +17,30 @@ GIT
       chef-dk
       mixlib-log
 
+GIT
+  remote: https://github.com/inspec/train
+  revision: cb3875fd9301f58dcd04416562456142ad70d106
+  specs:
+    train (2.0.5)
+      azure_graph_rbac (~> 0.16)
+      azure_mgmt_key_vault (~> 0.17)
+      azure_mgmt_resources (~> 0.15)
+      docker-api (~> 1.26)
+      google-api-client (~> 0.23.9)
+      googleauth (~> 0.6.6)
+      inifile
+      json (>= 1.8, < 3.0)
+      mixlib-shellout (>= 2.0, < 4.0)
+      net-scp (>= 1.2, < 3.0)
+      net-ssh (>= 2.9, < 6.0)
+      winrm (~> 2.0)
+      winrm-fs (~> 1.0)
+
 PATH
   remote: .
   specs:
     chef-apply (0.2.11)
-      chef (>= 14.10)
       chef-core
-      chef-core-actions
       mixlib-cli
       mixlib-config
       toml-rb
@@ -337,20 +353,6 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.8)
-    train (2.0.2)
-      azure_graph_rbac (~> 0.16)
-      azure_mgmt_key_vault (~> 0.17)
-      azure_mgmt_resources (~> 0.15)
-      docker-api (~> 1.26)
-      google-api-client (~> 0.23.9)
-      googleauth (~> 0.6.6)
-      inifile
-      json (>= 1.8, < 3.0)
-      mixlib-shellout (>= 2.0, < 4.0)
-      net-scp (>= 1.2, < 3.0)
-      net-ssh (>= 2.9, < 6.0)
-      winrm (~> 2.0)
-      winrm-fs (~> 1.0)
     tty-color (0.4.3)
     tty-cursor (0.6.1)
     tty-spinner (0.9.0)
@@ -396,6 +398,7 @@ DEPENDENCIES
   rspec
   rspec_junit_formatter
   simplecov
+  train!
 
 BUNDLED WITH
    1.17.3

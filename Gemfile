@@ -16,6 +16,6 @@
 #
 
 source "https://rubygems.org"
-gem "chef-core", git: "https://github.com/chef/chef_core", branch: "master"
-gem "chef-core-actions", git: "https://github.com/chef/chef_core", branch: "master"
+gem "chef-core", git: "https://github.com/chef/chef_core"
+gem "chef-core-actions", git: "https://github.com/chef/chef_core"
 gemspec

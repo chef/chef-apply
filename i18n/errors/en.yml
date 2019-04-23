@@ -62,7 +62,7 @@ errors:
       You provided '%1'.
 
   CHEFVAL005:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       The cookbook provided could not be loaded. Ensure it contains a valid
       'metadata.rb'.
@@ -70,14 +70,14 @@ errors:
       Cookbook path is '%1'.
 
   CHEFVAL006:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       Cookbook '%1' could not be found in any of the following directories
 
       %2
 
   CHEFVAL007:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       There is no default recipe in cookbook '%2'. Please provide the name of the recipe to run, for example:
         %2::some_recipe
@@ -85,7 +85,7 @@ errors:
       Cookbook path is '%1'.
 
   CHEFVAL008:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       There is no recipe named '%2' in the cookbook '%4', which I found at '%1'.
 
@@ -95,12 +95,12 @@ errors:
       %3
 
   CHEFVAL009:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       File extension '%1' is unsupported. Currently recipes must be specified with a `.rb` extension.
 
   CHEFVAL010:
-    display: " { decorations: false } "
+    options: " { decorations: false } "
     text: |
       The flag '%1' does not exist.
 

@@ -1,12 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.2.12 -->
-## [0.2.12](https://github.com/chef/chef-apply/tree/0.2.12) (2019-05-16)
+<!-- latest_release 0.2.13 -->
+## [0.2.13](https://github.com/chef/chef-apply/tree/0.2.13) (2019-05-16)
 
 #### Merged Pull Requests
-- Adding license acceptance passthrough logic [#81](https://github.com/chef/chef-apply/pull/81) ([tyler-ball](https://github.com/tyler-ball))
+- Add additional github templates and update the expeditor config [#69](https://github.com/chef/chef-apply/pull/69) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.2.8 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Add additional github templates and update the expeditor config [#69](https://github.com/chef/chef-apply/pull/69) ([tas50](https://github.com/tas50)) <!-- 0.2.13 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

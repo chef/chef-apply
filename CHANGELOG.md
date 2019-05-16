@@ -1,9 +1,14 @@
-+<!-- latest_release 0.2.11 -->
++<!-- latest_release 0.2.12 -->
+## [0.2.12](https://github.com/chef/chef-apply/tree/0.2.12) (2019-05-16)
+
+#### Merged Pull Requests
+- Adding license acceptance passthrough logic [#81](https://github.com/chef/chef-apply/pull/81) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
+
 ## [0.2.11](https://github.com/chef/chef-apply/tree/0.2.11) (2019-02-20)
 
 #### Merged Pull Requests
 - Bump mixlib-install to 3.11.11 [#64](https://github.com/chef/chef-apply/pull/64) ([chef-ci](https://github.com/chef-ci))
-<!-- latest_release -->
 
 ## [0.2.10](https://github.com/chef/chef-apply/tree/0.2.10) (2019-02-06)
 

@@ -80,6 +80,35 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       expect(local_tempfile.closed?).to eq(true)
     end
 
+    describe "when chef_license is configured" do
+      before do
+        ChefApply::Config.chef.chef_license = "accept-no-persist"
+      end
+
+      after do
+        ChefApply::Config.reset
+      end
+
+      it "creates a config file with chef_license set and quoted" do
+        expect(Tempfile).to receive(:new).and_return(local_tempfile)
+        expect(local_tempfile).to receive(:write).with(<<~EOM
+          local_mode true
+          color false
+          cache_path "#{cache_path}"
+          chef_repo_path "#{cache_path}"
+          require_relative "reporter"
+          reporter = ChefApply::Reporter.new
+          report_handlers << reporter
+          exception_handlers << reporter
+          chef_license "accept-no-persist"
+        EOM
+        )
+        expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
+        expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
+        expect(local_tempfile.closed?).to eq(true)
+      end
+    end
+
     describe "when target_level is left default" do
       before do
         ChefApply::Config.reset

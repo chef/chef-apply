@@ -54,6 +54,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "chef", ">= 14.0" # Needed to load cookbooks
   spec.add_dependency "chef-dk", ">= 3.0"
   spec.add_dependency "chef-telemetry"
+  spec.add_dependency "license-acceptance", "~> 1.0", ">= 1.0.11"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"

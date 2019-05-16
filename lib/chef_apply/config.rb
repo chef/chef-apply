@@ -145,6 +145,7 @@ module ChefApply
       ChefConfig::WorkstationConfigLoader.new(nil, ChefApply::Log).load
       default(:cookbook_repo_paths, [ChefConfig::Config[:cookbook_path]].flatten)
       default(:trusted_certs_dir, ChefConfig::Config[:trusted_certs_dir])
+      default(:chef_license, ChefConfig::Config[:chef_license])
       ChefConfig::Config.reset
     end
 

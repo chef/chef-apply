@@ -36,6 +36,8 @@ require "chef_apply/telemeter"
 require "chef_apply/ui/error_printer"
 require "chef_apply/ui/terminal"
 require "chef_apply/ui/terminal/job"
+require "license_acceptance/cli_flags/mixlib_cli"
+require "license_acceptance/acceptor"
 
 module ChefApply
   class CLI
@@ -48,6 +50,7 @@ module ChefApply
     include ChefApply::CLI::Validation
     # Help and version formatting
     include ChefApply::CLI::Help
+    include LicenseAcceptance::CLIFlags::MixlibCLI
 
     RC_OK = 0
     RC_COMMAND_FAILED = 1
@@ -106,6 +109,7 @@ module ChefApply
       elsif parsed_options[:version]
         show_version
       else
+        check_license_acceptance
         validate_params(cli_arguments)
         target_hosts = resolve_targets(cli_arguments.shift, parsed_options)
         render_cookbook_setup(cli_arguments)
@@ -122,6 +126,16 @@ module ChefApply
       handle_perform_error(e)
     ensure
       temp_cookbook.delete unless temp_cookbook.nil?
+    end
+
+    def check_license_acceptance
+      acceptor = LicenseAcceptance::Acceptor.new(provided: ChefApply::Config.chef.chef_license)
+      begin
+        acceptor.check_and_persist("infra-client", "latest")
+      rescue LicenseAcceptance::LicenseNotAcceptedError
+        raise LicenseCheckFailed.new
+      end
+      ChefApply::Config.chef.chef_license ||= acceptor.acceptance_value
     end
 
     def resolve_targets(host_spec, opts)
@@ -324,5 +338,9 @@ module ChefApply
       raise
     end
 
+  end
+
+  class LicenseCheckFailed < ChefApply::Error
+    def initialize(); super("CHEFLIC001"); end
   end
 end

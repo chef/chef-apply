@@ -137,9 +137,6 @@ module ChefApply
       default(:spinner, true)
     end
 
-    # Leave this out of the chef block below to match all the other products
-    default(:chef_license, nil)
-
     config_context :chef do
       # We want to use any configured chef repo paths or trusted certs in
       # ~/.chef/knife.rb on the user's workstation. But because they could have
@@ -148,6 +145,7 @@ module ChefApply
       ChefConfig::WorkstationConfigLoader.new(nil, ChefApply::Log).load
       default(:cookbook_repo_paths, [ChefConfig::Config[:cookbook_path]].flatten)
       default(:trusted_certs_dir, ChefConfig::Config[:trusted_certs_dir])
+      default(:chef_license, ChefConfig::Config[:chef_license])
       ChefConfig::Config.reset
     end
 

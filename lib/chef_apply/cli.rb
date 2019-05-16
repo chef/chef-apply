@@ -129,13 +129,13 @@ module ChefApply
     end
 
     def check_license_acceptance
-      acceptor = LicenseAcceptance::Acceptor.new(provided: ChefApply::Config[:chef_license])
+      acceptor = LicenseAcceptance::Acceptor.new(provided: ChefApply::Config.chef.chef_license)
       begin
         acceptor.check_and_persist("infra-client", "latest")
       rescue LicenseAcceptance::LicenseNotAcceptedError
         raise LicenseCheckFailed.new
       end
-      ChefApply::Config[:chef_license] ||= acceptor.acceptance_value
+      ChefApply::Config.chef.chef_license ||= acceptor.acceptance_value
     end
 
     def resolve_targets(host_spec, opts)

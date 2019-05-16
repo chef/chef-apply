@@ -82,7 +82,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
     describe "when chef_license is configured" do
       before do
-        ChefApply::Config.chef_license = "accept-no-persist"
+        ChefApply::Config.chef.chef_license = "accept-no-persist"
       end
 
       after do

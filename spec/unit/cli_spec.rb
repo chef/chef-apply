@@ -163,23 +163,23 @@ RSpec.describe ChefApply::CLI do
 
     before do
       ChefApply::Config.reset
-      expect(LicenseAcceptance::Acceptor).to receive(:new).with(provided: ChefApply::Config.chef_license).and_return(acceptor)
+      expect(LicenseAcceptance::Acceptor).to receive(:new).with(provided: ChefApply::Config.chef.chef_license).and_return(acceptor)
     end
 
     it "sets the config value to the acceptance value" do
-      expect(ChefApply::Config.chef_license).to eq(nil)
+      expect(ChefApply::Config.chef.chef_license).to eq(nil)
       expect(acceptor).to receive(:check_and_persist).with("infra-client", "latest")
       expect(acceptor).to receive(:acceptance_value).and_return(acceptance_value)
       subject.check_license_acceptance
-      expect(ChefApply::Config.chef_license).to eq(acceptance_value)
+      expect(ChefApply::Config.chef.chef_license).to eq(acceptance_value)
     end
 
     describe "when the user does not accept the license" do
       it "raises a LicenseCheckFailed error" do
-        expect(ChefApply::Config.chef_license).to eq(nil)
+        expect(ChefApply::Config.chef.chef_license).to eq(nil)
         expect(acceptor).to receive(:check_and_persist).with("infra-client", "latest").and_raise(LicenseAcceptance::LicenseNotAcceptedError.new(nil, []))
         expect { subject.check_license_acceptance }.to raise_error(ChefApply::LicenseCheckFailed)
-        expect(ChefApply::Config.chef_license).to eq(nil)
+        expect(ChefApply::Config.chef.chef_license).to eq(nil)
       end
     end
   end

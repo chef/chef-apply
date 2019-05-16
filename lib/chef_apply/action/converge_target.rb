@@ -82,9 +82,9 @@ module ChefApply::Action
         exception_handlers << reporter
       EOM
 
-      unless ChefApply::Config.chef_license.nil?
+      unless ChefApply::Config.chef.chef_license.nil?
         workstation_rb << <<~EOM
-          chef_license "#{ChefApply::Config.chef_license}"
+          chef_license "#{ChefApply::Config.chef.chef_license}"
         EOM
       end
 

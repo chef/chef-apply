@@ -1,9 +1,16 @@
-+<!-- latest_release 0.2.12 -->
+<!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
+<!-- latest_release 0.2.12 -->
 ## [0.2.12](https://github.com/chef/chef-apply/tree/0.2.12) (2019-05-16)
 
 #### Merged Pull Requests
 - Adding license acceptance passthrough logic [#81](https://github.com/chef/chef-apply/pull/81) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
+<!-- latest_stable_release -->
 
 ## [0.2.11](https://github.com/chef/chef-apply/tree/0.2.11) (2019-02-20)
 

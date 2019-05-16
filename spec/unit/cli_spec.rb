@@ -146,12 +146,40 @@ RSpec.describe ChefApply::CLI do
       context "and they are valid" do
         it "creates the cookbook locally and converges it" do
           expect(subject).to receive(:parse_options)
+          expect(subject).to receive(:check_license_acceptance)
           expect(subject).to receive(:validate_params)
           expect(subject).to receive(:resolve_targets).and_return target_hosts
           expect(subject).to receive(:render_cookbook_setup)
           expect(subject).to receive(:render_converge).with(target_hosts)
           subject.perform_run
         end
+      end
+    end
+  end
+
+  describe "#check_license_acceptance" do
+    let(:acceptance_value) { "accept-no-persist" }
+    let(:acceptor) { instance_double(LicenseAcceptance::Acceptor) }
+
+    before do
+      ChefApply::Config.reset
+      expect(LicenseAcceptance::Acceptor).to receive(:new).with(provided: ChefApply::Config.chef_license).and_return(acceptor)
+    end
+
+    it "sets the config value to the acceptance value" do
+      expect(ChefApply::Config.chef_license).to eq(nil)
+      expect(acceptor).to receive(:check_and_persist).with("infra-client", "latest")
+      expect(acceptor).to receive(:acceptance_value).and_return(acceptance_value)
+      subject.check_license_acceptance
+      expect(ChefApply::Config.chef_license).to eq(acceptance_value)
+    end
+
+    describe "when the user does not accept the license" do
+      it "raises a LicenseCheckFailed error" do
+        expect(ChefApply::Config.chef_license).to eq(nil)
+        expect(acceptor).to receive(:check_and_persist).with("infra-client", "latest").and_raise(LicenseAcceptance::LicenseNotAcceptedError.new(nil, []))
+        expect { subject.check_license_acceptance }.to raise_error(ChefApply::LicenseCheckFailed)
+        expect(ChefApply::Config.chef_license).to eq(nil)
       end
     end
   end

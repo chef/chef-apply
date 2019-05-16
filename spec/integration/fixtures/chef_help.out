@@ -40,6 +40,7 @@ ARGUMENTS:
                        you to specify which recipe to use from the cookbook.
 
 FLAGS:
+        --chef-license ACCEPTANCE      Accept the license for this product and any contained products ('accept', 'accept-no-persist', or 'accept-silent')
     -c, --config PATH                  Location of config file. Default: $HOME/.chef-workstation/config.toml
         --cookbook-repo-paths PATH     Comma separated list of cookbook repository paths.
     -h, --help                         Show help and usage for `chef-run`

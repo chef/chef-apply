@@ -58,6 +58,14 @@ errors:
     display: { stack: true, log: true }
     text: An unknown error has occurred.
 
+  # Failure to accept the chef license
+  CHEFLIC001:
+    display: { log: true, stack: true }
+    text: |
+      You must accept the Chef Infra Client license locally in order
+      to manage a remote host. Accepting the license locally will pass
+      through the acceptance to the remote host.
+
   # Installer action errors
   CHEFINS002:
     text: |

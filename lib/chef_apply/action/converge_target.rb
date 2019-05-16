@@ -82,6 +82,12 @@ module ChefApply::Action
         exception_handlers << reporter
       EOM
 
+      unless ChefApply::Config.chef_license.nil?
+        workstation_rb << <<~EOM
+          chef_license "#{ChefApply::Config.chef_license}"
+        EOM
+      end
+
       # add the target host's log level value
       # (we don't set a location because we want output to
       #   go in stdout for reporting back to chef-apply)

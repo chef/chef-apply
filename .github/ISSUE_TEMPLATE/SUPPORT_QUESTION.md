@@ -1,6 +1,6 @@
 ---
 name: 🤗 Support Question
-about: If you have a question 💬, please check out our Slack!
+about: If you have a question 💬, please check out our Slack
 ---
 
 We use GitHub issues to track bugs and feature requests. If you need help please post to our Mailing List or join the Chef Community Slack.

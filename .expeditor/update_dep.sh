@@ -4,7 +4,7 @@
 # What is this script?
 #
 # Chef Apply uses a workflow tool called Expeditor to manage version bumps, 
-# changelogs and releases. When a dependency is released, expeditor is triggere
+# changelogs and releases. When a dependency is released, expeditor is triggered
 # against this repository to run this script. It bumps our gem lock files and opens
 # a PR. That way humans can do hard work and bots can open gem bump PRs.
 ############################################################################

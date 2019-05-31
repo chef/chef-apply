@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.2.14 -->
-## [0.2.14](https://github.com/chef/chef-apply/tree/0.2.14) (2019-05-30)
+<!-- latest_release 0.2.15 -->
+## [0.2.15](https://github.com/chef/chef-apply/tree/0.2.15) (2019-05-31)
 
 #### Merged Pull Requests
-- Update expeditor and .github files [#84](https://github.com/chef/chef-apply/pull/84) ([tas50](https://github.com/tas50))
+- Preparing for Workstation 0.3 release by pinning to versions used there [#85](https://github.com/chef/chef-apply/pull/85) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.2.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Preparing for Workstation 0.3 release by pinning to versions used there [#85](https://github.com/chef/chef-apply/pull/85) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.2.15 -->
 - Update expeditor and .github files [#84](https://github.com/chef/chef-apply/pull/84) ([tas50](https://github.com/tas50)) <!-- 0.2.14 -->
 <!-- release_rollup -->
 

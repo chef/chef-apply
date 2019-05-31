@@ -42,6 +42,11 @@ promote:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
 
+pipelines:
+  - verify:
+      description: Pull Request validation tests
+      public: true
+
 subscriptions:
   - workload: ruby_gem_published:chef-dk-*
     actions:

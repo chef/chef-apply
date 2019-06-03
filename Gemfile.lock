@@ -133,6 +133,7 @@ GEM
     ffi-yajl (2.3.1)
       libyajl2 (~> 1.2)
     fuzzyurl (0.9.0)
+    github-markup (3.0.4)
     google-api-client (0.23.9)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.5, < 0.7.0)
@@ -264,6 +265,8 @@ GEM
     rack (2.0.7)
     rainbow (3.0.0)
     rake (12.3.2)
+    rb-readline (0.5.5)
+    redcarpet (3.4.0)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -396,6 +399,7 @@ GEM
       winrm (~> 2.0)
     wisper (2.0.0)
     wmi-lite (1.0.2)
+    yard (0.9.19)
 
 PLATFORMS
   ruby
@@ -404,13 +408,16 @@ DEPENDENCIES
   bundler
   chef-apply!
   chefstyle
+  github-markup
   pry
   pry-byebug
   pry-stack_explorer
-  rake
-  rspec
-  rspec_junit_formatter
+  rake (>= 10.1.0)
+  rb-readline
+  redcarpet
+  rspec (~> 3.0)
   simplecov
+  yard
 
 BUNDLED WITH
    1.17.3

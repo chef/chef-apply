@@ -1,28 +1,25 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.3.0 -->
-## [0.3.0](https://github.com/chef/chef-apply/tree/0.3.0) (2019-06-04)
-
-#### Merged Pull Requests
-- Support Chef 15 for the Workstation 0.4 release [#88](https://github.com/chef/chef-apply/pull/88) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.2.13 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Support Chef 15 for the Workstation 0.4 release [#88](https://github.com/chef/chef-apply/pull/88) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.0 -->
-- Use the org wide github PR template [#87](https://github.com/chef/chef-apply/pull/87) ([tas50](https://github.com/tas50)) <!-- 0.2.17 -->
-- Switch from Circle-CI to buildkite for verification [#86](https://github.com/chef/chef-apply/pull/86) ([tas50](https://github.com/tas50)) <!-- 0.2.16 -->
-- Preparing for Workstation 0.3 release by pinning to versions used there [#85](https://github.com/chef/chef-apply/pull/85) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.2.15 -->
-- Update expeditor and .github files [#84](https://github.com/chef/chef-apply/pull/84) ([tas50](https://github.com/tas50)) <!-- 0.2.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [0.3.0](https://github.com/chef/chef-apply/tree/0.3.0) (2019-06-04)
+
+#### Merged Pull Requests
+- Update expeditor and .github files [#84](https://github.com/chef/chef-apply/pull/84) ([tas50](https://github.com/tas50))
+- Preparing for Workstation 0.3 release by pinning to versions used there [#85](https://github.com/chef/chef-apply/pull/85) ([tyler-ball](https://github.com/tyler-ball))
+- Switch from Circle-CI to buildkite for verification [#86](https://github.com/chef/chef-apply/pull/86) ([tas50](https://github.com/tas50))
+- Use the org wide github PR template [#87](https://github.com/chef/chef-apply/pull/87) ([tas50](https://github.com/tas50))
+- Support Chef 15 for the Workstation 0.4 release [#88](https://github.com/chef/chef-apply/pull/88) ([tyler-ball](https://github.com/tyler-ball))
+<!-- latest_stable_release -->
+
 ## [0.2.13](https://github.com/chef/chef-apply/tree/0.2.13) (2019-05-16)
 
 #### Merged Pull Requests
 - Add additional github templates and update the expeditor config [#69](https://github.com/chef/chef-apply/pull/69) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 
 

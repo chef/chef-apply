@@ -58,7 +58,7 @@ module ChefApply
         # Second, is there a cookbook in their local repository that matches?
         require "chef/cookbook_loader"
         cb_loader = Chef::CookbookLoader.new(cookbook_repo_paths)
-        cb_loader.load_cookbooks_without_shadow_warning
+        cb_loader.load_cookbooks
 
         begin
           cookbook = cb_loader[cookbook_name]

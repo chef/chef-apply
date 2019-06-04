@@ -28,7 +28,7 @@ RSpec.describe ChefApply::RecipeLookup do
   VL = Chef::Cookbook::CookbookVersionLoader
   let(:version_loader) { instance_double(VL) }
   let(:cookbook_version) { instance_double(Chef::CookbookVersion, root_dir: "dir", name: "name") }
-  let(:cookbook_loader) { instance_double(Chef::CookbookLoader, load_cookbooks_without_shadow_warning: nil) }
+  let(:cookbook_loader) { instance_double(Chef::CookbookLoader, load_cookbooks: nil) }
 
   describe "#split" do
     it "splits a customer provided specifier into a cookbook part and possible recipe part" do

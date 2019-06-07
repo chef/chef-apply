@@ -181,7 +181,7 @@ GEM
     mixlib-archive (1.0.1)
       mixlib-log
     mixlib-authentication (2.1.1)
-    mixlib-cli (2.0.6)
+    mixlib-cli (2.1.0)
     mixlib-config (3.0.1)
       tomlrb
     mixlib-install (3.11.18)
@@ -189,7 +189,7 @@ GEM
       mixlib-versioning
       thor
     mixlib-log (3.0.1)
-    mixlib-shellout (2.4.4)
+    mixlib-shellout (3.0.4)
     mixlib-versioning (1.2.7)
     molinillo (0.6.6)
     ms_rest (0.7.4)

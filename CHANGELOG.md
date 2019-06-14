@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.3.1 -->
+## [0.3.1](https://github.com/chef/chef-apply/tree/0.3.1) (2019-06-14)
+
+#### Merged Pull Requests
+- Bump mixlib-cli to 2.1.1 [#90](https://github.com/chef/chef-apply/pull/90) ([chef-ci](https://github.com/chef-ci))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.3.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Bump mixlib-cli to 2.1.1 [#90](https://github.com/chef/chef-apply/pull/90) ([chef-ci](https://github.com/chef-ci)) <!-- 0.3.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.3.2 -->
-## [0.3.2](https://github.com/chef/chef-apply/tree/0.3.2) (2019-07-01)
+<!-- latest_release 0.3.3 -->
+## [0.3.3](https://github.com/chef/chef-apply/tree/0.3.3) (2019-07-09)
 
 #### Merged Pull Requests
-- Bump train-core to 2.1.13 [#93](https://github.com/chef/chef-apply/pull/93) ([chef-ci](https://github.com/chef-ci))
+- Change over from ChefDK to ChefCLI  [#94](https://github.com/chef/chef-apply/pull/94) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.3.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Change over from ChefDK to ChefCLI  [#94](https://github.com/chef/chef-apply/pull/94) ([marcparadise](https://github.com/marcparadise)) <!-- 0.3.3 -->
 - Bump train-core to 2.1.13 [#93](https://github.com/chef/chef-apply/pull/93) ([chef-ci](https://github.com/chef-ci)) <!-- 0.3.2 -->
 - Bump mixlib-cli to 2.1.1 [#90](https://github.com/chef/chef-apply/pull/90) ([chef-ci](https://github.com/chef-ci)) <!-- 0.3.1 -->
 <!-- release_rollup -->

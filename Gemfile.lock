@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.3.2)
+    chef-apply (0.3.3)
       chef (>= 15.0)
       chef-cli (>= 1.0.3)
       chef-telemetry

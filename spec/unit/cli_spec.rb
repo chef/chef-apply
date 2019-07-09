@@ -23,9 +23,7 @@ require "chef_apply/telemeter/sender"
 require "chef_apply/ui/terminal"
 require "chef_apply/action/generate_temp_cookbook"
 
-require "chef-dk/ui"
-require "chef-dk/policyfile_services/export_repo"
-require "chef-dk/policyfile_services/install"
+require "chef-cli/ui"
 
 RSpec.describe ChefApply::CLI do
   subject { ChefApply::CLI.new(argv) }

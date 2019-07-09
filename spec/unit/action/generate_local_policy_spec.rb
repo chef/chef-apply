@@ -16,9 +16,9 @@
 #
 require "spec_helper"
 require "chef_apply/action/generate_local_policy"
-require "chef-dk/policyfile_services/install"
-require "chef-dk/ui"
-require "chef-dk/policyfile_services/export_repo"
+require "chef-cli/policyfile_services/install"
+require "chef-cli/ui"
+require "chef-cli/policyfile_services/export_repo"
 
 RSpec.describe ChefApply::Action::GenerateLocalPolicy do
   subject { ChefApply::Action::GenerateLocalPolicy.new(cookbook: cookbook) }
@@ -30,11 +30,11 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
   end
 
   let(:installer_double) do
-    instance_double(ChefDK::PolicyfileServices::Install, run: :ok)
+    instance_double(ChefCLI::PolicyfileServices::Install, run: :ok)
   end
 
   let(:exporter_double) do
-    instance_double(ChefDK::PolicyfileServices::ExportRepo,
+    instance_double(ChefCLI::PolicyfileServices::ExportRepo,
                     archive_file_location: "/path/to/export",
                     run: :ok)
   end
@@ -62,7 +62,7 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
     context "when PolicyfileServices raises an error" do
       it "reraises as PolicyfileInstallError" do
         expect(subject).to receive(:installer).and_return installer_double
-        expect(installer_double).to receive(:run).and_raise(ChefDK::PolicyfileInstallError.new("", nil))
+        expect(installer_double).to receive(:run).and_raise(ChefCLI::PolicyfileInstallError.new("", nil))
         expect { subject.perform_action }.to raise_error(ChefApply::Action::PolicyfileInstallError)
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
 
       # There is an issue with policyfile generation where, if we have a cookbook with too long
       # of a name or directory name the policyfile will not generate. This is because the tar
-      # library that ChefDK uses comes from the Rubygems package and is meant for packaging
+      # library that ChefCLI uses comes from the Rubygems package and is meant for packaging
       # gems up, so it can impose a 100 character limit. We attempt to solve this by ensuring
       # that the paths/names we generate with `TempCookbook` are short.
       #
@@ -80,7 +80,7 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
       # 2018-05-18 mp addendum: this cna take upwards of 15s to run on ci nodes, pending
       # for now since it's not testing any Chef Apply functionality.
       xit "fails to create when there is a long path name" do
-        err = ChefDK::PolicyfileExportRepoError
+        err = ChefCLI::PolicyfileExportRepoError
         expect { subject.perform_action }.to raise_error(err) do |e|
           expect(e.cause.class).to eq(Gem::Package::TooLongFileName)
           expect(e.cause.message).to match(/should be 100 or less/)
@@ -92,7 +92,7 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
   describe "#exporter" do
 
     it "returns a correctly constructed ExportRepo" do
-      expect(ChefDK::PolicyfileServices::ExportRepo).to receive(:new)
+      expect(ChefCLI::PolicyfileServices::ExportRepo).to receive(:new)
         .with(policyfile: cookbook.policyfile_lock_path,
               root_dir: cookbook.path,
               export_dir:  cookbook.export_path,
@@ -104,8 +104,8 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
 
   describe "#installer" do
     it "returns a correctly constructed Install service" do
-      expect(ChefDK::PolicyfileServices::Install).to receive(:new)
-        .with(ui: ChefDK::UI, root_dir: cookbook.path)
+      expect(ChefCLI::PolicyfileServices::Install).to receive(:new)
+        .with(ui: ChefCLI::UI, root_dir: cookbook.path)
         .and_return(installer_double)
       expect(subject.installer).to eq installer_double
     end

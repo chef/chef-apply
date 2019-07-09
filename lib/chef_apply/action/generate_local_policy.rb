@@ -32,24 +32,24 @@ module ChefApply::Action
       exporter.run
       @archive_file_location = exporter.archive_file_location
       notify(:success)
-    rescue ChefDK::PolicyfileInstallError => e
+    rescue ChefCLI::PolicyfileInstallError => e
       raise PolicyfileInstallError.new(e)
     end
 
     def exporter
-      require "chef-dk/policyfile_services/export_repo"
+      require "chef-cli/policyfile_services/export_repo"
       @exporter ||=
-        ChefDK::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
+        ChefCLI::PolicyfileServices::ExportRepo.new(policyfile: @cookbook.policyfile_lock_path,
                                                    root_dir: @cookbook.path,
                                                    export_dir: @cookbook.export_path,
                                                    archive: true, force: true)
     end
 
     def installer
-      require "chef-dk/policyfile_services/install"
-      require "chef-dk/ui"
+      require "chef-cli/policyfile_services/install"
+      require "chef-cli/ui"
       @installer ||=
-        ChefDK::PolicyfileServices::Install.new(ui: ChefDK::UI.null(), root_dir: @cookbook.path)
+        ChefCLI::PolicyfileServices::Install.new(ui: ChefCLI::UI.null(), root_dir: @cookbook.path)
     end
 
   end

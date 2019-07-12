@@ -203,6 +203,14 @@ RSpec.describe ChefApply::Startup do
       expect(ChefApply::Telemeter::Sender).to receive(:start_upload_thread)
       subject.start_telemeter_upload
     end
+
+    context "when telemetry is disabled" do
+      it "does not launch telemetry upload" do
+        expect(ChefApply::Telemeter).to receive(:enabled?).and_return(false)
+        expect(ChefApply::Telemeter::Sender).to_not receive(:start_upload_thread)
+        subject.start_telemeter_upload
+      end
+    end
   end
 
   describe "setup_workstation_user_directories" do

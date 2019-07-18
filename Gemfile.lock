@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.3.3)
+    chef-apply (0.3.4)
       chef (>= 15.0)
       chef-cli (>= 1.0.3)
       chef-telemetry
@@ -26,7 +26,7 @@ GEM
       ms_rest_azure (~> 0.11.0)
     azure_mgmt_key_vault (0.17.4)
       ms_rest_azure (~> 0.11.0)
-    azure_mgmt_resources (0.17.5)
+    azure_mgmt_resources (0.17.6)
       ms_rest_azure (~> 0.11.1)
     bcrypt_pbkdf (1.0.1)
     binding_of_caller (0.8.0)
@@ -63,9 +63,9 @@ GEM
       train-core (~> 2.0, >= 2.0.12)
       tty-screen (~> 0.6)
       uuidtools (~> 2.1.5)
-    chef-cli (1.0.3)
+    chef-cli (1.0.6)
       addressable (>= 2.3.5, < 2.6)
-      chef (~> 15.0)
+      chef (>= 14.0)
       cookbook-omnifetch (~> 0.5)
       diff-lcs (~> 1.0)
       ffi-yajl (>= 1.0, < 3.0)

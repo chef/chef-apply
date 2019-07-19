@@ -27,7 +27,7 @@ RSpec.describe ChefApply::Log do
   end
 
   after do
-    Log.setup "/dev/null", :error
+    Log.setup File::NULL, :error
   end
 
   it "correctly logs to stdout" do

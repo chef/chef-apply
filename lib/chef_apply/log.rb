@@ -24,19 +24,17 @@ module ChefApply
     def self.setup(location, log_level)
       if location.is_a?(String)
         if location.casecmp("stdout") == 0
-          location = $stdout
+          @stream = $stdout
         else
-          location = File.open(location, "w+")
+          @stream = File.open(location, "w+")
         end
       end
-      @location = location
       init(location)
       Log.level = log_level
     end
 
-    def self.location
-      @location
+    def self.stream
+      @stream
     end
-
   end
 end

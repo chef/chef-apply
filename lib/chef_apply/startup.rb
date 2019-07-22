@@ -129,7 +129,7 @@ module ChefApply
     end
 
     def start_telemeter_upload
-      ChefApply::Telemeter::Sender.start_upload_thread() if ChefApply::Telemeter.enabled?
+      ChefApply::Telemeter::Sender.start_upload_thread()
     end
 
     def setup_workstation_user_directories

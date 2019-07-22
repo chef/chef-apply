@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.3.5)
+    chef-apply (0.3.6)
       chef (>= 15.0)
       chef-cli (>= 1.0.3)
       chef-telemetry
@@ -63,7 +63,7 @@ GEM
       train-core (~> 2.0, >= 2.0.12)
       tty-screen (~> 0.6)
       uuidtools (~> 2.1.5)
-    chef-cli (1.0.6)
+    chef-cli (1.0.9)
       addressable (>= 2.3.5, < 2.6)
       chef (>= 14.0)
       cookbook-omnifetch (~> 0.5)
@@ -112,7 +112,7 @@ GEM
     ed25519 (1.2.4)
     equatable (0.6.1)
     erubis (2.7.0)
-    excon (0.64.0)
+    excon (0.65.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     faraday-cookie_jar (0.0.6)

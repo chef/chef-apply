@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.3.5 -->
-## [v0.3.5](https://github.com/chef/chef-apply/tree/v0.3.5) (2019-07-19)
+<!-- latest_release 0.3.6 -->
+## [v0.3.6](https://github.com/chef/chef-apply/tree/v0.3.6) (2019-07-22)
 
 #### Merged Pull Requests
-- Test on windows in buildkite + update codeownerrs [#97](https://github.com/chef/chef-apply/pull/97) ([tas50](https://github.com/tas50))
+- Revert https://github.com/chef/chef-apply/pull/96 [#98](https://github.com/chef/chef-apply/pull/98) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.3.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Revert https://github.com/chef/chef-apply/pull/96 [#98](https://github.com/chef/chef-apply/pull/98) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.6 -->
 - Test on windows in buildkite + update codeownerrs [#97](https://github.com/chef/chef-apply/pull/97) ([tas50](https://github.com/tas50)) <!-- 0.3.5 -->
 - Only send telemetry data if telemetry is enabled [#96](https://github.com/chef/chef-apply/pull/96) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.4 -->
 <!-- release_rollup -->

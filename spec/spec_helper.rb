@@ -20,6 +20,46 @@ require "simplecov"
 require "rspec/expectations"
 require "support/matchers/output_to_terminal"
 
+# class << Kernel
+#   alias :_require :require
+#   def require(*args)
+#
+#     show = false
+#     args.each do |a|
+#       if a =~ /chef_apply.*/
+#         show = true
+#         break
+#       end
+#     end
+#
+#     $stderr.puts "from #{File.basename(caller[1])}: require: %s" % [args.inspect] if show
+#     _require(*args)
+#   end
+#
+#   alias :_load :load
+#   def load(*args)
+#     show = false
+#     args.each do |a|
+#       if a =~ /chef_apply.*/
+#         show = true
+#         break
+#       end
+#     end
+#     $stderr.puts "from #{File.basename(caller[1])}: load: %s" % [args.inspect] if show
+#     _load(*args)
+#   end
+#
+# end
+#
+# module Kernel
+#   def require(*args)
+#     Kernel.require(*args)
+#   end
+#   def load(*args)
+#     Kernel.load(*args)
+#   end
+# end
+
 RemoteExecResult = Struct.new(:exit_status, :stdout, :stderr)
 
 class ChefApply::MockReporter

@@ -159,7 +159,7 @@ module ChefApply::Action
     end
 
     def handle_ccr_error
-      require "chef_apply/errors/ccr_failure_mapper"
+      require "chef_apply/action/converge_target/ccr_failure_mapper"
       mapper_opts = {}
       content = target_host.fetch_file_contents(chef_report_path)
       if content.nil?
@@ -175,7 +175,7 @@ module ChefApply::Action
         ChefApply::Log.error("Remote chef-client error follows:")
         ChefApply::Log.error(report["exception"])
       end
-      mapper = ChefApply::Errors::CCRFailureMapper.new(report["exception"], mapper_opts)
+      mapper = ConvergeTarget::CCRFailureMapper.new(report["exception"], mapper_opts)
       mapper.raise_mapped_exception!
     end
 

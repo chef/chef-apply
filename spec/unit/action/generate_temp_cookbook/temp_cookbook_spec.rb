@@ -16,12 +16,11 @@
 #
 
 require "spec_helper"
-require "chef_apply/temp_cookbook"
 require "tempfile"
 require "securerandom"
-
-RSpec.describe ChefApply::TempCookbook do
-  subject(:tc) { ChefApply::TempCookbook.new }
+require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
+RSpec.describe "ChefApply::Action::GenerateTempCookbook::TempCookbook" do
+  subject(:tc) { ChefApply::Action::GenerateTempCookbook::TempCookbook.new }
   let(:uuid) { SecureRandom.uuid }
 
   before do
@@ -31,13 +30,13 @@ RSpec.describe ChefApply::TempCookbook do
 
   after do
     ChefApply::Config.chef.cookbook_repo_paths = @repo_paths
-    tc.delete
+    subject.delete
   end
 
   describe "#from_existing_recipe" do
     it "raises an error if the recipe does not have a .rb extension" do
-      err = ChefApply::TempCookbook::UnsupportedExtension
-      expect { tc.from_existing_recipe("/some/file.chef") }.to raise_error(err)
+      err = ChefApply::Action::GenerateTempCookbook::TempCookbook::UnsupportedExtension
+      expect { subject.from_existing_recipe("/some/file.chef") }.to raise_error(err)
     end
 
     context "when there is an existing cookbook" do
@@ -62,15 +61,15 @@ RSpec.describe ChefApply::TempCookbook do
       end
 
       it "copies the whole cookbook" do
-        tc.from_existing_recipe(existing_recipe.path)
-        expect(File.read(File.join(tc.path, "recipes/default.rb"))).to eq(uuid)
-        expect(File.read(File.join(tc.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
+        subject.from_existing_recipe(existing_recipe.path)
+        expect(File.read(File.join(subject.path, "recipes/default.rb"))).to eq(uuid)
+        expect(File.read(File.join(subject.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
           name "foo_policy"
           default_source :supermarket
           run_list "foo::default"
           cookbook "foo", path: "."
         EXPECTED_POLICYFILE
-        expect(File.read(File.join(tc.path, "metadata.rb"))).to eq("name \"foo\"")
+        expect(File.read(File.join(subject.path, "metadata.rb"))).to eq("name \"foo\"")
       end
     end
 
@@ -87,31 +86,31 @@ RSpec.describe ChefApply::TempCookbook do
       end
 
       it "copies the existing recipe into a new cookbook" do
-        tc.from_existing_recipe(existing_recipe.path)
+        subject.from_existing_recipe(existing_recipe.path)
         recipe_filename = File.basename(existing_recipe.path)
         recipe_name = File.basename(recipe_filename, File.extname(recipe_filename))
-        expect(File.read(File.join(tc.path, "recipes/", recipe_filename))).to eq(uuid)
-        expect(File.read(File.join(tc.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
+        expect(File.read(File.join(subject.path, "recipes/", recipe_filename))).to eq(uuid)
+        expect(File.read(File.join(subject.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
           name "cw_recipe_policy"
           default_source :supermarket
           run_list "cw_recipe::#{recipe_name}"
           cookbook "cw_recipe", path: "."
         EXPECTED_POLICYFILE
-        expect(File.read(File.join(tc.path, "metadata.rb"))).to eq("name \"cw_recipe\"\n")
+        expect(File.read(File.join(subject.path, "metadata.rb"))).to eq("name \"cw_recipe\"\n")
       end
     end
   end
 
   describe "#from_resource" do
     it "creates a recipe containing the supplied recipe" do
-      tc.from_resource("directory", "/tmp/foo", [])
-      expect(File.read(File.join(tc.path, "recipes/default.rb"))).to eq("directory '/tmp/foo'\n")
+      subject.from_resource("directory", "/tmp/foo", [])
+      expect(File.read(File.join(subject.path, "recipes/default.rb"))).to eq("directory '/tmp/foo'\n")
     end
   end
 
   describe "#generate_metadata" do
     it "generates metadata in the temp cookbook" do
-      f = tc.generate_metadata("foo")
+      f = subject.generate_metadata("foo")
       expect(File.read(f)).to eq("name \"foo\"\n")
     end
   end
@@ -119,7 +118,7 @@ RSpec.describe ChefApply::TempCookbook do
   describe "#generate_policyfile" do
     context "when there is no existing policyfile" do
       it "generates a policyfile in the temp cookbook" do
-        f = tc.generate_policyfile("foo", "bar")
+        f = subject.generate_policyfile("foo", "bar")
         expect(File.read(f)).to eq <<~EXPECTED_POLICYFILE
           name "foo_policy"
           default_source :supermarket
@@ -131,7 +130,7 @@ RSpec.describe ChefApply::TempCookbook do
       context "when there are configured cookbook_repo_paths" do
         it "generates a policyfile in the temp cookbook" do
           ChefApply::Config.chef.cookbook_repo_paths = %w{one two}
-          f = tc.generate_policyfile("foo", "bar")
+          f = subject.generate_policyfile("foo", "bar")
           expect(File.read(f)).to eq <<~EXPECTED_POLICYFILE
             name "foo_policy"
             default_source :chef_repo, "one"
@@ -146,12 +145,12 @@ RSpec.describe ChefApply::TempCookbook do
 
     context "when there is an existing policyfile" do
       before do
-        File.open(File.join(tc.path, "Policyfile.rb"), "a") do |f|
+        File.open(File.join(subject.path, "Policyfile.rb"), "a") do |f|
           f << "this is a policyfile"
         end
       end
       it "only overrides the existing run_list in the policyfile" do
-        f = tc.generate_policyfile("foo", "bar")
+        f = subject.generate_policyfile("foo", "bar")
         expect(File.read(f)).to eq <<~EXPECTED_POLICYFILE
           this is a policyfile
           # Overriding run_list with command line specified value
@@ -167,7 +166,7 @@ RSpec.describe ChefApply::TempCookbook do
     let(:props) { nil }
     context "when no properties are provided" do
       it "it creates a simple resource" do
-        expect(tc.create_resource_definition(r1, r2, [])).to eq("directory '/tmp'\n")
+        expect(subject.create_resource_definition(r1, r2, [])).to eq("directory '/tmp'\n")
       end
     end
 
@@ -192,7 +191,7 @@ RSpec.describe ChefApply::TempCookbook do
             key_with_underscore 'value'
           end
         EXPECTED_RESOURCE
-        expect(tc.create_resource_definition(r1, r2, props)).to eq(expected)
+        expect(subject.create_resource_definition(r1, r2, props)).to eq(expected)
       end
     end
   end

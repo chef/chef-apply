@@ -22,6 +22,7 @@ require "chef_apply/telemeter"
 require "chef_apply/telemeter/sender"
 require "chef_apply/ui/terminal"
 require "chef_apply/action/generate_temp_cookbook"
+require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
 
 require "chef-cli/ui"
 
@@ -200,7 +201,7 @@ RSpec.describe ChefApply::CLI do
     let(:action) { double("generator", generated_cookbook: temp_cookbook) }
 
     context "when a resource is provided" do
-      it "gets an action via GenerateTemporaryCookbook.from_options and executes it " do
+      it "gets an action via GenerateTempCookbook.from_options and executes it " do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
           .with(resource_type: "user",
@@ -213,7 +214,7 @@ RSpec.describe ChefApply::CLI do
 
     context "when a recipe specifier is provided" do
 
-      it "gets an action via GenerateTemporaryCookbook.from_options and executes it" do
+      it "gets an action via GenerateTempCookbook.from_options and executes it" do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
           .with(recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp")
@@ -316,7 +317,7 @@ RSpec.describe ChefApply::CLI do
 
   describe "#render_cookbook_setup" do
     let(:reporter) { instance_double(ChefApply::StatusReporter) }
-    let(:temp_cookbook) { double(ChefApply::TempCookbook) }
+    let(:temp_cookbook) { double(ChefApply::Action::GenerateTempCookbook::TempCookbook) }
     let(:archive_file_location) { "/path/to/archive" }
     let(:args) { [] }
     # before do
@@ -345,7 +346,7 @@ RSpec.describe ChefApply::CLI do
     let(:host2) { ChefApply::TargetHost.new("ssh://host2") }
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
-      instance_double(ChefApply::TempCookbook,
+      instance_double(ChefApply::Action::GenerateTempCookbook::TempCookbook,
                       descriptor: "resource[name]",
                       from: "resource") end
     let(:archive_file_location) { "/path/to/archive" }

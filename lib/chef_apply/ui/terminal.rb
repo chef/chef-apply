@@ -51,9 +51,9 @@ module ChefApply
           #   keys :top :middle and :bottom can contain Strings that are used to
           #   indent the spinners. Ignored if message is blank
           multispinner = get_multispinner.new("[:spinner] #{header}",
-                                              output: @location,
-                                              hide_cursor: true,
-                                              style: indent_style)
+            output: @location,
+            hide_cursor: true,
+            style: indent_style)
           jobs.each do |job|
             multispinner.register(spinner_prefix(job.prefix), hide_cursor: true) do |spinner|
               reporter = StatusReporter.new(spinner, prefix: job.prefix, key: :status)
@@ -91,7 +91,7 @@ module ChefApply
         end
 
         def show_cursor
-          TTY::Cursor.show()
+          TTY::Cursor.show
         end
       end
     end

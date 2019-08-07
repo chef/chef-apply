@@ -67,6 +67,7 @@ module ChefApply
             unless File.exist?(path)
               raise OptionValidationError.new("CHEFVAL001", self, path)
             end
+
             path
           end)
 
@@ -88,7 +89,7 @@ module ChefApply
           long: "--protocol <PROTOCOL>",
           short: "-p",
           description: T.protocol_description(ChefApply::Config::SUPPORTED_PROTOCOLS.join(" "),
-                                              ChefApply::Config.connection.default_protocol),
+            ChefApply::Config.connection.default_protocol),
           default: ChefApply::Config.connection.default_protocol,
           proc: Proc.new { |val| ChefApply::Config.connection.default_protocol(val) }
 

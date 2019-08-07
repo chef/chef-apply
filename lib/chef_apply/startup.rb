@@ -106,6 +106,7 @@ module ChefApply
 
     def first_run_tasks
       return if Dir.exist?(Config::WS_BASE_PATH)
+
       create_default_config
       setup_telemetry
     end
@@ -129,7 +130,7 @@ module ChefApply
     end
 
     def start_telemeter_upload
-      ChefApply::Telemeter::Sender.start_upload_thread()
+      ChefApply::Telemeter::Sender.start_upload_thread
     end
 
     def setup_workstation_user_directories
@@ -167,6 +168,7 @@ module ChefApply
           next_arg = argv[index + 1]
           raise ConfigPathNotProvided.new if next_arg.nil?
           raise ConfigPathInvalid.new(next_arg) unless File.file?(next_arg) && File.readable?(next_arg)
+
           return next_arg
         end
       end

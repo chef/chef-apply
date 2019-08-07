@@ -77,7 +77,7 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook::RecipeLookup do
 
       context "and a cookbook exists but it is invalid" do
         it "raises an InvalidCookbook error" do
-          expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new())
+          expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new)
           expect(File).to receive(:directory?).with(File.join(repo_path, recipe_specifier)).and_return(true)
           expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::InvalidCookbook)
         end
@@ -85,7 +85,7 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook::RecipeLookup do
 
       context "and a cookbook does not exist" do
         it "raises an CookbookNotFound error" do
-          expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new())
+          expect(cookbook_loader).to receive(:[]).with(recipe_specifier).and_raise(Chef::Exceptions::CookbookNotFoundInRepo.new)
           expect(File).to receive(:directory?).with(File.join(repo_path, recipe_specifier)).and_return(false)
           expect { rp.load_cookbook(recipe_specifier) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::CookbookNotFound)
         end

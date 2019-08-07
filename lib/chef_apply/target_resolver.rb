@@ -35,6 +35,7 @@ module ChefApply
     # them to account for ranges embedded in the target name.
     def targets
       return @targets unless @targets.nil?
+
       expanded_urls = []
       @split_targets.each do |target|
         expanded_urls = (expanded_urls | expand_targets(target))
@@ -84,7 +85,7 @@ module ChefApply
     end
 
     def prefix_from_target(target)
-      if target =~ /^(.+?):\/\/(.*)/
+      if target =~ %r{^(.+?)://(.*)}
         # We'll store the existing prefix to avoid it interfering
         # with the check further below.
         if ChefApply::Config::SUPPORTED_PROTOCOLS.include? $1.downcase
@@ -115,6 +116,7 @@ module ChefApply
 
     def do_parse(targets, depth = 0)
       raise TooManyRanges.new(@current_target) if depth > 2
+
       new_targets = []
       done = false
       targets.each do |target|

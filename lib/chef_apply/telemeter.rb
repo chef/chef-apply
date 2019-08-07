@@ -152,7 +152,7 @@ module ChefApply
       loop do
         id += 1
         filename = File.join(ChefApply::Config.telemetry_path,
-                             "telemetry-payload-#{id}.yml")
+          "telemetry-payload-#{id}.yml")
         break unless File.exist?(filename)
       end
       filename

@@ -71,8 +71,7 @@ module ChefApply
         @err = false
       end
 
-      def auto_spin
-      end
+      def auto_spin; end
     end
   end
 end

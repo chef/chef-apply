@@ -46,7 +46,7 @@ RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
       end
     end
 
-    [:windows, :linux].each do |os|
+    %i{windows linux}.each do |os|
       context "on #{os}" do
         let(:base_os) { os }
         [13, 14].each do |major_version|
@@ -73,7 +73,7 @@ RSpec.describe ChefApply::Action::InstallChef::MinimumChefVersion do
         Gem::Version.new("14.1.0") => ChefApply::Action::InstallChef::MinimumChefVersion::Client14Outdated,
       },
     }
-    [:windows, :linux].each do |os|
+    %i{windows linux}.each do |os|
       context "on #{os}" do
         let(:base_os) { os }
         installed_expected[os].each do |installed, expected|

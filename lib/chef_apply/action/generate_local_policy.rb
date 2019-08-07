@@ -49,7 +49,7 @@ module ChefApply::Action
       require "chef-cli/policyfile_services/install"
       require "chef-cli/ui"
       @installer ||=
-        ChefCLI::PolicyfileServices::Install.new(ui: ChefCLI::UI.null(), root_dir: @cookbook.path)
+        ChefCLI::PolicyfileServices::Install.new(ui: ChefCLI::UI.null, root_dir: @cookbook.path)
     end
 
   end

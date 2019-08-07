@@ -347,8 +347,9 @@ RSpec.describe ChefApply::CLI do
     let(:cookbook_type) { :resource } # || :recipe
     let(:temp_cookbook) do
       instance_double(ChefApply::Action::GenerateTempCookbook::TempCookbook,
-                      descriptor: "resource[name]",
-                      from: "resource") end
+        descriptor: "resource[name]",
+        from: "resource")
+    end
     let(:archive_file_location) { "/path/to/archive" }
 
     before do
@@ -378,8 +379,9 @@ RSpec.describe ChefApply::CLI do
     let(:reporter) { double("reporter") }
     let(:action) do
       double("ChefApply::Actions::InstallChef",
-                          upgrading?: upgrading,
-                          version_to_install: "14.0") end
+        upgrading?: upgrading,
+        version_to_install: "14.0")
+    end
 
     it "updates status, creates an InstallChef action and executes it" do
       expect(reporter)
@@ -455,7 +457,7 @@ RSpec.describe ChefApply::CLI do
           let(:upgrading) { true }
           it "reports the update correctly" do
             expect(reporter).to receive(:update).with(text_context.upgrade_success(target_host.installed_chef_version,
-                                                                                   action.version_to_install))
+              action.version_to_install))
             subject.install(target_host, reporter)
           end
         end

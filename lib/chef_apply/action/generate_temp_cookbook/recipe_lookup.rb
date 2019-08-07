@@ -85,10 +85,12 @@ module ChefApply
           if recipe_name.nil?
             default_recipe = recipes["default"]
             raise NoDefaultRecipe.new(cookbook.root_dir, cookbook.name) if default_recipe.nil?
+
             default_recipe
           else
             recipe = recipes[recipe_name]
             raise RecipeNotFound.new(cookbook.root_dir, recipe_name, recipes.keys, cookbook.name) if recipe.nil?
+
             recipe
           end
         end

@@ -107,7 +107,7 @@ def assert_string_lookup(key, retval = "testvalue")
   it "should look up string #{key}" do
     top_level_method, *call_seq = key.split(".")
     terminal_method = call_seq.pop
-    tmock = double()
+    tmock = double
     # Because ordering is important
     # (eg calling errors.hello is different from hello.errors),
     # we need to add this individually instead of using

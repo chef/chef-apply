@@ -30,6 +30,7 @@ module ChefApply
         if params.size < 2
           raise OptionValidationError.new("CHEFVAL002", self)
         end
+
         if params.size == 2
           # Trying to specify a recipe to run remotely, no properties
           cb = params[1]

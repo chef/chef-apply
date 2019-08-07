@@ -25,18 +25,18 @@ RSpec.describe ChefApply::Startup do
 
   describe "#run" do
     it "performs ordered startup tasks and invokes the CLI" do
-      ordered_messages = [:verify_not_in_chefdk,
-                          :first_run_tasks,
-                          :setup_workstation_user_directories,
-                          :setup_error_handling,
-                          :load_config,
-                          :setup_logging,
-                          :start_telemeter_upload,
-                          :start_chef_apply]
+      ordered_messages = %i{verify_not_in_chefdk
+                          first_run_tasks
+                          setup_workstation_user_directories
+                          setup_error_handling
+                          load_config
+                          setup_logging
+                          start_telemeter_upload
+                          start_chef_apply}
       ordered_messages.each do |msg|
         expect(subject).to receive(msg).ordered
       end
-      subject.run()
+      subject.run
     end
 
     context "when errors happen" do

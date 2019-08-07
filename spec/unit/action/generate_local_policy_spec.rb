@@ -24,9 +24,9 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
   subject { ChefApply::Action::GenerateLocalPolicy.new(cookbook: cookbook) }
   let(:cookbook) do
     double("TempCookbook",
-           path: "/my/temp/cookbook",
-           export_path: "/my/temp/cookbook/export",
-           policyfile_lock_path: "/my/temp/cookbook/policyfile.lock")
+      path: "/my/temp/cookbook",
+      export_path: "/my/temp/cookbook/export",
+      policyfile_lock_path: "/my/temp/cookbook/policyfile.lock")
   end
 
   let(:installer_double) do
@@ -35,8 +35,8 @@ RSpec.describe ChefApply::Action::GenerateLocalPolicy do
 
   let(:exporter_double) do
     instance_double(ChefCLI::PolicyfileServices::ExportRepo,
-                    archive_file_location: "/path/to/export",
-                    run: :ok)
+      archive_file_location: "/path/to/export",
+      run: :ok)
   end
 
   before do

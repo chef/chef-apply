@@ -28,7 +28,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
   let(:target_host) do
     p = double("platform", family: platform_family)
     double(ChefApply::TargetHost,
-           platform: p, base_os: base_os, ws_cache_path: cache_path)
+      platform: p, base_os: base_os, ws_cache_path: cache_path)
   end
   let(:local_policy_path) { "/local/policy/path/archive.tgz" }
   let(:opts) { { target_host: target_host, local_policy_path: local_policy_path } }
@@ -101,7 +101,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           exception_handlers << reporter
           chef_license "accept-no-persist"
         EOM
-        )
+                                                      )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
         expect(local_tempfile.closed?).to eq(true)
@@ -125,7 +125,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           report_handlers << reporter
           exception_handlers << reporter
         EOM
-        )
+                                                      )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
         expect(local_tempfile.closed?).to eq(true)
@@ -154,7 +154,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           exception_handlers << reporter
           log_level :info
         EOM
-        )
+                                                      )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
         expect(local_tempfile.closed?).to eq(true)
@@ -187,7 +187,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           data_collector.mode :solo
           data_collector.organization "Chef Workstation"
         EOM
-        )
+                                                      )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
       # ensure the tempfile is deleted locally
@@ -213,7 +213,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
           report_handlers << reporter
           exception_handlers << reporter
         EOM
-        )
+                                                      )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
         # ensure the tempfile is deleted locally
@@ -302,11 +302,11 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       # Note we're only ensuring the command looks the same as #run_chef_cmd - we verify that run_chef_cmd
       # is correct in its own test elsewhere in this file
       expect(target_host).to receive(:run_command).with(subject.run_chef_cmd(remote_folder,
-                                                                             "workstation.rb",
-                                                                             "archive.tgz")).and_return result
+        "workstation.rb",
+        "archive.tgz")).and_return result
       expect(target_host).to receive(:del_dir).with(remote_folder).and_return result
 
-      [:running_chef, :success].each do |n|
+      %i{running_chef success}.each do |n|
         expect(subject).to receive(:notify).with(n)
       end
       subject.perform_action
@@ -317,10 +317,10 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
       it "runs the converge and reports back reboot" do
         expect(target_host).to receive(:run_command).with(subject.run_chef_cmd(remote_folder,
-                                                                               "workstation.rb",
-                                                                               "archive.tgz")).and_return result
+          "workstation.rb",
+          "archive.tgz")).and_return result
         expect(target_host).to receive(:del_dir).with(remote_folder).and_return result
-        [:running_chef, :reboot].each do |n|
+        %i{running_chef reboot}.each do |n|
           expect(subject).to receive(:notify).with(n)
         end
         subject.perform_action
@@ -338,10 +338,10 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
 
       it "reports back failure and reads the remote report" do
         expect(target_host).to receive(:run_command).with(subject.run_chef_cmd(remote_folder,
-                                                                               "workstation.rb",
-                                                                               "archive.tgz")).and_return result
+          "workstation.rb",
+          "archive.tgz")).and_return result
         expect(target_host).to receive(:del_dir).with(remote_folder).and_return result
-        [:running_chef, :converge_error].each do |n|
+        %i{running_chef converge_error}.each do |n|
           expect(subject).to receive(:notify).with(n)
         end
         expect(target_host).to receive(:fetch_file_contents).with(subject.chef_report_path).and_return(report_result)
@@ -354,10 +354,10 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
         let(:report_result) { nil }
         it "reports back failure" do
           expect(target_host).to receive(:run_command).with(subject.run_chef_cmd(remote_folder,
-                                                                                 "workstation.rb",
-                                                                                 "archive.tgz")).and_return result
+            "workstation.rb",
+            "archive.tgz")).and_return result
           expect(target_host).to receive(:del_dir).with(remote_folder).and_return result
-          [:running_chef, :converge_error].each do |n|
+          %i{running_chef converge_error}.each do |n|
             expect(subject).to receive(:notify).with(n)
           end
           expect(target_host).to receive(:fetch_file_contents).with(subject.chef_report_path).and_return(report_result)

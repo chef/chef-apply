@@ -31,6 +31,7 @@ module ChefApply
           if k.class == Integer
             raise MissingPlural.new(@tree.instance_variable_get(:@path), k)
           end
+
           k = k.to_sym
           define_singleton_method k do |*args|
             subtree = @tree.send(k, *args)
@@ -55,7 +56,7 @@ module ChefApply
         def set_call_context
           # TODO - this can vary (8 isn't always right) - inspect
           @line = caller(8, 1).first
-          if @line =~ /.*\/lib\/(.*\.rb):(\d+)/
+          if @line =~ %r{.*/lib/(.*\.rb):(\d+)}
             @line = "File: #{$1} Line: #{$2}"
           end
         end

@@ -45,14 +45,16 @@ RSpec.describe ChefApply::Action::ConvergeTarget::CCRFailureMapper do
           it "returns a correct CHEFCCR004 when details are available" do
             expect(subject.exception_args_from_cause).to eq(
               ["CHEFCCR004",
-               "Option force must be a kind of [TrueClass, FalseClass]!  You passed \"purle\"."])
+               "Option force must be a kind of [TrueClass, FalseClass]!  You passed \"purle\"."]
+            )
           end
         end
         context "And less detail is available" do
           let(:cause_line) { "Chef::Exceptions::User: linux_user[marc] ((chef-client cookbook)::(chef-client recipe) line 1) had an error: Chef::Exceptions::User: Couldn't lookup integer GID for group name blah" }
           it "returns a correct CHEFCCR002" do
             expect(subject.exception_args_from_cause).to eq(
-              ["CHEFCCR002", "Couldn't lookup integer GID for group name blah"])
+              ["CHEFCCR002", "Couldn't lookup integer GID for group name blah"]
+            )
           end
         end
       end
@@ -70,7 +72,8 @@ RSpec.describe ChefApply::Action::ConvergeTarget::CCRFailureMapper do
       let(:cause_line) { "NoMethodError: undefined method `badresourceprop' for Chef::Resource::User::LinuxUser" }
       it "returns a correct CHEFCCR006 " do
         expect(subject.exception_args_from_cause).to eq(
-          ["CHEFCCR006", "badresourceprop", "Chef::Resource::User::LinuxUser"])
+          ["CHEFCCR006", "badresourceprop", "Chef::Resource::User::LinuxUser"]
+        )
       end
     end
   end

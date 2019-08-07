@@ -33,7 +33,8 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook do
       let(:resource_properties) { {} }
       let(:options) do
         { resource_name: "user1", resource_type: "user",
-          resource_properties: resource_properties } end
+          resource_properties: resource_properties }
+      end
 
       it "returns a GenerateCookbookFromResource action" do
         expect(subject.from_options(options)).to be_a ChefApply::Action::GenerateCookbookFromResource

@@ -34,12 +34,11 @@ RSpec.describe ChefApply::UI::ErrorPrinter do
   let(:show_header) { true }
   let(:translation_mock) do
     instance_double("ChefApply::Errors::ErrorTranslation",
-                    footer: show_footer,
-                    log: show_log,
-                    stack: show_stack,
-                    header: show_header,
-                    decorations: has_decorations
-                   )
+      footer: show_footer,
+      log: show_log,
+      stack: show_stack,
+      header: show_header,
+      decorations: has_decorations)
   end
   subject { ChefApply::UI::ErrorPrinter.new(wrapped_exception, nil) }
 
@@ -188,7 +187,7 @@ RSpec.describe ChefApply::UI::ErrorPrinter do
 
     let(:orig_args) { %w{test} }
     it "formats and saves the backtrace" do
-      expect(inst).to receive(:add_backtrace_header).with(anything(), orig_args)
+      expect(inst).to receive(:add_backtrace_header).with(anything, orig_args)
       expect(inst).to receive(:add_formatted_backtrace)
       expect(inst).to receive(:save_backtrace)
       ChefApply::UI::ErrorPrinter.write_backtrace(wrapped_exception, orig_args)

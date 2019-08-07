@@ -54,7 +54,7 @@ module ChefApply
             @error = true
             raise
           ensure
-            file.close()
+            file.close
             # If any failures occurred, don't risk keeping
             # an incomplete download that we'll see as 'cached'
             if @error

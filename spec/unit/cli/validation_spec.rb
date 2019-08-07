@@ -13,7 +13,7 @@ RSpec.describe ChefApply::CLI::Validation do
     it "raises an error if not enough params are specified" do
       params = [
         [],
-        %w{one}
+        %w{one},
       ]
       params.each do |p|
         expect { subject.validate_params(p) }.to raise_error(OptionValidationError) do |e|
@@ -31,7 +31,7 @@ RSpec.describe ChefApply::CLI::Validation do
     it "succeeds if the second argument looks like a cookbook name" do
       params = [
         %w{target cb},
-        %w{target cb::recipe}
+        %w{target cb::recipe},
       ]
       params.each do |p|
         expect { subject.validate_params(p) }.to_not raise_error

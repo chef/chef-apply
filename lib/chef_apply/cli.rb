@@ -118,9 +118,8 @@ module ChefApply
     rescue OptionParser::InvalidOption => e # from parse_options
       # Using nil here is a bit gross but it prevents usage from printing.
       ove = OptionValidationError.new("CHEFVAL010", nil,
-                                      e.message.split(":")[1].strip, # only want the flag
-                                      format_flags.lines[1..-1].join # remove 'FLAGS:' header
-                                     )
+        e.message.split(":")[1].strip, # only want the flag
+        format_flags.lines[1..-1].join) # remove 'FLAGS:' header
       handle_perform_error(ove)
     rescue => e
       handle_perform_error(e)
@@ -140,8 +139,8 @@ module ChefApply
 
     def resolve_targets(host_spec, opts)
       @target_hosts = TargetResolver.new(host_spec,
-                                         opts.delete(:protocol),
-                                         opts).targets
+        opts.delete(:protocol),
+        opts).targets
     end
 
     def render_cookbook_setup(arguments)
@@ -311,6 +310,7 @@ module ChefApply
         # message when there was only one job.
         raise jobs.first.exception
       end
+
       raise ChefApply::MultiJobFailure.new(failed_jobs)
     end
 

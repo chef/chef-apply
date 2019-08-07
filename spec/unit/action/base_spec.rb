@@ -28,7 +28,8 @@ RSpec.describe ChefApply::Action::Base do
   end
   let(:opts) do
     { target_host: target_host,
-      other: "something-else" } end
+      other: "something-else" }
+  end
   subject(:action) { ChefApply::Action::Base.new(opts) }
 
   context "#initialize" do

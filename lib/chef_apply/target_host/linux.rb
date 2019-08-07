@@ -15,7 +15,7 @@ module ChefApply
       end
 
       def chown(path, owner)
-        owner ||= user()
+        owner ||= user
         run_command!("chown #{owner} '#{path}'")
         nil
       end

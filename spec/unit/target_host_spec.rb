@@ -221,7 +221,8 @@ RSpec.describe ChefApply::TargetHost do
     let(:path_is_file) { true }
     let(:remote_file_mock) do
       double("remote_file", exist?: path_exists,
-                                    file?: path_is_file, content: sample_content) end
+                                    file?: path_is_file, content: sample_content)
+    end
     before do
       expect(subject).to receive(:backend).and_return backend_mock
       expect(backend_mock).to receive(:file).with(path).and_return remote_file_mock
@@ -281,7 +282,7 @@ RSpec.describe ChefApply::TargetHost do
     it "creates the temp directory and changes ownership" do
       expect(subject).to receive(:make_temp_dir).and_return("/tmp/dir")
       expect(subject).to receive(:chown).with("/tmp/dir", subject.user)
-      subject.temp_dir()
+      subject.temp_dir
     end
   end
 

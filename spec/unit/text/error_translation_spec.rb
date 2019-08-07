@@ -31,7 +31,8 @@ RSpec.describe ChefApply::Text::ErrorTranslation do
 
   let(:error_table) do
     { display_defaults: display_defaults,
-      TESTERROR: test_error } end
+      TESTERROR: test_error }
+  end
 
   let(:test_error_text) { "This is a test error" }
   let(:test_error) { {} }
@@ -39,11 +40,13 @@ RSpec.describe ChefApply::Text::ErrorTranslation do
   subject { ChefApply::Text::ErrorTranslation }
   let(:error_mock) do
     double("R18n::Translated",
-                            text: test_error_text ) end
+      text: test_error_text )
+  end
   let(:translation_mock) do
     double("R18n::Translated",
-                                 TESTERROR: error_mock,
-                                 text: test_error_text ) end
+      TESTERROR: error_mock,
+      text: test_error_text )
+  end
   before do
     # Mock out the R18n portion - our methods care only that the key exists, and
     # the test focus is on the display metadata.
@@ -67,7 +70,8 @@ RSpec.describe ChefApply::Text::ErrorTranslation do
   context "when all display attributes are specified" do
     let(:test_error) do
       { display: { decorations: false, header: false,
-                   footer: false, stack: true, log: true } } end
+                   footer: false, stack: true, log: true } }
+    end
     it "sets display attributes to specified values with no defaults" do
       translation = subject.new("TESTERROR")
       expect(translation.decorations).to be false
@@ -97,8 +101,8 @@ RSpec.describe ChefApply::Text::ErrorTranslation do
     it "raises InvalidDisplayAttributes when invalid attributes are specified" do
       expect { subject.new("TESTERROR") }
         .to raise_error(ChefApply::Text::ErrorTranslation::InvalidDisplayAttributes) do |e|
-        expect(e.invalid_attrs).to eq({ bad_value: true })
-      end
+          expect(e.invalid_attrs).to eq({ bad_value: true })
+        end
 
     end
   end

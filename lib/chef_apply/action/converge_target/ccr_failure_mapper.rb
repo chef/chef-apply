@@ -35,9 +35,9 @@ module ChefApply
           if @cause_line.nil?
             raise RemoteChefRunFailedToResolveError.new(params[:failed_report_path])
           else
-            errid, *args = exception_args_from_cause()
+            errid, *args = exception_args_from_cause
             if errid.nil?
-              raise RemoteChefClientRunFailedUnknownReason.new()
+              raise RemoteChefClientRunFailedUnknownReason.new
             else
               raise RemoteChefClientRunFailed.new(errid, *args)
             end

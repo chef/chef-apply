@@ -39,23 +39,23 @@ RSpec.describe ChefApply::CLIOptions do
   let(:klass) { ChefApply::CLIOptions::TestClass.new }
 
   it "contains the specified options" do
-    expect(klass.options.keys).to eq([
-      :version,
-      :help,
-      :config_path,
-      :identity_file,
-      :ssl,
-      :ssl_verify,
-      :protocol,
-      :user,
-      :password,
-      :cookbook_repo_paths,
-      :install,
-      :sudo,
-      :sudo_command,
-      :sudo_password,
-      :sudo_options
-    ])
+    expect(klass.options.keys).to eq(%i{
+      version
+      help
+      config_path
+      identity_file
+      ssl
+      ssl_verify
+      protocol
+      user
+      password
+      cookbook_repo_paths
+      install
+      sudo
+      sudo_command
+      sudo_password
+      sudo_options
+    })
   end
 
   it "persists certain CLI options back to the ChefApply::Config" do

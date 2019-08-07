@@ -39,7 +39,7 @@ module ChefApply
       end
 
       def perform_local_install
-        package = lookup_artifact()
+        package = lookup_artifact
         notify(:downloading)
         local_path = download_to_workstation(package.url)
         notify(:uploading)
@@ -65,6 +65,7 @@ module ChefApply
 
       def lookup_artifact
         return @artifact_info if @artifact_info
+
         require "mixlib/install"
         c = train_to_mixlib(target_host.platform)
         Mixlib::Install.new(c).artifact_info
@@ -108,7 +109,7 @@ module ChefApply
       end
 
       def upload_to_target(local_path)
-        installer_dir = target_host.temp_dir()
+        installer_dir = target_host.temp_dir
         remote_path = File.join(installer_dir, File.basename(local_path))
         target_host.upload_file(local_path, remote_path)
         remote_path

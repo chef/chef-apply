@@ -35,6 +35,7 @@ module ChefApply
         def from_existing_recipe(existing_recipe_path)
           ext_name = File.extname(existing_recipe_path)
           raise UnsupportedExtension.new(ext_name) unless ext_name == ".rb"
+
           cb = cookbook_for_recipe(existing_recipe_path)
           if cb
             # Full existing cookbook - only needs policyfile

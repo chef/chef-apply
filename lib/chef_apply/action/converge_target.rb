@@ -26,7 +26,7 @@ module ChefApply::Action
 
     def perform_action
       local_policy_path = config.delete :local_policy_path
-      remote_tmp = target_host.temp_dir()
+      remote_tmp = target_host.temp_dir
       remote_dir_path = target_host.normalize_path(remote_tmp)
       # Ensure the directory is owned by the connecting user,
       # otherwise we won't be able to put things into it over scp as that user.
@@ -38,8 +38,8 @@ module ChefApply::Action
       notify(:running_chef)
       # TODO - just teach target_host how to run_chef?
       cmd_str = run_chef_cmd(remote_dir_path,
-                             File.basename(remote_config_path),
-                             File.basename(remote_policy_path))
+        File.basename(remote_config_path),
+        File.basename(remote_policy_path))
       c = target_host.run_command(cmd_str)
       target_host.del_dir(remote_dir_path)
       if c.exit_status == 0
@@ -52,7 +52,7 @@ module ChefApply::Action
         ChefApply::Log.error("Error running command [#{cmd_str}]")
         ChefApply::Log.error("stdout: #{c.stdout}")
         ChefApply::Log.error("stderr: #{c.stderr}")
-        handle_ccr_error()
+        handle_ccr_error
       end
     end
 
@@ -63,7 +63,7 @@ module ChefApply::Action
         target_host.upload_file(local_policy_path, remote_policy_path)
       rescue RuntimeError => e
         ChefApply::Log.error(e)
-        raise PolicyUploadFailed.new()
+        raise PolicyUploadFailed.new
       end
       remote_policy_path
     end
@@ -92,7 +92,7 @@ module ChefApply::Action
       # (we don't set a location because we want output to
       #   go in stdout for reporting back to chef-apply)
       log_settings = ChefApply::Config.log
-      if !log_settings.target_level.nil?
+      unless log_settings.target_level.nil?
         workstation_rb << <<~EOM
           log_level :#{log_settings.target_level}
         EOM
@@ -115,7 +115,7 @@ module ChefApply::Action
         config_file.close
         target_host.upload_file(config_file.path, remote_config_path)
       rescue RuntimeError
-        raise ConfigUploadFailed.new()
+        raise ConfigUploadFailed.new
       ensure
         config_file.unlink
       end
@@ -126,14 +126,14 @@ module ChefApply::Action
       remote_handler_path = File.join(remote_dir, "reporter.rb")
       begin
         # TODO - why don't we upload the original remote_handler_path instead of making a temp copy?
-        handler_file = Tempfile.new()
+        handler_file = Tempfile.new
         # TODO - ideally this is a resource in the gem, and not placed in with source files.
         handler_file.write(File.read(File.join(__dir__, "reporter.rb")))
         handler_file.close
         target_host.upload_file(handler_file.path, remote_handler_path)
       # TODO - should we be more specific in our error catch?
       rescue RuntimeError
-        raise HandlerUploadFailed.new()
+        raise HandlerUploadFailed.new
       ensure
         handler_file.unlink
       end

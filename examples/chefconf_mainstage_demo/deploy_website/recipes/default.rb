@@ -44,5 +44,5 @@ end
 # end
 
 service "nginx" do
-  action [:start, :enable]
+  action %i{start enable}
 end

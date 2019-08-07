@@ -65,6 +65,7 @@ module ChefApply
 
       def notify(action, *args)
         return if @notification_handler.nil?
+
         ChefApply::Log.debug("[#{self.class.name}] Action: #{action}, Action Data: #{args}")
         @notification_handler.call(action, args) if @notification_handler
       end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.4.1)
+    chef-apply (0.4.2)
       chef (>= 15.0)
       chef-cli (>= 1.0.3)
       chef-telemetry
@@ -216,7 +216,7 @@ GEM
       net-ssh (>= 2.6.5)
       net-ssh-gateway (>= 1.2.0)
     nori (2.6.0)
-    ohai (15.1.5)
+    ohai (15.2.5)
       chef-config (>= 12.8, < 16)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)

@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.1 -->
-## [v0.4.1](https://github.com/chef/chef-apply/tree/v0.4.1) (2019-08-07)
+<!-- latest_release 0.4.2 -->
+## [v0.4.2](https://github.com/chef/chef-apply/tree/v0.4.2) (2019-08-08)
 
 #### Merged Pull Requests
-- Bump train to 3.0.1 [#101](https://github.com/chef/chef-apply/pull/101) ([chef-ci](https://github.com/chef-ci))
+- Pinning Train to prevent pulling in train-winrm updates [#102](https://github.com/chef/chef-apply/pull/102) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.3.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Pinning Train to prevent pulling in train-winrm updates [#102](https://github.com/chef/chef-apply/pull/102) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.2 -->
 - Bump train to 3.0.1 [#101](https://github.com/chef/chef-apply/pull/101) ([chef-ci](https://github.com/chef-ci)) <!-- 0.4.1 -->
 - [tech debt] group related classes together [#65](https://github.com/chef/chef-apply/pull/65) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.0 -->
 - Revert https://github.com/chef/chef-apply/pull/96 [#98](https://github.com/chef/chef-apply/pull/98) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.6 -->

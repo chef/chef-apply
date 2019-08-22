@@ -74,7 +74,7 @@ module ChefApply
           value
         when /^\d+$/
           value.to_i
-        when /(^(\d+)(\.)?(\d+)?)|(^(\d+)?(\.)(\d+))/
+        when /^\d+\.\d*$/, /^\d*\.\d+$/
           value.to_f
         when /true/i
           true

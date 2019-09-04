@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-apply (0.4.3)
+    chef-apply (0.4.4)
       chef (>= 15.0)
       chef-cli (>= 1.0.3)
       chef-telemetry
@@ -185,7 +185,7 @@ GEM
     mixlib-cli (2.1.1)
     mixlib-config (3.0.1)
       tomlrb
-    mixlib-install (3.11.18)
+    mixlib-install (3.11.21)
       mixlib-shellout
       mixlib-versioning
       thor

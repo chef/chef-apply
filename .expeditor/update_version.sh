@@ -7,6 +7,3 @@
 set -evx
 
 sed -i -r "s/VERSION = \".*\"/VERSION = \"$(cat VERSION)\"/"  lib/chef_apply/version.rb
-
-# Ensure our Gemfile.lock reflects the new version
-bundle update chef-apply

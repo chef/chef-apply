@@ -92,7 +92,7 @@ GEM
       mixlib-log (>= 2.0, < 4.0)
       rack (~> 2.0, >= 2.0.6)
       uuidtools (~> 2.1)
-    chefstyle (0.13.2)
+    chefstyle (0.13.3)
       rubocop (= 0.72.0)
     citrus (3.0.2)
     coderay (1.1.2)
@@ -184,7 +184,7 @@ GEM
     mixlib-cli (2.1.1)
     mixlib-config (3.0.1)
       tomlrb
-    mixlib-install (3.11.18)
+    mixlib-install (3.11.21)
       mixlib-shellout
       mixlib-versioning
       thor
@@ -231,7 +231,7 @@ GEM
     os (1.0.1)
     paint (1.0.1)
     parallel (1.17.0)
-    parser (2.6.3.0)
+    parser (2.6.4.0)
       ast (~> 2.4.0)
     pastel (0.7.3)
       equatable (~> 0.6)

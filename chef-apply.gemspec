@@ -48,9 +48,9 @@ Gem::Specification.new do |spec|
                                      # localization gem...
   spec.add_dependency "toml-rb" # This isn't ideal because mixlib-config uses 'tomlrb'
                                 # but that library does not support a dumper
-  # Train 3.x introduces changes to train-winrm that we are not ready to consume across
-  # the entire Chef Workstation ecosystem
-  spec.add_dependency "train", "< 3.0" # remote connection management over ssh, winrm
+  spec.add_dependency "train", "~> 3.0" # remote connection management over ssh, winrm
+  spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
+                                    # in train 3
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
   spec.add_dependency "chef", ">= 15.0" # Needed to load cookbooks

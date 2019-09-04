@@ -1,35 +1,32 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.6 -->
-## [v0.4.6](https://github.com/chef/chef-apply/tree/v0.4.6) (2019-09-04)
-
-#### Merged Pull Requests
-- Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.3.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune)) <!-- 0.4.6 -->
-- Bump train-winrm to 0.2.4 [#106](https://github.com/chef/chef-apply/pull/106) ([chef-ci](https://github.com/chef-ci)) <!-- 0.4.5 -->
-- We are updating to Train 3.x across the Workstation/DK, ensure this gets bumped [#105](https://github.com/chef/chef-apply/pull/105) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.4 -->
-- IP address properties should not be truncated to floats [#103](https://github.com/chef/chef-apply/pull/103) ([faucct](https://github.com/faucct)) <!-- 0.4.3 -->
-- Pinning Train to prevent pulling in train-winrm updates [#102](https://github.com/chef/chef-apply/pull/102) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.2 -->
-- Bump train to 3.0.1 [#101](https://github.com/chef/chef-apply/pull/101) ([chef-ci](https://github.com/chef-ci)) <!-- 0.4.1 -->
-- [tech debt] group related classes together [#65](https://github.com/chef/chef-apply/pull/65) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.0 -->
-- Revert https://github.com/chef/chef-apply/pull/96 [#98](https://github.com/chef/chef-apply/pull/98) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.6 -->
-- Test on windows in buildkite + update codeownerrs [#97](https://github.com/chef/chef-apply/pull/97) ([tas50](https://github.com/tas50)) <!-- 0.3.5 -->
-- Only send telemetry data if telemetry is enabled [#96](https://github.com/chef/chef-apply/pull/96) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.3.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.4.6](https://github.com/chef/chef-apply/tree/v0.4.6) (2019-09-04)
+
+#### Merged Pull Requests
+- Only send telemetry data if telemetry is enabled [#96](https://github.com/chef/chef-apply/pull/96) ([tyler-ball](https://github.com/tyler-ball))
+- Test on windows in buildkite + update codeownerrs [#97](https://github.com/chef/chef-apply/pull/97) ([tas50](https://github.com/tas50))
+- Revert https://github.com/chef/chef-apply/pull/96 [#98](https://github.com/chef/chef-apply/pull/98) ([tyler-ball](https://github.com/tyler-ball))
+- [tech debt] group related classes together [#65](https://github.com/chef/chef-apply/pull/65) ([marcparadise](https://github.com/marcparadise))
+- Bump train to 3.0.1 [#101](https://github.com/chef/chef-apply/pull/101) ([chef-ci](https://github.com/chef-ci))
+- Pinning Train to prevent pulling in train-winrm updates [#102](https://github.com/chef/chef-apply/pull/102) ([tyler-ball](https://github.com/tyler-ball))
+- IP address properties should not be truncated to floats [#103](https://github.com/chef/chef-apply/pull/103) ([faucct](https://github.com/faucct))
+- We are updating to Train 3.x across the Workstation/DK, ensure this gets bumped [#105](https://github.com/chef/chef-apply/pull/105) ([tyler-ball](https://github.com/tyler-ball))
+- Bump train-winrm to 0.2.4 [#106](https://github.com/chef/chef-apply/pull/106) ([chef-ci](https://github.com/chef-ci))
+- Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune))
+<!-- latest_stable_release -->
+
 ## [0.3.3](https://github.com/chef/chef-apply/tree/0.3.3) (2019-07-09)
 
 #### Merged Pull Requests
 - Bump mixlib-cli to 2.1.1 [#90](https://github.com/chef/chef-apply/pull/90) ([chef-ci](https://github.com/chef-ci))
 - Bump train-core to 2.1.13 [#93](https://github.com/chef/chef-apply/pull/93) ([chef-ci](https://github.com/chef-ci))
 - Change over from ChefDK to ChefCLI  [#94](https://github.com/chef/chef-apply/pull/94) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [0.3.0](https://github.com/chef/chef-apply/tree/0.3.0) (2019-06-04)
 

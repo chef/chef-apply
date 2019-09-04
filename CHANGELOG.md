@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.5 -->
-## [v0.4.5](https://github.com/chef/chef-apply/tree/v0.4.5) (2019-09-04)
+<!-- latest_release 0.4.6 -->
+## [v0.4.6](https://github.com/chef/chef-apply/tree/v0.4.6) (2019-09-04)
 
 #### Merged Pull Requests
-- Bump train-winrm to 0.2.4 [#106](https://github.com/chef/chef-apply/pull/106) ([chef-ci](https://github.com/chef-ci))
+- Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.3.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune)) <!-- 0.4.6 -->
 - Bump train-winrm to 0.2.4 [#106](https://github.com/chef/chef-apply/pull/106) ([chef-ci](https://github.com/chef-ci)) <!-- 0.4.5 -->
 - We are updating to Train 3.x across the Workstation/DK, ensure this gets bumped [#105](https://github.com/chef/chef-apply/pull/105) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.4 -->
 - IP address properties should not be truncated to floats [#103](https://github.com/chef/chef-apply/pull/103) ([faucct](https://github.com/faucct)) <!-- 0.4.3 -->

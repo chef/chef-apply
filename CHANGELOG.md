@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.4.7 -->
+## [v0.4.7](https://github.com/chef/chef-apply/tree/v0.4.7) (2019-10-14)
+
+#### Merged Pull Requests
+- Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.6 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50)) <!-- 0.4.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

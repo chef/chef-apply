@@ -69,25 +69,25 @@ errors:
   # Installer action errors
   CHEFINS002:
     text: |
-      The target does not have chef-client installed.
+      The target does not have %1 installed.
 
-      This command is powered by the Chef client.  In order to make use of it
-      on this node, the Chef client must be installed first.
+      This command is powered by the %2 client.  In order to make use of it
+      on this node, the %2 client must be installed first.
 
       Re-running this command without the '--no-install' flag will
       automatically perform the installation.
 
   CHEFINS003: |
-    The target's installed version of Chef Client is too old.
+    The target's installed version of %1 Client is too old.
 
-    Version %1 is installed, but this command requires a
-    minimum version of %2 (Chef 13) or %3 (Chef 14).
+    Version %2 is installed, but this command requires a
+    minimum version of %3 (%1 13) or %4 (%1 14).
 
   CHEFINS004: |
-    The target's installed version of Chef Client is too old.
+    The target's installed version of %1 Client is too old.
 
-    Version %1 is installed, but this command requires a
-    minimum version of %2.
+    Version %2 is installed, but this command requires a
+    minimum version of %3.
 
   CHEFINS003:
     text: |
@@ -161,7 +161,7 @@ errors:
 
   CHEFCCR005:
     text: |
-      '%1' is not a valid Chef resource.
+      '%1' is not a valid resource.
 
       Please consult the documentation for a list of valid resources:
 

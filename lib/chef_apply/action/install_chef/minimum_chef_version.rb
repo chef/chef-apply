@@ -17,12 +17,14 @@
 
 require_relative "../../error"
 require_relative "minimum_chef_version"
+require_relative "../../dist"
 
 module ChefApply
   module Action
     class InstallChef < Base
       class MinimumChefVersion
 
+        D = ChefApply::Dist
         CONSTRAINTS = {
           windows: {
             13 => Gem::Version.new("13.10.4"),
@@ -65,18 +67,18 @@ module ChefApply
         end
 
         class ClientNotInstalled < ChefApply::ErrorNoLogs
-          def initialize(); super("CHEFINS002"); end
+          def initialize(); super("CHEFINS002", D::CLIENT, D::SHORT); end
         end
 
         class Client13Outdated < ChefApply::ErrorNoLogs
           def initialize(current_version, min_13_version, min_14_version)
-            super("CHEFINS003", current_version, min_13_version, min_14_version)
+            super("CHEFINS003", D::SHORT, current_version, min_13_version, min_14_version)
           end
         end
 
         class Client14Outdated < ChefApply::ErrorNoLogs
           def initialize(current_version, target_version)
-            super("CHEFINS004", current_version, target_version)
+            super("CHEFINS004", D::SHORT, current_version, target_version)
           end
         end
       end

@@ -39,6 +39,8 @@ require_relative "action/generate_temp_cookbook"
 require_relative "action/generate_local_policy"
 require_relative "action/converge_target"
 
+require_relative "dist"
+
 module ChefApply
   class CLI
     attr_reader :temp_cookbook, :archive_file_location, :target_hosts
@@ -56,6 +58,7 @@ module ChefApply
     RC_COMMAND_FAILED = 1
     RC_UNHANDLED_ERROR = 32
     RC_ERROR_HANDLING_FAILED = 64
+    D = ChefApply::Dist
 
     def initialize(argv)
       @argv = argv.clone
@@ -181,28 +184,28 @@ module ChefApply
     def install(target_host, reporter)
       require_relative "action/install_chef"
       context = TS.install_chef
-      reporter.update(context.verifying)
+      reporter.update(context.verifying(D::SHORT))
       installer = Action::InstallChef.new(target_host: target_host, check_only: !parsed_options[:install])
       installer.run do |event, data|
         case event
         when :installing
           if installer.upgrading?
-            message = context.upgrading(target_host.installed_chef_version, installer.version_to_install)
+            message = context.upgrading(D::SHORT, target_host.installed_chef_version, installer.version_to_install)
           else
-            message = context.installing(installer.version_to_install)
+            message = context.installing(D::SHORT, installer.version_to_install)
           end
           reporter.update(message)
         when :uploading
-          reporter.update(context.uploading)
+          reporter.update(context.uploading(D::SHORT))
         when :downloading
-          reporter.update(context.downloading)
+          reporter.update(context.downloading(D::SHORT))
         when :already_installed
-          reporter.update(context.already_present(target_host.installed_chef_version))
+          reporter.update(context.already_present(D::SHORT, target_host.installed_chef_version))
         when :install_complete
           if installer.upgrading?
-            message = context.upgrade_success(target_host.installed_chef_version, installer.version_to_install)
+            message = context.upgrade_success(D::SHORT, target_host.installed_chef_version, installer.version_to_install)
           else
-            message = context.install_success(installer.version_to_install)
+            message = context.install_success(D::SHORT, installer.version_to_install)
           end
           reporter.update(message)
         else
@@ -340,6 +343,6 @@ module ChefApply
   end
 
   class LicenseCheckFailed < ChefApply::Error
-    def initialize(); super("CHEFLIC001"); end
+    def initialize(); super("CHEFLIC001", ChefApply::Dist::CLIENT, ChefApply::Dist::SHORT); end
   end
 end

@@ -21,6 +21,8 @@ require "tempfile"
 # FLAG: require "chef/util/path_helper"
 require "chef/util/path_helper"
 
+require_relative "../dist"
+
 module ChefApply::Action
   class ConvergeTarget < Base
 
@@ -105,7 +107,7 @@ module ChefApply::Action
           data_collector.server_url "#{dc.url}"
           data_collector.token "#{dc.token}"
           data_collector.mode :solo
-          data_collector.organization "Chef Workstation"
+          data_collector.organization "#{ChefApply::Dist::WORKSTATION}"
         EOM
       end
 
@@ -172,7 +174,7 @@ module ChefApply::Action
         # stale stacktrace.
         target_host.del_file(chef_report_path)
         report = JSON.parse(content)
-        ChefApply::Log.error("Remote chef-client error follows:")
+        ChefApply::Log.error("Remote #{ChefApply::Dist::CLIENT} error follows:")
         ChefApply::Log.error(report["exception"])
       end
       mapper = ConvergeTarget::CCRFailureMapper.new(report["exception"], mapper_opts)
@@ -191,14 +193,14 @@ module ChefApply::Action
       when :windows
         "Set-Location -Path #{working_dir}; " +
           # We must 'wait' for chef-client to finish before changing directories and Out-Null does that
-          "chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)} | Out-Null; " +
+          "#{ChefApply::Dist::CLIENT} -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)} | Out-Null; " +
           # We have to leave working dir so we don't hold a lock on it, which allows us to delete this tempdir later
           "Set-Location C:/; " +
           "exit $LASTEXITCODE"
       else
         # cd is shell a builtin, so we'll invoke bash. This also means all commands are executed
         # with sudo (as long as we are hardcoding our sudo use)
-        "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
+        "bash -c 'cd #{working_dir}; #{ChefApply::Dist::CLIENT} -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
       end
     end
 

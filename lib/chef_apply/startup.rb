@@ -20,6 +20,9 @@ require_relative "ui/terminal"
 require_relative "telemeter"
 require "chef/log"
 require "chef/config"
+
+require_relative "dist"
+
 module ChefApply
   class Startup
     attr_reader :argv
@@ -71,9 +74,9 @@ module ChefApply
     rescue ConfigPathInvalid => e
       UI::Terminal.output(T.error.bad_config_file(e.path))
     rescue ConfigPathNotProvided
-      UI::Terminal.output(T.error.missing_config_path)
+      UI::Terminal.output(T.error.missing_config_path(ChefApply::Dist::RUNEXEC, ChefApply::Dist::DK))
     rescue UnsupportedInstallation
-      UI::Terminal.output(T.error.unsupported_installation)
+      UI::Terminal.output(T.error.unsupported_installation(ChefApply::Dist::RUNEXEC, ChefApply::Dist::DK, ChefApply::Dist::WORKSTATION, ChefApply::Dist::DOWNLOADS_URL))
     rescue Mixlib::Config::UnknownConfigOptionError => e
       # Ideally we'd update the exception in mixlib to include
       # a field with the faulty value, line number, and nested context -
@@ -125,7 +128,7 @@ module ChefApply
 
       # Tell the user we're anonymously tracking, give brief opt-out
       # and a link to detailed information.
-      UI::Terminal.output T.telemetry_enabled(Config.location)
+      UI::Terminal.output T.telemetry_enabled(ChefApply::Dist::RUNEXEC, Config.location)
       UI::Terminal.output ""
     end
 

@@ -18,11 +18,11 @@
 cli:
   telemetry_enabled: |
     Telemetry has been enabled by default for this beta release
-    of chef-run. The anonymous data we gather is used to
-    determine how we can impove your chef-run experience.
+    of %1. The anonymous data we gather is used to
+    determine how we can impove your %2 experience.
 
     To disable it, add the following entry to
-    %1:
+    %2:
 
     [telemetry]
     enabled=false
@@ -31,7 +31,7 @@ cli:
     options, visit https://chef.sh/docs/chef-workstation/privacy/
 
   description: |
-    Chef Run is a tool to execute ad-hoc tasks using Chef.
+    %1 is a tool to execute ad-hoc tasks using %2.
   creating_config: "Creating config file in %1."
   default_config_location: "Location of config file. Default: %1"
   identity_file: "SSH identity file to use when connecting. Keys loaded into ssh-agent will also be used."
@@ -44,9 +44,9 @@ cli:
       Current default: %1
   cookbook_repo_paths: "Comma separated list of cookbook repository paths."
   install_description: |
-    Install Chef client on the target host(s) if it is not installed.
+    Install %1 on the target host(s) if it is not installed.
     This defaults to enabled - the installation will be performed
-    if there is no Chef client on the target(s).
+    if there is no %1 installation on the target(s).
   user_description: |
     Username to use for authentication to the target(s). The same
     username will be used for all targets.
@@ -69,47 +69,47 @@ cli:
         password is required for sudo on the target(s). The same sudo password
         will be used for all targets.
   help:
-    description: Show help and usage for `chef-run`
+    description: Show help and usage for `%1`
   usage: |
-    chef-run <TARGET[S]> <RESOURCE> <RESOURCE_NAME> [PROPERTIES] [FLAGS]
-    chef-run <TARGET[S]> <RECIPE> [FLAGS]
+    %1 <TARGET[S]> <RESOURCE> <RESOURCE_NAME> [PROPERTIES] [FLAGS]
+    %1 <TARGET[S]> <RECIPE> [FLAGS]
 
   usage_full: |
-    chef-run <TARGET[S]> <RESOURCE> <RESOURCE_NAME> [PROPERTIES] [FLAGS]
+    %1 <TARGET[S]> <RESOURCE> <RESOURCE_NAME> [PROPERTIES] [FLAGS]
 
       Runs a single <RESOURCE> on the specified <TARGET[S]>.
       [PROPERTIES] should be specified as key=value.
 
       For example:
 
-        chef-run web01 service nginx action=restart
-        chef-run web01,web02 service nginx action=restart
-        chef-run web0[1:2] service nginx action=restart
+        %1 web01 service nginx action=restart
+        %1 web01,web02 service nginx action=restart
+        %1 web0[1:2] service nginx action=restart
 
-    chef-run <TARGET[S]> <RECIPE> [FLAGS]
+    %1 <TARGET[S]> <RECIPE> [FLAGS]
 
       Runs a single recipe located at <RECIPE> on the specified <TARGET[S]>.
 
       For example:
 
-        chef-run web01 path/to/cookbook/recipe.rb
-        chef-run web01,web02 path/to/cookbook
-        chef-run web0[1:2] cookbook_name
-        chef-run web01 cookbook_name::recipe_name
+        %1 web01 path/to/cookbook/recipe.rb
+        %1 web01,web02 path/to/cookbook
+        %1 web0[1:2] cookbook_name
+        %1 web01 cookbook_name::recipe_name
 
     ARGUMENTS:
       <TARGET[S]>       The hosts or IPs to target. Can also be an SSH or WinRM URLs
                         in the form:
 
                         ssh://[USERNAME]@example.com[:PORT]
-      <RESOURCE>        A Chef resource, such as 'user' or 'package'
+      <RESOURCE>        A %2 resource, such as 'user' or 'package'
       <RESOURCE_NAME>   The name, usually used to specify what 'thing' to set up with
                         the resource. For example, given resource 'user', 'name' would be
                         the name of the user you wanted to create.
       <RECIPE>          The recipe to converge. This can be provided as one of:
                         1. Full path to a recipe file
                         2. Cookbook name. First we check the working directory for this
-                           cookbook, then we check in the chef repository path. If a
+                           cookbook, then we check in the %3 repository path. If a
                            cookbook is found we run the default recipe.
                         3. This behaves similarly to 'cookbook name' above, but it also allows
                            you to specify which recipe to use from the cookbook.
@@ -125,10 +125,10 @@ cli:
 
       Missing configuration file.
 
-      Please provide the path to a valid chef-run configuration file
+      Please provide the path to a valid %1 configuration file
       as an argument to --config-path. For example:
 
-        --config-path /home/user1/.chef-workstation/config.toml
+        --config-path /home/user1/%2/config.toml
 
     invalid_config_key: |
 
@@ -152,18 +152,18 @@ cli:
 
     unsupported_installation: |
 
-      Use of chef-run within ChefDK is not supported.
+      Use of %1 within %2 is not supported.
 
-      Chef Workstation is the successor to the ChefDK, and contains the
-      same components including a supported chef-run.
+      %3 is the successor to the %2, and contains the
+      same components including a supported %1.
 
       Download the latest here:
 
-      https://downloads.chef.io/chef-workstation/stable
+      https://%4/chef-workstation/stable
 
   version:
     description: Show the current version of Chef Run.
-    show: "chef-run: %1"
+    show: "%1: %2"
   status:
     connecting: "Connecting as %1..."
     connected: "Connected."
@@ -178,16 +178,16 @@ status:
     exporting:  Generating local policyfile... exporting...
     success: Generating local policyfile... exporting... done!
   install_chef:
-    checking_for_client: Checking for Chef client.
-    verifying: Verifying Chef client installation.
-    downloading: Downloading Chef client installer into local cache.
-    uploading: Uploading Chef client installer to target.
-    installing: Installing Chef client version %1.
-    upgrading: Upgrading Chef client from version %1 to %2.
-    already_present: Chef client version %1 already installed on target.
-    install_success: Successfully installed Chef client version %1
-    upgrade_success: Successfully upgraded Chef client from version %1 to %2.
-    failure: "An error occurred while installing Chef client: %1"
+    checking_for_client: Checking for Chef client. # Not currently in use
+    verifying: Verifying %1 client installation.
+    downloading: Downloading %1 client installer into local cache.
+    uploading: Uploading %1 client installer to target.
+    installing: Installing %1 client version %2.
+    upgrading: Upgrading %1 client from version %2 to %3.
+    already_present: "%1 client version %2 already installed on target."
+    install_success: Successfully installed %1 client version %2
+    upgrade_success: Successfully upgraded %1 client from version %2 to %3.
+    failure: "An error occurred while installing Chef client: %1" # Not currently in use
   converge:
     header: !!pl
       1: Applying %2 from %3 to target.

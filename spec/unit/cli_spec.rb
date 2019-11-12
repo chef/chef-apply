@@ -397,7 +397,7 @@ RSpec.describe ChefApply::CLI do
     it "updates status, creates an InstallChef action and executes it" do
       expect(reporter)
         .to receive(:update)
-        .with(ChefApply::CLI::TS.install_chef.verifying)
+        .with(ChefApply::CLI::TS.install_chef.verifying("Chef"))
       expect(ChefApply::Action::InstallChef).to receive(:new)
         .with(target_host: target_host, check_only: false)
         .and_return action
@@ -415,7 +415,7 @@ RSpec.describe ChefApply::CLI do
         allow(action)
           .to receive(:run) { |&block| block.call(event, event_args) }
         allow(reporter)
-          .to receive(:update).with(ChefApply::CLI::TS.install_chef.verifying)
+          .to receive(:update).with(ChefApply::CLI::TS.install_chef.verifying("Chef"))
       end
 
       context ":installing" do
@@ -424,7 +424,7 @@ RSpec.describe ChefApply::CLI do
         context "when installer is upgrading" do
           let(:upgrading) { true }
           it "reports the update correctly" do
-            expect(reporter).to receive(:update).with(text_context.upgrading(target_host.installed_chef_version, action.version_to_install))
+            expect(reporter).to receive(:update).with(text_context.upgrading("Chef", target_host.installed_chef_version, action.version_to_install))
             subject.install(target_host, reporter)
           end
         end
@@ -432,7 +432,7 @@ RSpec.describe ChefApply::CLI do
         context "when installer is installing clean" do
           let(:upgrading) { false }
           it "reports the update correctly" do
-            expect(reporter).to receive(:update).with(text_context.installing(action.version_to_install))
+            expect(reporter).to receive(:update).with(text_context.installing("Chef", action.version_to_install))
             subject.install(target_host, reporter)
           end
         end
@@ -441,7 +441,7 @@ RSpec.describe ChefApply::CLI do
       context ":uploading" do
         let(:event) { :uploading }
         it "reports the update correctly" do
-          expect(reporter).to receive(:update).with(text_context.uploading)
+          expect(reporter).to receive(:update).with(text_context.uploading("Chef"))
           subject.install(target_host, reporter)
         end
       end
@@ -449,7 +449,7 @@ RSpec.describe ChefApply::CLI do
       context ":downloading"  do
         let(:event) { :downloading }
         it "reports the update correctly" do
-          expect(reporter).to receive(:update).with(text_context.downloading)
+          expect(reporter).to receive(:update).with(text_context.downloading("Chef"))
           subject.install(target_host, reporter)
         end
       end
@@ -457,7 +457,7 @@ RSpec.describe ChefApply::CLI do
       context ":already_installed" do
         let(:event) { :already_installed }
         it "reports the update correctly" do
-          expect(reporter).to receive(:update).with(text_context.already_present(target_host.installed_chef_version))
+          expect(reporter).to receive(:update).with(text_context.already_present("Chef", target_host.installed_chef_version))
           subject.install(target_host, reporter)
         end
       end
@@ -467,7 +467,7 @@ RSpec.describe ChefApply::CLI do
         context "when installer is upgrading" do
           let(:upgrading) { true }
           it "reports the update correctly" do
-            expect(reporter).to receive(:update).with(text_context.upgrade_success(target_host.installed_chef_version,
+            expect(reporter).to receive(:update).with(text_context.upgrade_success("Chef", target_host.installed_chef_version,
               action.version_to_install))
             subject.install(target_host, reporter)
           end
@@ -476,7 +476,7 @@ RSpec.describe ChefApply::CLI do
         context "when installer installing clean" do
           let(:upgrading) { false }
           it "reports the update correctly" do
-            expect(reporter).to receive(:update).with(text_context.install_success(target_host.installed_chef_version))
+            expect(reporter).to receive(:update).with(text_context.install_success("Chef", target_host.installed_chef_version))
             subject.install(target_host, reporter)
           end
         end

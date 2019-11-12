@@ -57,12 +57,12 @@ module ChefApply
       end
 
       def usage
-        T.usage
+        T.usage(ChefApply::Dist::RUNEXEC)
       end
 
       def show_version
         require_relative "../version"
-        UI::Terminal.output T.version.show(ChefApply::VERSION)
+        UI::Terminal.output T.version.show(ChefApply::Dist::RUNEXEC, ChefApply::VERSION)
       end
     end
   end

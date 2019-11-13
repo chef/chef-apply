@@ -1,21 +1,19 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.9 -->
-## [v0.4.9](https://github.com/chef/chef-apply/tree/v0.4.9) (2019-11-13)
-
-#### Merged Pull Requests
-- Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.4.6 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50)) <!-- 0.4.9 -->
-- Update testing to use our latest containers [#111](https://github.com/chef/chef-apply/pull/111) ([tas50](https://github.com/tas50)) <!-- 0.4.8 -->
-- Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50)) <!-- 0.4.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.4.9](https://github.com/chef/chef-apply/tree/v0.4.9) (2019-11-13)
+
+#### Merged Pull Requests
+- Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50))
+- Update testing to use our latest containers [#111](https://github.com/chef/chef-apply/pull/111) ([tas50](https://github.com/tas50))
+- Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v0.4.6](https://github.com/chef/chef-apply/tree/v0.4.6) (2019-09-04)
 
 #### Merged Pull Requests
@@ -29,7 +27,6 @@
 - We are updating to Train 3.x across the Workstation/DK, ensure this gets bumped [#105](https://github.com/chef/chef-apply/pull/105) ([tyler-ball](https://github.com/tyler-ball))
 - Bump train-winrm to 0.2.4 [#106](https://github.com/chef/chef-apply/pull/106) ([chef-ci](https://github.com/chef-ci))
 - Avoid running bundle update on version bump [#108](https://github.com/chef/chef-apply/pull/108) ([afiune](https://github.com/afiune))
-<!-- latest_stable_release -->
 
 ## [0.3.3](https://github.com/chef/chef-apply/tree/0.3.3) (2019-07-09)
 

@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.8 -->
-## [v0.4.8](https://github.com/chef/chef-apply/tree/v0.4.8) (2019-10-15)
+<!-- latest_release 0.4.9 -->
+## [v0.4.9](https://github.com/chef/chef-apply/tree/v0.4.9) (2019-11-13)
 
 #### Merged Pull Requests
-- Update testing to use our latest containers [#111](https://github.com/chef/chef-apply/pull/111) ([tas50](https://github.com/tas50))
+- Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.4.6 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50)) <!-- 0.4.9 -->
 - Update testing to use our latest containers [#111](https://github.com/chef/chef-apply/pull/111) ([tas50](https://github.com/tas50)) <!-- 0.4.8 -->
 - Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50)) <!-- 0.4.7 -->
 <!-- release_rollup -->

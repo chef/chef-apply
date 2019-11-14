@@ -39,10 +39,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "mixlib-cli"    # Provides argument handling DSL for CLI applications
-  spec.add_dependency "mixlib-config" # shared chef configuration library that
-                                      # simplifies managing a configuration file
-  spec.add_dependency "mixlib-log"    # Basis for our traditional logger
+  spec.add_dependency "mixlib-cli" # Provides argument handling DSL for CLI applications
+  spec.add_dependency "mixlib-config", ">= 3.0.5"  # shared chef configuration library that
+                                                   # simplifies managing a configuration file
+  spec.add_dependency "mixlib-log" # Basis for our traditional logger
   spec.add_dependency "mixlib-install" # URL resolver + install tool for chef products
   spec.add_dependency "r18n-desktop" # easy path to message text management via
                                      # localization gem...

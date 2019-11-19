@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.4.10 -->
+## [v0.4.10](https://github.com/chef/chef-apply/tree/v0.4.10) (2019-11-19)
+
+#### Merged Pull Requests
+- Disable strict config checking [#115](https://github.com/chef/chef-apply/pull/115) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.9 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Disable strict config checking [#115](https://github.com/chef/chef-apply/pull/115) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

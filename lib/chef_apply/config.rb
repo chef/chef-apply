@@ -97,7 +97,12 @@ module ChefApply
 
     extend Mixlib::Config
 
-    config_strict_mode true
+    # This configuration is shared among many components.
+    # While enabling strict mode can provide a better experience
+    # around validated config entries, chef-apply won't know about
+    # config items that it doesn't own, and we don't want it to
+    # fail to start when that happens.
+    config_strict_mode false
 
     # When working on Chef Apply itself,
     # developers should set telemetry.dev to true

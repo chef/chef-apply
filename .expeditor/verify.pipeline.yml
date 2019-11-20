@@ -26,8 +26,8 @@ steps:
 
 - label: run-specs-windows
   command:
-    - bundle install --jobs=7 --retry=3 --without docs debug
-    - bundle exec rake spec
+    - bundle install --verbose --jobs=7 --retry=3 --without docs debug
+    - bundle exec rake --trace spec
   expeditor:
     executor:
       docker:

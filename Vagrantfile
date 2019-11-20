@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "windows1" do |node|
-    node.vm.box = "chef/windows-server-2016-standard"
+    node.vm.box = "tas50/windows_2016"
     node.vm.communicator = "winrm"
 
     # Admin user name and password

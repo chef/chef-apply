@@ -1,27 +1,24 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.11 -->
-## [v0.4.11](https://github.com/chef/chef-apply/tree/v0.4.11) (2019-11-21)
-
-#### Merged Pull Requests
-- Update the windows VM to one that works [#116](https://github.com/chef/chef-apply/pull/116) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.4.9 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update the windows VM to one that works [#116](https://github.com/chef/chef-apply/pull/116) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.11 -->
-- Disable strict config checking [#115](https://github.com/chef/chef-apply/pull/115) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.10 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.4.11](https://github.com/chef/chef-apply/tree/v0.4.11) (2019-11-21)
+
+#### Merged Pull Requests
+- Disable strict config checking [#115](https://github.com/chef/chef-apply/pull/115) ([marcparadise](https://github.com/marcparadise))
+- Update the windows VM to one that works [#116](https://github.com/chef/chef-apply/pull/116) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v0.4.9](https://github.com/chef/chef-apply/tree/v0.4.9) (2019-11-13)
 
 #### Merged Pull Requests
 - Simplify the Gemfile so we can use Dependabot [#109](https://github.com/chef/chef-apply/pull/109) ([tas50](https://github.com/tas50))
 - Update testing to use our latest containers [#111](https://github.com/chef/chef-apply/pull/111) ([tas50](https://github.com/tas50))
 - Slim the gem down by removing specs + switch from train to train-core [#114](https://github.com/chef/chef-apply/pull/114) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.4.6](https://github.com/chef/chef-apply/tree/v0.4.6) (2019-09-04)
 

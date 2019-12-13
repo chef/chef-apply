@@ -257,6 +257,14 @@ errors:
       %1
 
   # CLI argument validation errors
+  #
+  CHEFVAL001:
+    display: { decorations: false }
+    text: |
+      The key file you specified does not exist or can't be read.
+
+      You provided '%1'.
+
   CHEFVAL002:
     display: { decorations: false }
     text: |

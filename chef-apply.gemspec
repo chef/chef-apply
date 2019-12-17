@@ -54,7 +54,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
   spec.add_dependency "chef", ">= 15.0" # Needed to load cookbooks
   spec.add_dependency "chef-cli", ">= 1.0.3 " # Policyfile
-  spec.add_dependency "chef-telemetry", "<= 0.1.10" # telemetry, updates required to pull in later versions
+  spec.add_dependency "chef-telemetry", "<= 1.0.2" # telemetry, updates required to pull in later versions
   spec.add_dependency "license-acceptance", "~> 1.0", ">= 1.0.11"
 
   spec.add_development_dependency "bundler"

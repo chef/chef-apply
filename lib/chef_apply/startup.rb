@@ -17,7 +17,7 @@
 require "chef_apply/config"
 require "chef_apply/text"
 require "chef_apply/ui/terminal"
-require "chef_apply/telemeter/sender"
+require "chef_apply/telemeter"
 require "chef/log"
 require "chef/config"
 module ChefApply
@@ -130,7 +130,14 @@ module ChefApply
     end
 
     def start_telemeter_upload
-      ChefApply::Telemeter::Sender.start_upload_thread
+      cfg = {
+        enabled: Config.telemetry[:enabled],
+        dev: Config.telemetry[:dev_mode],
+        payload_dir: Config.telemetry_path,
+        installation_identifier_file: Config.telemetry_installation_identifier_file,
+        session_file: Config.telemetry_session_file,
+      }
+      Chef::Telemeter.setup(cfg)
     end
 
     def setup_workstation_user_directories

@@ -24,7 +24,7 @@ class Telemetry
   end
 
   def deliver(data = {})
-    if ChefApply::Telemeter.instance.enabled?
+    if Chef::Telemeter.instance.enabled?
       payload = event.prepare(data)
       client.await.fire(payload)
     end

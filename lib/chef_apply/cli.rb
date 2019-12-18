@@ -65,22 +65,20 @@ module ChefApply
 
     def run
       # Perform a timing and capture of the run. Individual methods and actions may perform
-      # nested Telemeter.timed_*_capture or Telemeter.capture calls in their operation, and
+      # nested Chef::Telemeter.timed_*_capture or Chef::Telemeter.capture calls in their operation, and
       # they will be captured in the same telemetry session.
-      # NOTE: We're not currently sending arguments to telemetry because we have not implemented
-      #       pre-parsing of arguments to eliminate potentially sensitive data such as
-      #       passwords in host name, or in ad-hoc converge properties.
-      Telemeter.timed_run_capture([:redacted]) do
+
+      Chef::Telemeter.timed_run_capture([:redacted]) do
         begin
           perform_run
         rescue Exception => e
           @rc = handle_run_error(e)
         end
       end
-    rescue => e
+    rescue => e # can occur if exception thrown in error handling
       @rc = handle_run_error(e)
     ensure
-      Telemeter.commit
+      Chef::Telemeter.commit
       exit @rc
     end
 

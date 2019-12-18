@@ -18,8 +18,8 @@
 require "spec_helper"
 require "chef_apply/cli"
 require "chef_apply/error"
-require "chef_apply/telemeter"
-require "chef_apply/telemeter/sender"
+require "chef/telemeter"
+require "chef/telemeter/sender"
 require "chef_apply/ui/terminal"
 require "chef_apply/action/generate_temp_cookbook"
 require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
@@ -30,7 +30,7 @@ RSpec.describe ChefApply::CLI do
   subject { ChefApply::CLI.new(argv) }
   let(:argv) { [] }
   # TODO why isn't this mocked?
-  let(:telemetry) { ChefApply::Telemeter.instance }
+  let(:telemetry) { Chef::Telemeter.instance }
 
   before do
     # Avoid messy object dumps in failures because subject is an object instance

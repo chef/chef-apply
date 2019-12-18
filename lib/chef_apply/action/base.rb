@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/telemeter"
+require "chef/telemeter"
 require "chef_apply/error"
 
 module ChefApply

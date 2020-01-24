@@ -4,7 +4,7 @@ require "chef_apply/ui/terminal"
 
 RSpec.describe ChefApply::Startup do
   let(:argv) { [] }
-  let(:telemetry) { ChefApply::Telemeter.instance }
+  let(:telemetry) { Chef::Telemeter.instance }
   subject do
     ChefApply::Startup.new(argv)
   end
@@ -200,7 +200,7 @@ RSpec.describe ChefApply::Startup do
 
   describe "#start_telemeter_upload" do
     it "launches telemetry uploads" do
-      expect(ChefApply::Telemeter::Sender).to receive(:start_upload_thread)
+      expect(Chef::Telemeter::Sender).to receive(:start_upload_thread)
       subject.start_telemeter_upload
     end
   end

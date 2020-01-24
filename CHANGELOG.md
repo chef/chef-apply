@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.4.13 -->
+## [v0.4.13](https://github.com/chef/chef-apply/tree/v0.4.13) (2020-01-24)
+
+#### Merged Pull Requests
+- Update to chef-telemetry 1.0.2+ [#124](https://github.com/chef/chef-apply/pull/124) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.12 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update to chef-telemetry 1.0.2+ [#124](https://github.com/chef/chef-apply/pull/124) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.13 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

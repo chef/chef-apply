@@ -65,7 +65,7 @@ module ChefApply
           proc: (Proc.new do |paths|
             path = paths
             unless File.readable?(path)
-              raise OptionValidationError.new("CHEFVAL001", self, path)
+              raise OptionValidationError.new("CHEFVAL001", nil, path)
             end
 
             path

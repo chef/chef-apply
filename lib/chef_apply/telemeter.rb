@@ -36,5 +36,9 @@ module ChefApply
       end
       Chef::Telemeter.timed_capture(:action, { action: action.name, target: target_data }, &block)
     end
+
+    def self.capture(name, data = {}, options = {})
+      Chef::Telemeter.capture(name, data, options)
+    end
   end
 end

@@ -64,8 +64,8 @@ module ChefApply
           description: T.identity_file,
           proc: (Proc.new do |paths|
             path = paths
-            unless File.exist?(path)
-              raise OptionValidationError.new("CHEFVAL001", self, path)
+            unless File.readable?(path)
+              raise OptionValidationError.new("CHEFVAL001", nil, path)
             end
 
             path

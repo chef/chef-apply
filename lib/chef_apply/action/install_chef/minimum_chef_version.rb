@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/error"
-require "chef_apply/action/install_chef/minimum_chef_version"
+require_relative "../../error"
+require_relative "minimum_chef_version"
 
 module ChefApply
   module Action

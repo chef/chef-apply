@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/log"
+require_relative "log"
 require "mixlib/config"
 require "fileutils"
 require "pathname"

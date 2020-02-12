@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/base"
-require "chef_apply/action/install_chef/minimum_chef_version"
+require_relative "base"
+require_relative "install_chef/minimum_chef_version"
 require "fileutils"
 
 module ChefApply
@@ -104,7 +104,7 @@ module ChefApply
       end
 
       def download_to_workstation(url_path)
-        require "chef_apply/file_fetcher"
+        require_relative "../file_fetcher"
         ChefApply::FileFetcher.fetch(url_path)
       end
 

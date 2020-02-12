@@ -17,11 +17,11 @@
 
 require "tty-spinner"
 require "tty-cursor"
-require "chef_apply/status_reporter"
-require "chef_apply/config"
-require "chef_apply/log"
-require "chef_apply/ui/plain_text_element"
-require "chef_apply/ui/plain_text_header"
+require_relative "../status_reporter"
+require_relative "../config"
+require_relative "../log"
+require_relative "plain_text_element"
+require_relative "plain_text_header"
 
 module ChefApply
   module UI

@@ -16,7 +16,7 @@
 #
 
 require "chef/telemeter"
-require "chef_apply/error"
+require_relative "../error"
 
 module ChefApply
   module Action

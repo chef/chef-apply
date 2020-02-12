@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/error"
+require_relative "../error"
 
 module ChefApply
   class CLI

@@ -61,7 +61,7 @@ module ChefApply
       end
 
       def show_version
-        require "chef_apply/version"
+        require_relative "../version"
         UI::Terminal.output T.version.show(ChefApply::VERSION)
       end
     end

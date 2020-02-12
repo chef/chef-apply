@@ -18,7 +18,7 @@
 require "chef/telemeter"
 # Monkey patch the telemetry lib to respect our config.toml
 # entry for telemetry.
-require "chef_apply/telemeter/patch"
+require_relative "telemeter/patch"
 module ChefApply
   class Telemeter
     def self.timed_action_capture(action, &block)

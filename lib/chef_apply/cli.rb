@@ -17,27 +17,27 @@
 #
 require "mixlib/cli"
 
-require "chef_apply/config"
+require_relative "config"
 require "chef-config/config"
 require "chef-config/logger"
 
-require "chef_apply/cli/validation"
-require "chef_apply/cli/options"
-require "chef_apply/cli/help"
-require "chef_apply/error"
-require "chef_apply/log"
-require "chef_apply/target_host"
-require "chef_apply/target_resolver"
-require "chef_apply/telemeter"
-require "chef_apply/ui/error_printer"
-require "chef_apply/ui/terminal"
-require "chef_apply/ui/terminal/job"
+require_relative "cli/validation"
+require_relative "cli/options"
+require_relative "cli/help"
+require_relative "error"
+require_relative "log"
+require_relative "target_host"
+require_relative "target_resolver"
+require_relative "telemeter"
+require_relative "ui/error_printer"
+require_relative "ui/terminal"
+require_relative "ui/terminal/job"
 require "license_acceptance/cli_flags/mixlib_cli"
 require "license_acceptance/acceptor"
 
-require "chef_apply/action/generate_temp_cookbook"
-require "chef_apply/action/generate_local_policy"
-require "chef_apply/action/converge_target"
+require_relative "action/generate_temp_cookbook"
+require_relative "action/generate_local_policy"
+require_relative "action/converge_target"
 
 module ChefApply
   class CLI
@@ -179,7 +179,7 @@ module ChefApply
     end
 
     def install(target_host, reporter)
-      require "chef_apply/action/install_chef"
+      require_relative "action/install_chef"
       context = TS.install_chef
       reporter.update(context.verifying)
       installer = Action::InstallChef.new(target_host: target_host, check_only: !parsed_options[:install])
@@ -282,7 +282,7 @@ module ChefApply
     end
 
     def handle_perform_error(e)
-      require "chef_apply/errors/standard_error_resolver"
+      require_relative "errors/standard_error_resolver"
       id = e.respond_to?(:id) ? e.id : e.class.to_s
       # TODO: This is currently sending host information for certain ssh errors
       #       post release we need to scrub this data. For now I'm redacting the

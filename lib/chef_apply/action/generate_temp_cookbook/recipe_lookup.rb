@@ -16,10 +16,10 @@
 #
 
 require "chef-config/config"
-require "chef_apply/config"
-require "chef_apply/error"
-require "chef_apply/log"
-require "chef_apply/action/base"
+require_relative "../../config"
+require_relative "../../error"
+require_relative "../../log"
+require_relative "../base"
 
 module ChefApply
   module Action

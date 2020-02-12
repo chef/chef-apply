@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-require "chef_apply/text"
+require_relative "../text"
 
 # Moving the options into here so the cli.rb file is smaller and easier to read
 # For options that need to be merged back into the global ChefApply::Config object

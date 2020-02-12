@@ -17,8 +17,8 @@
 
 require "net/http"
 require "uri"
-require "chef_apply/config"
-require "chef_apply/log"
+require_relative "config"
+require_relative "log"
 
 module ChefApply
   class FileFetcher

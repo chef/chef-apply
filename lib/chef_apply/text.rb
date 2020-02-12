@@ -16,8 +16,8 @@
 #
 
 require "r18n-desktop"
-require "chef_apply/text/text_wrapper"
-require "chef_apply/text/error_translation"
+require_relative "text/text_wrapper"
+require_relative "text/error_translation"
 
 # A very thin wrapper around R18n, the idea being that we're likely to replace r18n
 # down the road and don't want to have to change all of our commands.

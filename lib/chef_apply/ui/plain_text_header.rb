@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 require "thread"
-require "chef_apply/ui/plain_text_element"
+require_relative "plain_text_element"
 
 module ChefApply
   module UI

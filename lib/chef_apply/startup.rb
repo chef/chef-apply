@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "chef_apply/config"
-require "chef_apply/text"
-require "chef_apply/ui/terminal"
-require "chef_apply/telemeter"
+require_relative "config"
+require_relative "text"
+require_relative "ui/terminal"
+require_relative "telemeter"
 require "chef/log"
 require "chef/config"
 module ChefApply
@@ -195,7 +195,7 @@ module ChefApply
     end
 
     def start_chef_apply
-      require "chef_apply/cli"
+      require_relative "cli"
       ChefApply::CLI.new(@argv).run
     end
 

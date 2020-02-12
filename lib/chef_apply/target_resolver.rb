@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/target_host"
-require "chef_apply/error"
+require_relative "target_host"
+require_relative "error"
 
 module ChefApply
   class TargetResolver

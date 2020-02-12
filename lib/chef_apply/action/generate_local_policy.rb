@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/action/base"
-require "chef_apply/error"
+require_relative "base"
+require_relative "../error"
 module ChefApply::Action
   class GenerateLocalPolicy < Base
     attr_reader :archive_file_location

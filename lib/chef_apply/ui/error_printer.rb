@@ -17,11 +17,11 @@
 
 require "train/errors"
 require "pastel"
-require "chef_apply/error"
-require "chef_apply/config"
-require "chef_apply/text"
-require "chef_apply/ui/terminal"
-require "chef_apply/errors/standard_error_resolver"
+require_relative "../error"
+require_relative "../config"
+require_relative "../text"
+require_relative "terminal"
+require_relative "../errors/standard_error_resolver"
 
 module ChefApply::UI
   class ErrorPrinter

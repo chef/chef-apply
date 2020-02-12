@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "chef_apply/log"
-require "chef_apply/error"
+require_relative "log"
+require_relative "error"
 require "train"
 
 module ChefApply
@@ -134,10 +134,10 @@ module ChefApply
     def mix_in_target_platform!
       case base_os
       when :linux
-        require "chef_apply/target_host/linux"
+        require_relative "target_host/linux"
         class << self; include ChefApply::TargetHost::Linux; end
       when :windows
-        require "chef_apply/target_host/windows"
+        require_relative "target_host/windows"
         class << self; include ChefApply::TargetHost::Windows; end
       when :other
         raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)

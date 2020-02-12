@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.14 -->
-## [v0.4.14](https://github.com/chef/chef-apply/tree/v0.4.14) (2020-01-30)
+<!-- latest_release 0.4.15 -->
+## [v0.4.15](https://github.com/chef/chef-apply/tree/v0.4.15) (2020-02-12)
 
 #### Merged Pull Requests
-- Add missing error CHEFVAL001 [#122](https://github.com/chef/chef-apply/pull/122) ([marcparadise](https://github.com/marcparadise))
+- Use require_relative instead of require [#127](https://github.com/chef/chef-apply/pull/127) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.4.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Use require_relative instead of require [#127](https://github.com/chef/chef-apply/pull/127) ([tas50](https://github.com/tas50)) <!-- 0.4.15 -->
 - Add missing error CHEFVAL001 [#122](https://github.com/chef/chef-apply/pull/122) ([marcparadise](https://github.com/marcparadise)) <!-- 0.4.14 -->
 <!-- release_rollup -->
 

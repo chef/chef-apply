@@ -25,7 +25,7 @@ cli:
     %1:
 
     [telemetry]
-    enable=false
+    enabled=false
 
     For more information about what we data gather and additional opt-out
     options, visit https://chef.sh/docs/chef-workstation/privacy/

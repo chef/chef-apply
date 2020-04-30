@@ -109,8 +109,8 @@ module ChefApply
     # in their local configuration to ensure that dev usage
     # doesn't skew customer telemetry.
     config_context :telemetry do
-      default(:dev, false)
-      default(:enable, true)
+      default(:dev_mode, false)
+      default(:enabled, true)
     end
 
     config_context :log do

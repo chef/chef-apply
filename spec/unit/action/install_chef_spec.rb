@@ -31,7 +31,7 @@ RSpec.describe ChefApply::Action::InstallChef do
     }
   end
   let(:target_host) do
-    ChefApply::TargetHost.mock_instance("mock://user1:password1@localhost", mock_opts)
+    ChefApply::TargetHost.mock_instance("mock://user1:password1@localhost", **mock_opts)
   end
 
   let(:reporter) do

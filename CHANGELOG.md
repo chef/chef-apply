@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.4.16 -->
+## [v0.4.16](https://github.com/chef/chef-apply/tree/v0.4.16) (2020-04-30)
+
+#### Merged Pull Requests
+- Fix some mismatches in config values we send to the telemetry gem [#130](https://github.com/chef/chef-apply/pull/130) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.15 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix some mismatches in config values we send to the telemetry gem [#130](https://github.com/chef/chef-apply/pull/130) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.16 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

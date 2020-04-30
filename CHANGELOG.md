@@ -1,25 +1,22 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.4.16 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v0.4.16](https://github.com/chef/chef-apply/tree/v0.4.16) (2020-04-30)
 
 #### Merged Pull Requests
 - Fix some mismatches in config values we send to the telemetry gem [#130](https://github.com/chef/chef-apply/pull/130) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_release -->
-
-<!-- release_rollup since=0.4.15 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix some mismatches in config values we send to the telemetry gem [#130](https://github.com/chef/chef-apply/pull/130) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.4.16 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v0.4.15](https://github.com/chef/chef-apply/tree/v0.4.15) (2020-02-12)
 
 #### Merged Pull Requests
 - Add missing error CHEFVAL001 [#122](https://github.com/chef/chef-apply/pull/122) ([marcparadise](https://github.com/marcparadise))
 - Use require_relative instead of require [#127](https://github.com/chef/chef-apply/pull/127) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.4.13](https://github.com/chef/chef-apply/tree/v0.4.13) (2020-01-24)
 

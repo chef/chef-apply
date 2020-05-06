@@ -81,7 +81,7 @@ module ChefApply
         # Find the specified recipe or default recipe if none is specified.
         # Raise an error if recipe cannot be found.
         def find_recipe(cookbook, recipe_name = nil)
-          recipes = cookbook.recipe_filenames_by_name
+          recipes = cookbook.recipe_filenames_by_name.merge(cookbook.recipe_yml_filenames_by_name)
           if recipe_name.nil?
             default_recipe = recipes["default"]
             raise NoDefaultRecipe.new(cookbook.root_dir, cookbook.name) if default_recipe.nil?

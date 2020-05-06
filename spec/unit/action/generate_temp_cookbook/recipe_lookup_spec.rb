@@ -99,10 +99,12 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook::RecipeLookup do
     context "no recipe is specified" do
       it "finds a default recipe" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({ "default" => recipe })
+        expect(cookbook_version).to receive(:recipe_yml_filenames_by_name).and_return({})
         expect(rp.find_recipe(cookbook_version)).to eq(recipe)
       end
       it "when there is no default recipe it raises a NoDefaultRecipe error" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({})
+        expect(cookbook_version).to receive(:recipe_yml_filenames_by_name).and_return({})
         expect { rp.find_recipe(cookbook_version) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::NoDefaultRecipe)
       end
     end
@@ -111,11 +113,22 @@ RSpec.describe ChefApply::Action::GenerateTempCookbook::RecipeLookup do
       let(:desired_recipe) { "a_recipe" }
       it "finds the specified recipe" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({ desired_recipe => recipe })
+        expect(cookbook_version).to receive(:recipe_yml_filenames_by_name).and_return({})
         expect(rp.find_recipe(cookbook_version, desired_recipe)).to eq(recipe)
       end
       it "when there is no recipe with that name it raises a RecipeNotFound error" do
         expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({})
+        expect(cookbook_version).to receive(:recipe_yml_filenames_by_name).and_return({})
         expect { rp.find_recipe(cookbook_version, desired_recipe) }.to raise_error(ChefApply::Action::GenerateTempCookbook::RecipeLookup::RecipeNotFound)
+      end
+    end
+
+    context "a yml recipe is specified" do
+      let(:desired_recipe) { "a_recipe" }
+      it "finds the specified recipe" do
+        expect(cookbook_version).to receive(:recipe_filenames_by_name).and_return({})
+        expect(cookbook_version).to receive(:recipe_yml_filenames_by_name).and_return({ desired_recipe => recipe })
+        expect(rp.find_recipe(cookbook_version, desired_recipe)).to eq(recipe)
       end
     end
   end

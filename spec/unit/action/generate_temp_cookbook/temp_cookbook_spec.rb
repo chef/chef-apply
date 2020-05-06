@@ -39,37 +39,39 @@ RSpec.describe "ChefApply::Action::GenerateTempCookbook::TempCookbook" do
       expect { subject.from_existing_recipe("/some/file.chef") }.to raise_error(err)
     end
 
-    context "when there is an existing cookbook" do
-      let(:cb) do
-        d = Dir.mktmpdir
-        File.open(File.join(d, "metadata.rb"), "w+") do |f|
-          f << "name \"foo\""
+    %w(recipes/default.rb recipes/default.yml).each do |recipe_path|
+      context "when there is an existing cookbook with recipe #{recipe_path}" do
+        let(:cb) do
+          d = Dir.mktmpdir
+          File.open(File.join(d, "metadata.rb"), "w+") do |f|
+            f << "name \"foo\""
+          end
+          FileUtils.mkdir(File.join(d, "recipes"))
+          d
         end
-        FileUtils.mkdir(File.join(d, "recipes"))
-        d
-      end
 
-      let(:existing_recipe) do
-        File.open(File.join(cb, "recipes/default.rb"), "w+") do |f|
-          f.write(uuid)
-          f
+        let(:existing_recipe) do
+          File.open(File.join(cb, recipe_path), "w+") do |f|
+            f.write(uuid)
+            f
+          end
         end
-      end
 
-      after do
-        FileUtils.remove_entry cb
-      end
+        after do
+          FileUtils.remove_entry cb
+        end
 
-      it "copies the whole cookbook" do
-        subject.from_existing_recipe(existing_recipe.path)
-        expect(File.read(File.join(subject.path, "recipes/default.rb"))).to eq(uuid)
-        expect(File.read(File.join(subject.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
-          name "foo_policy"
-          default_source :supermarket
-          run_list "foo::default"
-          cookbook "foo", path: "."
-        EXPECTED_POLICYFILE
-        expect(File.read(File.join(subject.path, "metadata.rb"))).to eq("name \"foo\"")
+        it "copies the whole cookbook" do
+          subject.from_existing_recipe(existing_recipe.path)
+          expect(File.read(File.join(subject.path, recipe_path))).to eq(uuid)
+          expect(File.read(File.join(subject.path, "Policyfile.rb"))).to eq <<~EXPECTED_POLICYFILE
+            name "foo_policy"
+            default_source :supermarket
+            run_list "foo::default"
+            cookbook "foo", path: "."
+          EXPECTED_POLICYFILE
+          expect(File.read(File.join(subject.path, "metadata.rb"))).to eq("name \"foo\"")
+        end
       end
     end
 

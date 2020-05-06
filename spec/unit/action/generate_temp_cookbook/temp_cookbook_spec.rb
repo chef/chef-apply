@@ -39,7 +39,7 @@ RSpec.describe "ChefApply::Action::GenerateTempCookbook::TempCookbook" do
       expect { subject.from_existing_recipe("/some/file.chef") }.to raise_error(err)
     end
 
-    %w(recipes/default.rb recipes/default.yml).each do |recipe_path|
+    %w{recipes/default.rb recipes/default.yml}.each do |recipe_path|
       context "when there is an existing cookbook with recipe #{recipe_path}" do
         let(:cb) do
           d = Dir.mktmpdir

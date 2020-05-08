@@ -319,7 +319,7 @@ errors:
   CHEFVAL009:
     display: { decorations: false }
     text: |
-      File extension '%1' is unsupported. Currently recipes must be specified with a `.rb` extension.
+      File extension '%1' is unsupported. Currently recipes must be specified with a `.rb` or `.yml` extension.
 
   CHEFVAL010:
     display: { decorations: false }

@@ -52,12 +52,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
-  spec.add_dependency "chef", ">= 15.0" # Needed to load cookbooks
-  spec.add_dependency "chef-cli", ">= 1.0.3 " # Policyfile
+  spec.add_dependency "chef", ">= 16.0" # Needed to load cookbooks
+  spec.add_dependency "chef-cli", ">= 2.0.10 " # Policyfile
   spec.add_dependency "chef-telemetry", ">= 1.0.2"
   spec.add_dependency "license-acceptance", "~> 1.0", ">= 1.0.11"
-
-  spec.add_development_dependency "bundler"
 
   spec.post_install_message = File.read(File.expand_path("../warning.txt", __FILE__))
 end

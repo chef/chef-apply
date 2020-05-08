@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.5.0 -->
+## [v0.5.0](https://github.com/chef/chef-apply/tree/v0.5.0) (2020-05-08)
+
+#### Merged Pull Requests
+- Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.4.16 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.5.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

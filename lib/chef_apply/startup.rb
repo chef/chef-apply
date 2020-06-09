@@ -33,7 +33,7 @@ module ChefApply
       init_terminal
     end
 
-    def run
+    def run(enforce_license: false)
       # This component is not supported in ChefDK; an exception will be raised
       # if running in that context.
       verify_not_in_chefdk
@@ -62,7 +62,7 @@ module ChefApply
       start_telemeter_upload
 
       # Launch the actual Chef Apply behavior
-      start_chef_apply
+      start_chef_apply(enforce_license: enforce_license)
 
     # NOTE: Because these exceptions occur outside of the
     #       CLI handling, they won't be tracked in telemtry.
@@ -194,9 +194,9 @@ module ChefApply
       Chef::Log.level = ChefApply::Log.level
     end
 
-    def start_chef_apply
+    def start_chef_apply(enforce_license: false)
       require_relative "cli"
-      ChefApply::CLI.new(@argv).run
+      ChefApply::CLI.new(@argv).run(enforce_license: enforce_license)
     end
 
     private

@@ -86,7 +86,7 @@ RSpec.describe ChefApply::Startup do
         let(:error) { ChefApply::Startup::ConfigPathNotProvided.new }
 
         it "shows the correct error" do
-          expected_text = error_text.missing_config_path
+          expected_text = error_text.missing_config_path("chef-run", "ChefDK", "Chef Workstation")
           expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end
@@ -96,7 +96,7 @@ RSpec.describe ChefApply::Startup do
         let(:error) { ChefApply::Startup::UnsupportedInstallation.new }
 
         it "shows the correct error" do
-          expected_text = error_text.unsupported_installation
+          expected_text = error_text.unsupported_installation("chef-run", "ChefDK", "Chef Workstation", "downloads.chef.io", "chef-workstation")
           expect(ChefApply::UI::Terminal).to receive(:output).with(expected_text)
           subject.run
         end

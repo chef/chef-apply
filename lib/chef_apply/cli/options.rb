@@ -34,18 +34,18 @@ module ChefApply
       TS = ChefApply::Text.status
 
       def self.included(klass)
-        klass.banner T.description + "\n" + T.usage_full
+        klass.banner T.description(ChefApply::Dist::RUN, ChefApply::Dist::SHORT) + "\n" + T.usage_full(ChefApply::Dist::RUNEXEC, ChefApply::Dist::SHORT, ChefApply::Dist::EXEC)
 
         klass.option :version,
           short: "-v",
           long: "--version",
-          description:  T.version.description,
+          description:  T.version.description(ChefApply::Dist::RUN),
           boolean: true
 
         klass.option :help,
           short: "-h",
           long: "--help",
-          description:   T.help.description,
+          description:   T.help.description(ChefApply::Dist::RUNEXEC),
           boolean: true
 
         # Special note:
@@ -115,7 +115,7 @@ module ChefApply
           long: "--[no-]install",
           default: true,
           boolean: true,
-          description:  T.install_description
+          description:  T.install_description(ChefApply::Dist::CLIENT)
 
         klass.option :sudo,
           long: "--[no-]sudo",

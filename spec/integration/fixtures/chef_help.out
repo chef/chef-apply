@@ -45,9 +45,9 @@ FLAGS:
         --cookbook-repo-paths PATH     Comma separated list of cookbook repository paths.
     -h, --help                         Show help and usage for `chef-run`
     -i, --identity-file PATH           SSH identity file to use when connecting. Keys loaded into ssh-agent will also be used.
-        --[no-]install                 Install Chef client on the target host(s) if it is not installed.
+        --[no-]install                 Install chef-client on the target host(s) if it is not installed.
                                        This defaults to enabled - the installation will be performed
-                                       if there is no Chef client on the target(s).
+                                       if there is no chef-client installation on the target(s).
         --password <PASSWORD>          Password to use for authentication to the target(s). The same
                                        password will be used for all targets.
     -p, --protocol <PROTOCOL>          The protocol to use for connecting to targets.

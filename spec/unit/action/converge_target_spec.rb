@@ -190,7 +190,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
                                                       )
         expect(target_host).to receive(:upload_file).with(local_tempfile.path, remote_config_path)
         expect(subject.create_remote_config(remote_folder)).to eq(remote_config_path)
-      # ensure the tempfile is deleted locally
+        # ensure the tempfile is deleted locally
         expect(local_tempfile.closed?).to eq(true)
       end
     end

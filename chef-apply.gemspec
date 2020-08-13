@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Ad-hoc management of individual nodes and devices."
   spec.homepage      = "https://github.com/chef/chef-apply"
   spec.license       = "Apache-2.0"
-  spec.required_ruby_version = ">= 2.5.0"
+  spec.required_ruby_version = ">= 2.6"
 
   spec.files = %w{Rakefile LICENSE warning.txt} +
     Dir.glob("Gemfile*") + # Includes Gemfile and locks

@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.5.0 -->
-## [v0.5.0](https://github.com/chef/chef-apply/tree/v0.5.0) (2020-05-08)
+<!-- latest_release 0.5.1 -->
+## [v0.5.1](https://github.com/chef/chef-apply/tree/v0.5.1) (2020-08-13)
 
 #### Merged Pull Requests
-- Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball))
+- Update license-acceptance requirement from ~&gt; 1.0, &gt;= 1.0.11 to &gt;= 1.0.11, &lt; 3 [#137](https://github.com/chef/chef-apply/pull/137) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.4.16 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update license-acceptance requirement from ~&gt; 1.0, &gt;= 1.0.11 to &gt;= 1.0.11, &lt; 3 [#137](https://github.com/chef/chef-apply/pull/137) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.1 -->
 - Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.5.0 -->
 <!-- release_rollup -->
 

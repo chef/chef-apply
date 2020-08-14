@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2018 Chef Software Inc.
+# Copyright:: Copyright (c) Chef Software Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
-  gem "chefstyle"
+  gem "chefstyle", "1.2.1"
   gem "rake", ">= 10.1.0"
   gem "rspec", "~> 3.0"
   gem "simplecov"

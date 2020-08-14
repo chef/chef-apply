@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Ad-hoc management of individual nodes and devices."
   spec.homepage      = "https://github.com/chef/chef-apply"
   spec.license       = "Apache-2.0"
-  spec.required_ruby_version = ">= 2.5.0"
+  spec.required_ruby_version = ">= 2.6"
 
   spec.files = %w{Rakefile LICENSE warning.txt} +
     Dir.glob("Gemfile*") + # Includes Gemfile and locks
@@ -40,14 +40,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "mixlib-cli" # Provides argument handling DSL for CLI applications
-  spec.add_dependency "mixlib-config", ">= 3.0.5"  # shared chef configuration library that
-                                                   # simplifies managing a configuration file
+  spec.add_dependency "mixlib-config", ">= 3.0.5" # shared chef configuration library that simplifies managing a configuration file
   spec.add_dependency "mixlib-log" # Basis for our traditional logger
   spec.add_dependency "mixlib-install" # URL resolver + install tool for chef products
-  spec.add_dependency "r18n-desktop" # easy path to message text management via
-                                     # localization gem...
-  spec.add_dependency "toml-rb" # This isn't ideal because mixlib-config uses 'tomlrb'
-                                # but that library does not support a dumper
+  spec.add_dependency "r18n-desktop" # easy path to message text management via localization gem...
+  spec.add_dependency "toml-rb" # This isn't ideal because mixlib-config uses 'tomlrb' but that library does not support a dumper
   spec.add_dependency "train-core", "~> 3.0" # remote connection management over ssh, winrm
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library

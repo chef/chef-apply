@@ -1,27 +1,24 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.5.3 -->
-## [v0.5.3](https://github.com/chef/chef-apply/tree/v0.5.3) (2020-09-02)
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.2.1 to 1.3.2 + optimize requires [#139](https://github.com/chef/chef-apply/pull/139) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.4.16 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.2.1 to 1.3.2 + optimize requires [#139](https://github.com/chef/chef-apply/pull/139) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.3 -->
-- Fix chefstyle failures &amp; require Ruby 2.6 since we need Chef 16 which is 2.6+ [#138](https://github.com/chef/chef-apply/pull/138) ([tas50](https://github.com/tas50)) <!-- 0.5.2 -->
-- Update license-acceptance requirement from ~&gt; 1.0, &gt;= 1.0.11 to &gt;= 1.0.11, &lt; 3 [#137](https://github.com/chef/chef-apply/pull/137) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.1 -->
-- Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball)) <!-- 0.5.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.5.3](https://github.com/chef/chef-apply/tree/v0.5.3) (2020-09-02)
+
+#### Merged Pull Requests
+- Adding YAML recipe support [#131](https://github.com/chef/chef-apply/pull/131) ([tyler-ball](https://github.com/tyler-ball))
+- Update license-acceptance requirement from ~&gt; 1.0, &gt;= 1.0.11 to &gt;= 1.0.11, &lt; 3 [#137](https://github.com/chef/chef-apply/pull/137) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fix chefstyle failures &amp; require Ruby 2.6 since we need Chef 16 which is 2.6+ [#138](https://github.com/chef/chef-apply/pull/138) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.2.1 to 1.3.2 + optimize requires [#139](https://github.com/chef/chef-apply/pull/139) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_stable_release -->
+
 ## [v0.4.16](https://github.com/chef/chef-apply/tree/v0.4.16) (2020-04-30)
 
 #### Merged Pull Requests
 - Fix some mismatches in config values we send to the telemetry gem [#130](https://github.com/chef/chef-apply/pull/130) ([tyler-ball](https://github.com/tyler-ball))
-<!-- latest_stable_release -->
 
 ## [v0.4.15](https://github.com/chef/chef-apply/tree/v0.4.15) (2020-02-12)
 

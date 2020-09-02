@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "net/http"
-require "uri"
+require "net/http" unless defined?(Net::HTTP)
+require "uri" unless defined?(URI)
 require_relative "config"
 require_relative "log"
 

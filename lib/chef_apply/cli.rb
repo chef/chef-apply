@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "mixlib/cli"
+require "mixlib/cli" unless defined?(Mixlib::CLI)
 
 require_relative "config"
 require "chef-config/config"

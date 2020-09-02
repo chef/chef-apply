@@ -37,8 +37,8 @@ module ChefApply
 
       def self.deps
         # Avoid loading additional includes until they're needed
-        require "socket"
-        require "openssl"
+        require "socket" unless defined?(Socket)
+        require "openssl" unless defined?(OpenSSL)
       end
     end
   end

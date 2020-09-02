@@ -16,8 +16,8 @@
 #
 
 require_relative "base"
-require "pathname"
-require "tempfile"
+require "pathname" unless defined?(Pathname)
+require "tempfile" unless defined?(Tempfile)
 # FLAG: require "chef/util/path_helper"
 require "chef/util/path_helper"
 

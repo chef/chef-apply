@@ -17,7 +17,7 @@
 
 require_relative "base"
 require_relative "install_chef/minimum_chef_version"
-require "fileutils"
+require "fileutils" unless defined?(FileUtils)
 
 module ChefApply
   module Action

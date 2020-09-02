@@ -16,9 +16,9 @@
 #
 
 require_relative "log"
-require "mixlib/config"
-require "fileutils"
-require "pathname"
+require "mixlib/config" unless defined?(Mixlib::Config)
+require "fileutils" unless defined?(FileUtils)
+require "pathname" unless defined?(Pathname)
 require "chef-config/config"
 require "chef-config/workstation_config_loader"
 

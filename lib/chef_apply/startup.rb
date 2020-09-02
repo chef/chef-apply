@@ -119,7 +119,7 @@ module ChefApply
     end
 
     def setup_telemetry
-      require "securerandom"
+      require "securerandom" unless defined?(SecureRandom)
       installation_id = SecureRandom.uuid
       File.write(Config.telemetry_installation_identifier_file, installation_id)
 

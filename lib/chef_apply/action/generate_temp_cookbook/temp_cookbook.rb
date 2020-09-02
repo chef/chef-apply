@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-require "tmpdir"
-require "fileutils"
+require "tmpdir" unless defined?(Dir.mktmpdir)
+require "fileutils" unless defined?(FileUtils)
 require_relative "../../log"
 require_relative "../../error"
 require_relative "../generate_temp_cookbook"

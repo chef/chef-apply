@@ -280,7 +280,7 @@ module ChefApply
     end
 
     def ssh_config_for_host(host)
-      require "net/ssh"
+      require "net/ssh" unless defined?(Net::SSH)
       Net::SSH::Config.for(host)
     end
 

@@ -32,7 +32,7 @@ module ChefApply
     end
 
     def self._translation_path
-      @translation_path ||= File.join(File.dirname(__FILE__), "..", "..", "i18n")
+      @translation_path ||= File.join(__dir__, "..", "..", "i18n")
     end
 
     def self.load

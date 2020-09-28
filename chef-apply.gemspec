@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "chef_apply/version"
 
@@ -54,5 +54,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "chef-telemetry", ">= 1.0.2"
   spec.add_dependency "license-acceptance", ">= 1.0.11", "< 3"
 
-  spec.post_install_message = File.read(File.expand_path("../warning.txt", __FILE__))
+  spec.post_install_message = File.read(File.expand_path("warning.txt", __dir__))
 end

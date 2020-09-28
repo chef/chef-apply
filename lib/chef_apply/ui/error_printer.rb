@@ -16,7 +16,7 @@
 #
 
 require "train/errors"
-require "pastel"
+require "pastel" unless defined?(Pastel)
 require_relative "../error"
 require_relative "../config"
 require_relative "../text"

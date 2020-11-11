@@ -1,7 +1,7 @@
 # Chef Apply
 [![Gem Version](https://badge.fury.io/rb/chef-apply.svg)](https://badge.fury.io/rb/chef-apply)
 
-The ad-hoc execution tool for the Chef ecosystem.
+The ad-hoc execution tool for the Chef Infra ecosystem.
 
 **Umbrella Project**: [Workstation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-workstation.md)
 

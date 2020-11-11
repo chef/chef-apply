@@ -202,7 +202,7 @@ module ChefApply
     private
 
     def script_path
-      File.expand_path File.dirname(__FILE__)
+      __dir__
     end
 
     class ConfigPathNotProvided < StandardError; end

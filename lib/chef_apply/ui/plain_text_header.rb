@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require "thread"
 require_relative "plain_text_element"
 
 module ChefApply

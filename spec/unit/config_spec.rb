@@ -36,7 +36,7 @@ RSpec.describe ChefApply::Config do
   end
 
   context "when there is a custom config" do
-    let(:custom_config) { File.expand_path("../../fixtures/custom_config.toml", __FILE__) }
+    let(:custom_config) { File.expand_path("../fixtures/custom_config.toml", __dir__) }
 
     it "successfully loads the config" do
       config.custom_location(custom_config)

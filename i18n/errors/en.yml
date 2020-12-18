@@ -146,7 +146,7 @@ errors:
       For more information, please consult the documentation
       for this resource:
 
-        https://docs.chef.io/resource_reference.html
+        https://docs.chef.io/resources/
 
   CHEFCCR004:
     text: |
@@ -157,7 +157,7 @@ errors:
       Please consult the documentation for properties
       supported by your resource and their valid values:
 
-        https://docs.chef.io/resource_reference.html
+        https://docs.chef.io/resources/
 
   CHEFCCR005:
     text: |
@@ -165,7 +165,7 @@ errors:
 
       Please consult the documentation for a list of valid resources:
 
-        https://docs.chef.io/resource_reference.html
+        https://docs.chef.io/resources/
 
   CHEFCCR006:
     text: |
@@ -174,7 +174,7 @@ errors:
       Please consult the documentation for %2 for a list of
       valid properties:
 
-        https://docs.chef.io/resource_reference.html
+        https://docs.chef.io/resources/
 
   CHEFCCR099:
     text: |
@@ -246,7 +246,7 @@ errors:
 
       Additional instructions can be found in the troubleshooting documentation:
 
-      https://www.chef.sh/docs/chef-workstation/troubleshooting/#error-code-cheftrn007
+      https://docs.chef.io/workstation/troubleshooting/#cheftrn007
 
   CHEFTRN999:
     text: |

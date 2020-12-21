@@ -28,7 +28,7 @@ cli:
     enabled=false
 
     For more information about what we data gather and additional opt-out
-    options, visit https://chef.sh/docs/chef-workstation/privacy/
+    options, visit https://docs.chef.io/workstation/privacy/
 
   description: |
     Chef Run is a tool to execute ad-hoc tasks using Chef.

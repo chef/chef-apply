@@ -15,6 +15,7 @@ module RSpec
           @stream_capturer = CaptureTerminal
           self
         end
+
         module CaptureTerminal
           def self.name
             "terminal"

@@ -206,12 +206,14 @@ module ChefApply
     end
 
     class ConfigPathNotProvided < StandardError; end
+
     class ConfigPathInvalid < StandardError
       attr_reader :path
       def initialize(path)
         @path = path
       end
     end
+
     class UnsupportedInstallation < StandardError; end
   end
 end

@@ -53,6 +53,7 @@ module ChefApply::Action
     end
 
   end
+
   class PolicyfileInstallError < ChefApply::Error
     def initialize(cause_err); super("CHEFPOLICY001", cause_err.message); end
   end

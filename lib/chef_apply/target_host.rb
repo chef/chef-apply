@@ -323,7 +323,9 @@ module ChefApply
         super(*(Array(init_params).flatten))
       end
     end
+
     class ChefNotInstalled < StandardError; end
+
     class UnsupportedTargetOS < ChefApply::ErrorNoLogs
       def initialize(os_name); super("CHEFTARG001", os_name); end
     end

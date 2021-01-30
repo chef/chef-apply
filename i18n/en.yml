@@ -113,6 +113,7 @@ cli:
                            cookbook is found we run the default recipe.
                         3. This behaves similarly to 'cookbook name' above, but it also allows
                            you to specify which recipe to use from the cookbook.
+                           Usage: cookbookname::recipename
   error:
     bad_config_file: |
 

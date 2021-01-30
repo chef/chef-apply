@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.5.10 -->
-## [v0.5.10](https://github.com/chef/chef-apply/tree/v0.5.10) (2021-01-29)
+<!-- latest_release 0.5.11 -->
+## [v0.5.11](https://github.com/chef/chef-apply/tree/v0.5.11) (2021-01-30)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.5.9 to 1.6.1 [#154](https://github.com/chef/chef-apply/pull/154) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Updated the format for help text [#153](https://github.com/chef/chef-apply/pull/153) ([nikhil2611](https://github.com/nikhil2611))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.5.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Updated the format for help text [#153](https://github.com/chef/chef-apply/pull/153) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.5.11 -->
 - Update chefstyle requirement from 1.5.9 to 1.6.1 [#154](https://github.com/chef/chef-apply/pull/154) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.10 -->
 - Update chefstyle requirement from 1.5.8 to 1.5.9 [#152](https://github.com/chef/chef-apply/pull/152) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.9 -->
 - Update chefstyle requirement from 1.5.2 to 1.5.8 [#151](https://github.com/chef/chef-apply/pull/151) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.8 -->

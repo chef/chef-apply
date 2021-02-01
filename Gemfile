@@ -19,7 +19,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
-  gem "chefstyle", "1.6.1"
+  gem "chefstyle", "1.6.2"
   gem "rake", ">= 10.1.0"
   gem "rspec", "~> 3.0"
   gem "simplecov"

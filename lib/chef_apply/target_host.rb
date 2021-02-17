@@ -139,6 +139,9 @@ module ChefApply
       when :windows
         require_relative "target_host/windows"
         class << self; include ChefApply::TargetHost::Windows; end
+      when :solaris
+        require_relative "target_host/solaris"
+        class << self; include ChefApply::TargetHost::Solaris; end
       when :other
         raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
       end
@@ -169,6 +172,8 @@ module ChefApply
         :windows
       elsif platform.linux?
         :linux
+      elsif platform.solaris?
+        :solaris
       else
         :other
       end

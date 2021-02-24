@@ -18,6 +18,7 @@
 require_relative "log"
 require_relative "error"
 require "train"
+require 'byebug'
 
 module ChefApply
   class TargetHost
@@ -122,6 +123,7 @@ module ChefApply
       # this instance variable to false and handle this function call
       # after the platform data is mocked; this will allow binding
       # of mixin functions based on the mocked platform.
+      byebug
       mix_in_target_platform! unless @mocked_connection
     rescue Train::UserError => e
       raise ConnectionFailure.new(e, config)
@@ -132,6 +134,7 @@ module ChefApply
     end
 
     def mix_in_target_platform!
+      byebug
       case base_os
       when :linux
         require_relative "target_host/linux"
@@ -267,7 +270,10 @@ module ChefApply
     def chown(path, owner); raise NotImplementedError; end
 
     # Platform-specific installation of packages
-    def install_package(target_package_path); raise NotImplementedError; end
+    def install_package(target_package_path)
+      byebug
+      raise NotImplementedError
+    end
 
     def ws_cache_path; raise NotImplementedError; end
 

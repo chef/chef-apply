@@ -28,16 +28,25 @@ module ChefApply
         end
       end
 
-      def install_package(target_package_path)
-        install_cmd = case File.extname(target_package_path)
-                        when ".rpm"
-                          "rpm -Uvh #{target_package_path}"
-                        when ".deb"
-                          "dpkg -i #{target_package_path}"
-                      end
-        run_command!(install_cmd)
-        # wil need some change based on solaris packages.
-        nil
+      def install_package(name, version)
+        logger.trace("#{new_resource} package install options: #{options}")
+        if options.nil?
+          command = if ::File.directory?(new_resource.source) # CHEF-4469
+                      [ "pkgadd", "-n", "-d", new_resource.source, new_resource.package_name ]
+                    else
+                      [ "pkgadd", "-n", "-d", new_resource.source, "all" ]
+                    end
+          shell_out!(command)
+          logger.trace("#{new_resource} installed version #{new_resource.version} from: #{new_resource.source}")
+        else
+          command = if ::File.directory?(new_resource.source) # CHEF-4469
+                      [ "pkgadd", "-n", options, "-d", new_resource.source, new_resource.package_name ]
+                    else
+                      [ "pkgadd", "-n", options, "-d", new_resource.source, "all" ]
+                    end
+          shell_out!(*command)
+          logger.trace("#{new_resource} installed version #{new_resource.version} from: #{new_resource.source}")
+        end
       end
 
       def del_file(path)

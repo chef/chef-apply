@@ -45,6 +45,8 @@ module ChefApply
         notify(:uploading)
         remote_path = upload_to_target(local_path)
         notify(:installing)
+        require 'byebug'
+        byebug
         target_host.install_package(remote_path)
         notify(:install_complete)
       end

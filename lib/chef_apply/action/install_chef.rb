@@ -86,6 +86,12 @@ module ChefApply
           platform_version_compatibility_mode: true,
         }
         case platform.name
+        when /mac_os_x/
+          if platform.release.to_i >= 17
+            opts[:platform_version] = "10.13"
+          else
+            raise NotImplementedError
+          end
         when /windows/
           opts[:platform] = "windows"
         when "redhat", "centos"

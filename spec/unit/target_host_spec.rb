@@ -45,6 +45,14 @@ RSpec.describe ChefApply::TargetHost do
       end
     end
 
+    context "for a mac os" do
+      let(:family) { "darwin" }
+      let(:name) { "darwin" }
+      it "reports :macos" do
+        expect(subject.base_os).to eq :macos
+      end
+    end
+
     context "for an unsupported OS" do
       let(:family) { "unknown" }
       let(:name) { "unknown" }
@@ -111,6 +119,14 @@ RSpec.describe ChefApply::TargetHost do
       let(:base_os) { :windows }
       it "mixes in Windows support" do
         expect(subject.class).to receive(:include).with(ChefApply::TargetHost::Windows)
+        subject.mix_in_target_platform!
+      end
+    end
+
+    context "when base_os is macos" do
+      let(:base_os) { :macos }
+      it "mixes in macos support" do
+        expect(subject.class).to receive(:include).with(ChefApply::TargetHost::MacOS)
         subject.mix_in_target_platform!
       end
     end

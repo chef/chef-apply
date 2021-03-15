@@ -39,6 +39,8 @@ module ChefApply
       end
 
       def perform_local_install
+        # require 'pry'
+        # binding.pry
         package = lookup_artifact
         notify(:downloading)
         local_path = download_to_workstation(package.url)
@@ -76,6 +78,8 @@ module ChefApply
       end
 
       def train_to_mixlib(platform)
+        # require 'pry'
+        # binding.pry
         opts = {
           platform_version: platform.release,
           platform: platform.name,
@@ -86,6 +90,12 @@ module ChefApply
           platform_version_compatibility_mode: true,
         }
         case platform.name
+        when /macos/
+          if platform.release.to_i >= 17
+            opts[:platform_version] = "10.13"
+          else
+            raise NotImplementedError
+          end      
         when /windows/
           opts[:platform] = "windows"
         when "redhat", "centos"

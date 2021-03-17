@@ -18,6 +18,7 @@
 require_relative "target_host"
 require_relative "error"
 
+
 module ChefApply
   class TargetResolver
     MAX_EXPANDED_TARGETS = 24

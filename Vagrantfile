@@ -66,4 +66,13 @@ Vagrant.configure("2") do |config|
       v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
   end
+
+  config.vm.define "solaris" do |node|
+    node.vm.box =  "jonatasbaldin/solaris11"
+    node.vm.hostname = "solaris"
+    node.vm.network "private_network", ip: "192.168.33.62"
+    node.vm.network :forwarded_port, guest: 22, host: "2232", id: "ssh", auto_correct: true
+    node.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+    node.ssh.insert_key = false
+  end
 end

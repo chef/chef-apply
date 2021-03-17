@@ -1,12 +1,14 @@
 
-
+require 'byebug'
 module ChefApply
   class TargetHost
     module Solaris
+
       def omnibus_manifest_path
         # TODO - if habitat install on target, this won't work
         # Note that we can't use File::Join, because that will render for the
         # CURRENT platform - not the platform of the target.
+        byebug
         "/opt/chef/version-manifest.json"
       end
 
@@ -28,25 +30,11 @@ module ChefApply
         end
       end
 
-      def install_package(name, version)
-        logger.trace("#{new_resource} package install options: #{options}")
-        if options.nil?
-          command = if ::File.directory?(new_resource.source) # CHEF-4469
-                      [ "pkgadd", "-n", "-d", new_resource.source, new_resource.package_name ]
-                    else
-                      [ "pkgadd", "-n", "-d", new_resource.source, "all" ]
-                    end
-          shell_out!(command)
-          logger.trace("#{new_resource} installed version #{new_resource.version} from: #{new_resource.source}")
-        else
-          command = if ::File.directory?(new_resource.source) # CHEF-4469
-                      [ "pkgadd", "-n", options, "-d", new_resource.source, new_resource.package_name ]
-                    else
-                      [ "pkgadd", "-n", options, "-d", new_resource.source, "all" ]
-                    end
-          shell_out!(*command)
-          logger.trace("#{new_resource} installed version #{new_resource.version} from: #{new_resource.source}")
-        end
+      def install_package(target_package_path)
+        byebug
+        # target_package_path = "/var/spool/pkg"
+         command = "pkgadd  -d #{target_package_path}"
+         run_command!(command)
       end
 
       def del_file(path)

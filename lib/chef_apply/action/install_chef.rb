@@ -45,8 +45,6 @@ module ChefApply
         notify(:uploading)
         remote_path = upload_to_target(local_path)
         notify(:installing)
-        require 'byebug'
-        byebug
         target_host.install_package(remote_path)
         notify(:install_complete)
       end
@@ -79,28 +77,30 @@ module ChefApply
 
       def train_to_mixlib(platform)
         opts = {
-          platform_version: platform.release,
-          platform: platform.name,
-          architecture: platform.arch,
-          product_name: "chef",
-          product_version: :latest,
-          channel: :stable,
-          platform_version_compatibility_mode: true,
+            platform_version: platform.release,
+            platform: platform.name,
+            architecture: platform.arch,
+            product_name: "chef",
+            product_version: :latest,
+            channel: :stable,
+            platform_version_compatibility_mode: true,
         }
         case platform.name
-        when /windows/
-          opts[:platform] = "windows"
-        when "redhat", "centos"
-          opts[:platform] = "el"
-        when "suse"
-          opts[:platform] = "sles"
-        when "amazon"
-          opts[:platform] = "el"
-          if platform.release.to_i > 2010 # legacy Amazon version 1
-            opts[:platform_version] = "6"
-          else
-            opts[:platform_version] = "7"
-          end
+          when /windows/
+            opts[:platform] = "windows"
+          when "redhat", "centos"
+            opts[:platform] = "el"
+          when "suse"
+            opts[:platform] = "sles"
+          when "solaris"
+            opts[:platform] = "solaris2"
+          when "amazon"
+            opts[:platform] = "el"
+            if platform.release.to_i > 2010 # legacy Amazon version 1
+              opts[:platform_version] = "6"
+            else
+              opts[:platform_version] = "7"
+            end
         end
         opts
       end

@@ -19,33 +19,49 @@ module ChefApply
   class TargetHost
     module MacOS
       def omnibus_manifest_path
-        require 'pry'
-        binding.pry
         # TODO - if habitat install on target, this won't work
         # Note that we can't use File::Join, because that will render for the
         # CURRENT platform - not the platform of the target.
         "/opt/chef/version-manifest.json"
       end
 
-      def install_chef_to_target(remote_path)
-        require 'pry'
-        binding.pry
+      def mkdir(path)
+        run_command!("mkdir -p #{path}")
+      end
+
+      def chown(path, owner)
+        owner ||= user
+        run_command!("chown #{owner} '#{path}'")
+        nil
+      end
+
+      def install_package(remote_path)
         install_cmd = <<-EOS
         hdiutil detach "/Volumes/chef_software" >/dev/null 2>&1 || true
         hdiutil attach #{remote_path} -mountpoint "/Volumes/chef_software"
         cd / && sudo /usr/sbin/installer -pkg `sudo find "/Volumes/chef_software" -name \\*.pkg` -target /
         EOS
-        target_host.run_command!(install_cmd)
+        run_command!(install_cmd)
         nil
       end
 
-      def setup_remote_temp_path
-        require 'pry'
-        binding.pry
+      def del_file(path)
+        run_command!("rm -rf #{path}")
+      end
+
+      def del_dir(path)
+        del_file(path)
+      end
+
+      def make_temp_dir
         installer_dir = "/tmp/chef-installer"
-        target_host.run_command!("mkdir -p #{installer_dir}")
-        target_host.run_command!("chmod 777 #{installer_dir}")
+        run_command!("mkdir -p #{installer_dir}")
+        run_command!("chmod 777 #{installer_dir}")
         installer_dir
+      end
+
+      def ws_cache_path
+        "/var/chef-workstation"
       end
 
     end

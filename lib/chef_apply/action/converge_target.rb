@@ -198,7 +198,7 @@ module ChefApply::Action
       else
         # cd is shell a builtin, so we'll invoke bash. This also means all commands are executed
         # with sudo (as long as we are hardcoding our sudo use)
-        "bash -c 'cd #{working_dir}; chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
+        "bash -c 'cd #{working_dir}; /opt/chef/bin/chef-client -z --config #{File.join(working_dir, config_file)} --recipe-url #{File.join(working_dir, policy)}'"
       end
     end
 

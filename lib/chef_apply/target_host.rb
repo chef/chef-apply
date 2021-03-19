@@ -112,8 +112,6 @@ module ChefApply
     # Establish connection to configured target.
     #
     def connect!
-      # require 'pry'
-      # binding.pry
       # Keep existing connections
       return unless @backend.nil?
 
@@ -141,7 +139,7 @@ module ChefApply
       when :windows
         require_relative "target_host/windows"
         class << self; include ChefApply::TargetHost::Windows; end
-      when :mac_os
+      when :macos
         require_relative "target_host/macos"
         class << self; include ChefApply::TargetHost::MacOS; end
       when :other
@@ -206,8 +204,6 @@ module ChefApply
     # Retrieve the contents of a remote file. Returns nil
     # if the file didn't exist or couldn't be read.
     def fetch_file_contents(remote_path)
-      # require 'pry'
-      # binding.pry
       result = backend.file(remote_path)
       if result.exist? && result.file?
         result.content
@@ -220,8 +216,6 @@ module ChefApply
     # or raised ChefNotInstalled if chef client version manifest can't
     # be found.
     def installed_chef_version
-      # require 'pry'
-      # binding.pry
       return @installed_chef_version if @installed_chef_version
 
       # Note: In the case of a very old version of chef (that has no manifest - pre 12.0?)
@@ -235,8 +229,6 @@ module ChefApply
     end
 
     def read_chef_version_manifest
-      # require 'pry'
-      # binding.pry
       manifest = fetch_file_contents(omnibus_manifest_path)
       raise ChefNotInstalled.new if manifest.nil?
 

@@ -91,7 +91,7 @@ module ChefApply
             opts[:platform_version] = "10.13"
           else
             raise NotImplementedError
-          end      
+          end
         when /windows/
           opts[:platform] = "windows"
         when "redhat", "centos"

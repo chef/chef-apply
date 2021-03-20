@@ -72,14 +72,12 @@ Vagrant.configure("2") do |config|
     # config.vm.define "macosx-test"
     node.vm.box = "yzgyyang/macOS-10.14"
     # config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
-
-
     # Use NFS for the shared folder
     node.vm.synced_folder ".", "/vagrant",
       id: "core",
-      :nfs => true,
-      :mount_options => ["nolock,vers=3,udp,noatime,actimeo=1,resvport"],
-    :export_options => ["async,insecure,no_subtree_check,no_acl,no_root_squash"]
+      nfs: true,
+      mount_options: ["nolock,vers=3,udp,noatime,actimeo=1,resvport"],
+    export_options: ["async,insecure,no_subtree_check,no_acl,no_root_squash"]
 
     # NFS needs host-only network
     node.vm.network :private_network, ip: "172.16.2.42"

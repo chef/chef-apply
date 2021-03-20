@@ -45,7 +45,7 @@ RSpec.describe ChefApply::TargetHost::MacOS do
         hdiutil detach "/Volumes/chef_software" >/dev/null 2>&1 || true
         hdiutil attach /tmp/chef-installer/chef-16.11.7-1.x86_64.dmg -mountpoint "/Volumes/chef_software"
         cd / && sudo /usr/sbin/installer -pkg `sudo find "/Volumes/chef_software" -name \\*.pkg` -target /
-        EOS
+      EOS
       expect(subject).to receive(:run_command!).with(expected_command)
       subject.install_package("/tmp/chef-installer/chef-16.11.7-1.x86_64.dmg")
     end

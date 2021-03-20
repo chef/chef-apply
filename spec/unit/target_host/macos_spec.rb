@@ -18,7 +18,7 @@ RSpec.describe ChefApply::TargetHost::MacOS do
       expect(subject).to receive(:run_command!)
         .with("mkdir -p #{installer_dir}")
       expect(subject).to receive(:run_command!)
-        .with("chmod 777 #{installer_dir}")  
+        .with("chmod 777 #{installer_dir}")
         .and_return(instance_double("result", stdout: "/tmp/blah"))
       expect(subject.make_temp_dir).to eq "/tmp/chef-installer"
     end

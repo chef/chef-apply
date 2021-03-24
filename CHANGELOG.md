@@ -1,31 +1,29 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.5.16 -->
-## [v0.5.16](https://github.com/chef/chef-apply/tree/v0.5.16) (2021-03-24)
-
-#### Merged Pull Requests
-- Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.5.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth)) <!-- 0.5.16 -->
-- Allow passing symbols for ad-hoc resource property values  [#162](https://github.com/chef/chef-apply/pull/162) ([SmishaM](https://github.com/SmishaM)) <!-- 0.5.15 -->
-- Update chefstyle requirement from 1.7.1 to 1.7.2 [#163](https://github.com/chef/chef-apply/pull/163) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.14 -->
-- Update chefstyle requirement from 1.6.2 to 1.7.1 [#161](https://github.com/chef/chef-apply/pull/161) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.13 -->
-- Update chefstyle requirement from 1.6.1 to 1.6.2 [#155](https://github.com/chef/chef-apply/pull/155) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.12 -->
-- Updated the format for help text [#153](https://github.com/chef/chef-apply/pull/153) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.5.11 -->
-- Update chefstyle requirement from 1.5.9 to 1.6.1 [#154](https://github.com/chef/chef-apply/pull/154) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.10 -->
-- Update chefstyle requirement from 1.5.8 to 1.5.9 [#152](https://github.com/chef/chef-apply/pull/152) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.9 -->
-- Update chefstyle requirement from 1.5.2 to 1.5.8 [#151](https://github.com/chef/chef-apply/pull/151) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.8 -->
-- Fix URLs that had not yet been updated to docs.chef.io [#150](https://github.com/chef/chef-apply/pull/150) ([marcparadise](https://github.com/marcparadise)) <!-- 0.5.7 -->
-- Update chefstyle requirement from 1.5.1 to 1.5.2 [#146](https://github.com/chef/chef-apply/pull/146) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.6 -->
-- Update chefstyle requirement from 1.4.2 to 1.5.1 [#144](https://github.com/chef/chef-apply/pull/144) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.5 -->
-- Update chefstyle requirement from 1.3.2 to 1.4.2 [#142](https://github.com/chef/chef-apply/pull/142) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.5.16](https://github.com/chef/chef-apply/tree/v0.5.16) (2021-03-24)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.3.2 to 1.4.2 [#142](https://github.com/chef/chef-apply/pull/142) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.4.2 to 1.5.1 [#144](https://github.com/chef/chef-apply/pull/144) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.5.1 to 1.5.2 [#146](https://github.com/chef/chef-apply/pull/146) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fix URLs that had not yet been updated to docs.chef.io [#150](https://github.com/chef/chef-apply/pull/150) ([marcparadise](https://github.com/marcparadise))
+- Update chefstyle requirement from 1.5.2 to 1.5.8 [#151](https://github.com/chef/chef-apply/pull/151) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.5.8 to 1.5.9 [#152](https://github.com/chef/chef-apply/pull/152) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.5.9 to 1.6.1 [#154](https://github.com/chef/chef-apply/pull/154) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Updated the format for help text [#153](https://github.com/chef/chef-apply/pull/153) ([nikhil2611](https://github.com/nikhil2611))
+- Update chefstyle requirement from 1.6.1 to 1.6.2 [#155](https://github.com/chef/chef-apply/pull/155) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.6.2 to 1.7.1 [#161](https://github.com/chef/chef-apply/pull/161) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.7.1 to 1.7.2 [#163](https://github.com/chef/chef-apply/pull/163) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Allow passing symbols for ad-hoc resource property values  [#162](https://github.com/chef/chef-apply/pull/162) ([SmishaM](https://github.com/SmishaM))
+- Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth))
+<!-- latest_stable_release -->
+
 ## [v0.5.3](https://github.com/chef/chef-apply/tree/v0.5.3) (2020-09-02)
 
 #### Merged Pull Requests
@@ -33,7 +31,6 @@
 - Update license-acceptance requirement from ~&gt; 1.0, &gt;= 1.0.11 to &gt;= 1.0.11, &lt; 3 [#137](https://github.com/chef/chef-apply/pull/137) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Fix chefstyle failures &amp; require Ruby 2.6 since we need Chef 16 which is 2.6+ [#138](https://github.com/chef/chef-apply/pull/138) ([tas50](https://github.com/tas50))
 - Update chefstyle requirement from 1.2.1 to 1.3.2 + optimize requires [#139](https://github.com/chef/chef-apply/pull/139) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
-<!-- latest_stable_release -->
 
 ## [v0.4.16](https://github.com/chef/chef-apply/tree/v0.4.16) (2020-04-30)
 

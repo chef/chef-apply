@@ -60,7 +60,7 @@ RSpec.describe ChefApply::CLI::Validation do
   end
   describe "#properties_from_string" do
     it "parses properties into a hash" do
-      provided = %w{key1=value key2=1 key3=true key4=FaLsE key5=0777 key6=https://some.website key7=num1and2digit key_8=underscore key9=127.0.0.1 key10=1. key11=1.1}
+      provided = %w{key1=value key2=1 key3=true key4=FaLsE key5=0777 key6=https://some.website key7=num1and2digit key_8=underscore key9=127.0.0.1 key10=1. key11=1.1 key12=:symbol}
       expected = {
         "key1" => "value",
         "key2" => 1,
@@ -73,6 +73,7 @@ RSpec.describe ChefApply::CLI::Validation do
         "key9" => "127.0.0.1",
         "key10" => 1.0,
         "key11" => 1.1,
+        "key12" => :symbol,
       }
       expect(subject.properties_from_string(provided)).to eq(expected)
     end

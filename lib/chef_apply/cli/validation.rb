@@ -76,6 +76,8 @@ module ChefApply
           value.to_i
         when /^\d+\.\d*$/, /^\d*\.\d+$/
           value.to_f
+        when /^[:].+$/
+          value.split(":").last.to_sym
         when /true/i
           true
         when /false/i

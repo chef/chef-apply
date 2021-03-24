@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.5.15 -->
-## [v0.5.15](https://github.com/chef/chef-apply/tree/v0.5.15) (2021-03-24)
+<!-- latest_release 0.5.16 -->
+## [v0.5.16](https://github.com/chef/chef-apply/tree/v0.5.16) (2021-03-24)
 
 #### Merged Pull Requests
-- Allow passing symbols for ad-hoc resource property values  [#162](https://github.com/chef/chef-apply/pull/162) ([SmishaM](https://github.com/SmishaM))
+- Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.5.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth)) <!-- 0.5.16 -->
 - Allow passing symbols for ad-hoc resource property values  [#162](https://github.com/chef/chef-apply/pull/162) ([SmishaM](https://github.com/SmishaM)) <!-- 0.5.15 -->
 - Update chefstyle requirement from 1.7.1 to 1.7.2 [#163](https://github.com/chef/chef-apply/pull/163) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.14 -->
 - Update chefstyle requirement from 1.6.2 to 1.7.1 [#161](https://github.com/chef/chef-apply/pull/161) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.13 -->

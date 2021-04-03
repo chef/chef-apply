@@ -63,14 +63,14 @@ module ChefApply
       super()
     end
 
-    def run
+    def run(enforce_license: false)
       # Perform a timing and capture of the run. Individual methods and actions may perform
       # nested Chef::Telemeter.timed_*_capture or Chef::Telemeter.capture calls in their operation, and
       # they will be captured in the same telemetry session.
 
       Chef::Telemeter.timed_run_capture([:redacted]) do
         begin
-          perform_run
+          perform_run(enforce_license: enforce_license)
         rescue Exception => e
           @rc = handle_run_error(e)
         end
@@ -100,14 +100,14 @@ module ChefApply
       end
     end
 
-    def perform_run
+    def perform_run(enforce_license: false)
       parse_options(@argv)
       if @argv.empty? || parsed_options[:help]
         show_help
       elsif parsed_options[:version]
         show_version
       else
-        check_license_acceptance
+        check_license_acceptance if enforce_license
         validate_params(cli_arguments)
         target_hosts = resolve_targets(cli_arguments.shift, parsed_options)
         render_cookbook_setup(cli_arguments)

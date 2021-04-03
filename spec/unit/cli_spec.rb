@@ -160,7 +160,16 @@ RSpec.describe ChefApply::CLI do
           expect(subject).to receive(:resolve_targets).and_return target_hosts
           expect(subject).to receive(:render_cookbook_setup)
           expect(subject).to receive(:render_converge).with(target_hosts)
-          subject.perform_run
+          subject.perform_run(enforce_license: true)
+        end
+        it "not check license" do
+          expect(subject).to receive(:parse_options)
+          expect(subject).to_not receive(:check_license_acceptance)
+          expect(subject).to receive(:validate_params)
+          expect(subject).to receive(:resolve_targets).and_return target_hosts
+          expect(subject).to receive(:render_cookbook_setup)
+          expect(subject).to receive(:render_converge).with(target_hosts)
+          subject.perform_run(enforce_license: false)
         end
       end
 

@@ -20,4 +20,4 @@ require "chef_apply/startup"
 
 # Perform initialization tasks then hand off control to
 # CLI to run the command.
-ChefApply::Startup.new(ARGV).run
+ChefApply::Startup.new(ARGV).run(enforce_license: true)

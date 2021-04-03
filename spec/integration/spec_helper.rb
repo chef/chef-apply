@@ -41,7 +41,7 @@ FileUtils.touch(conf) unless File.exist?(conf)
 # usage:
 #   expect {run_with_cli("blah")}.to output("blah").to_stdout
 def run_cli_with(args)
-  ChefApply::Startup.new(args.split(" ")).run
+  ChefApply::Startup.new(args.split(" ")).run(enforce_license: true)
 rescue SystemExit
 end
 

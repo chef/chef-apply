@@ -88,7 +88,6 @@ Vagrant.configure("2") do |config|
       virtualbox.memory = 4096
       virtualbox.cpus = 2
 
-      # Show gui, incl. some power
       virtualbox.gui = true
 
       # Some needed OSX configs

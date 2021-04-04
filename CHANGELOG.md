@@ -1,21 +1,19 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.6.0 -->
-## [v0.6.0](https://github.com/chef/chef-apply/tree/v0.6.0) (2021-04-04)
-
-#### Merged Pull Requests
-- Remove unused yard deps and rake task [#166](https://github.com/chef/chef-apply/pull/166) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.5.16 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Remove unused yard deps and rake task [#166](https://github.com/chef/chef-apply/pull/166) ([tas50](https://github.com/tas50)) <!-- 0.6.0 -->
-- Add support for using chef-apply with macOS hosts [#164](https://github.com/chef/chef-apply/pull/164) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.5.18 -->
-- Update chefstyle requirement from 1.7.2 to 1.7.4 [#165](https://github.com/chef/chef-apply/pull/165) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.17 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.6.0](https://github.com/chef/chef-apply/tree/v0.6.0) (2021-04-04)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.2 to 1.7.4 [#165](https://github.com/chef/chef-apply/pull/165) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Add support for using chef-apply with macOS hosts [#164](https://github.com/chef/chef-apply/pull/164) ([nikhil2611](https://github.com/nikhil2611))
+- Remove unused yard deps and rake task [#166](https://github.com/chef/chef-apply/pull/166) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v0.5.16](https://github.com/chef/chef-apply/tree/v0.5.16) (2021-03-24)
 
 #### Merged Pull Requests
@@ -32,7 +30,6 @@
 - Update chefstyle requirement from 1.7.1 to 1.7.2 [#163](https://github.com/chef/chef-apply/pull/163) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Allow passing symbols for ad-hoc resource property values  [#162](https://github.com/chef/chef-apply/pull/162) ([SmishaM](https://github.com/SmishaM))
 - Add enforce_license license parameter to cli startup [#134](https://github.com/chef/chef-apply/pull/134) ([ramereth](https://github.com/ramereth))
-<!-- latest_stable_release -->
 
 ## [v0.5.3](https://github.com/chef/chef-apply/tree/v0.5.3) (2020-09-02)
 

@@ -391,7 +391,7 @@ RSpec.describe ChefApply::Action::ConvergeTarget do
       # include_examples "check path fetching"
 
       it "correctly returns chef run string" do
-        expect(subject.run_chef_cmd("a", "b", "c")).to eq("bash -c 'cd a; chef-client -z --config a/b --recipe-url a/c'")
+        expect(subject.run_chef_cmd("a", "b", "c")).to eq("bash -c 'cd a; /opt/chef/bin/chef-client -z --config a/b --recipe-url a/c'")
       end
     end
 

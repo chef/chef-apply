@@ -139,6 +139,9 @@ module ChefApply
       when :windows
         require_relative "target_host/windows"
         class << self; include ChefApply::TargetHost::Windows; end
+      when :macos
+        require_relative "target_host/macos"
+        class << self; include ChefApply::TargetHost::MacOS; end
       when :other
         raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
       end
@@ -169,6 +172,8 @@ module ChefApply
         :windows
       elsif platform.linux?
         :linux
+      elsif platform.darwin?
+        :macos
       else
         :other
       end

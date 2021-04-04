@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.5.17 -->
+## [v0.5.17](https://github.com/chef/chef-apply/tree/v0.5.17) (2021-04-04)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.2 to 1.7.4 [#165](https://github.com/chef/chef-apply/pull/165) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.5.16 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.2 to 1.7.4 [#165](https://github.com/chef/chef-apply/pull/165) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.5.17 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

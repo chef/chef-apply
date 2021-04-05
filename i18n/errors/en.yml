@@ -240,7 +240,7 @@ errors:
 
       Try...
       - Provide a password with "--password PASSWORD"
-      - Provide a key with "-identity-file PATH/TO/FILE"
+      - Provide a key with "--identity-file PATH/TO/FILE"
       - Enable ssh-agent and add keys
       - Add a host entry to your ssh configuration
 

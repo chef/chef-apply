@@ -31,7 +31,7 @@ cli:
     options, visit https://docs.chef.io/workstation/privacy/
 
   description: |
-    Chef Run is a tool to execute ad-hoc tasks using Chef.
+    Chef Run is a tool to execute ad-hoc tasks using Chef Infra.
   creating_config: "Creating config file in %1."
   default_config_location: "Location of config file. Default: %1"
   identity_file: "SSH identity file to use when connecting. Keys loaded into ssh-agent will also be used."
@@ -44,9 +44,9 @@ cli:
       Current default: %1
   cookbook_repo_paths: "Comma separated list of cookbook repository paths."
   install_description: |
-    Install Chef client on the target host(s) if it is not installed.
+    Install Chef Infra Client on the target host(s) if it is not installed.
     This defaults to enabled - the installation will be performed
-    if there is no Chef client on the target(s).
+    if there is no Chef Infra Client on the target(s).
   user_description: |
     Username to use for authentication to the target(s). The same
     username will be used for all targets.
@@ -102,7 +102,7 @@ cli:
                         in the form:
 
                         ssh://[USERNAME]@example.com[:PORT]
-      <RESOURCE>        A Chef resource, such as 'user' or 'package'
+      <RESOURCE>        A Chef Infra resource, such as 'user' or 'package'
       <RESOURCE_NAME>   The name, usually used to specify what 'thing' to set up with
                         the resource. For example, given resource 'user', 'name' would be
                         the name of the user you wanted to create.
@@ -179,16 +179,16 @@ status:
     exporting:  Generating local policyfile... exporting...
     success: Generating local policyfile... exporting... done!
   install_chef:
-    checking_for_client: Checking for Chef client.
-    verifying: Verifying Chef client installation.
-    downloading: Downloading Chef client installer into local cache.
-    uploading: Uploading Chef client installer to target.
-    installing: Installing Chef client version %1.
-    upgrading: Upgrading Chef client from version %1 to %2.
-    already_present: Chef client version %1 already installed on target.
-    install_success: Successfully installed Chef client version %1
-    upgrade_success: Successfully upgraded Chef client from version %1 to %2.
-    failure: "An error occurred while installing Chef client: %1"
+    checking_for_client: Checking for Chef Infra Client.
+    verifying: Verifying Chef Infra Client installation.
+    downloading: Downloading Chef Infra Client installer into local cache.
+    uploading: Uploading Chef Infra Client installer to target.
+    installing: Installing Chef Infra Client version %1.
+    upgrading: Upgrading Chef Infra Client from version %1 to %2.
+    already_present: Chef Infra Client version %1 already installed on target.
+    install_success: Successfully installed Chef Infra Client version %1
+    upgrade_success: Successfully upgraded Chef Infra Client from version %1 to %2.
+    failure: "An error occurred while installing Chef Infra Client: %1"
   converge:
     header: !!pl
       1: Applying %2 from %3 to target.

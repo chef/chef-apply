@@ -71,8 +71,8 @@ errors:
     text: |
       The target does not have chef-client installed.
 
-      This command is powered by the Chef client.  In order to make use of it
-      on this node, the Chef client must be installed first.
+      This command is powered by the Chef Infra Client.  In order to make use of it
+      on this node, the Chef Infra Client must be installed first.
 
       Re-running this command without the '--no-install' flag will
       automatically perform the installation.
@@ -91,12 +91,12 @@ errors:
 
   CHEFINS003:
     text: |
-      The target has an older version of Chef client installed.
+      The target has an older version of Chef Infra Client installed.
 
       The target has version %1 installed, but this command
       requires a minimum version of %2.
 
-      Please upgrade the Chef client on this node to version %2 or later.
+      Please upgrade the Chef Infra Client on this node to version %2 or later.
 
 # Local errors trying to create policy to send to target
   CHEFPOLICY001:

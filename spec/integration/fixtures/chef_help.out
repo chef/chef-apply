@@ -1,4 +1,4 @@
-Chef Run is a tool to execute ad-hoc tasks using Chef.
+Chef Run is a tool to execute ad-hoc tasks using Chef Infra.
 
 chef-run <TARGET[S]> <RESOURCE> <RESOURCE_NAME> [PROPERTIES] [FLAGS]
 
@@ -27,7 +27,7 @@ ARGUMENTS:
                     in the form:
 
                     ssh://[USERNAME]@example.com[:PORT]
-  <RESOURCE>        A Chef resource, such as 'user' or 'package'
+  <RESOURCE>        A Chef Infra resource, such as 'user' or 'package'
   <RESOURCE_NAME>   The name, usually used to specify what 'thing' to set up with
                     the resource. For example, given resource 'user', 'name' would be
                     the name of the user you wanted to create.
@@ -46,9 +46,9 @@ FLAGS:
         --cookbook-repo-paths PATH     Comma separated list of cookbook repository paths.
     -h, --help                         Show help and usage for `chef-run`
     -i, --identity-file PATH           SSH identity file to use when connecting. Keys loaded into ssh-agent will also be used.
-        --[no-]install                 Install Chef client on the target host(s) if it is not installed.
+        --[no-]install                 Install Chef Infra Client on the target host(s) if it is not installed.
                                        This defaults to enabled - the installation will be performed
-                                       if there is no Chef client on the target(s).
+                                       if there is no Chef Infra Client on the target(s).
         --password <PASSWORD>          Password to use for authentication to the target(s). The same
                                        password will be used for all targets.
     -p, --protocol <PROTOCOL>          The protocol to use for connecting to targets.

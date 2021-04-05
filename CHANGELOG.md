@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.6.2 -->
-## [v0.6.2](https://github.com/chef/chef-apply/tree/v0.6.2) (2021-04-05)
+<!-- latest_release 0.6.3 -->
+## [v0.6.3](https://github.com/chef/chef-apply/tree/v0.6.3) (2021-04-05)
 
 #### Merged Pull Requests
-- Fix typo in error message flag [#167](https://github.com/chef/chef-apply/pull/167) ([tas50](https://github.com/tas50))
+- Update all references to Chef to be Chef Infra [#169](https://github.com/chef/chef-apply/pull/169) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.6.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update all references to Chef to be Chef Infra [#169](https://github.com/chef/chef-apply/pull/169) ([tas50](https://github.com/tas50)) <!-- 0.6.3 -->
 - Fix typo in error message flag [#167](https://github.com/chef/chef-apply/pull/167) ([tas50](https://github.com/tas50)) <!-- 0.6.2 -->
 - Add code of conduct and contributing docs [#168](https://github.com/chef/chef-apply/pull/168) ([tas50](https://github.com/tas50)) <!-- 0.6.1 -->
 <!-- release_rollup -->

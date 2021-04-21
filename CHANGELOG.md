@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.6.5 -->
-## [v0.6.5](https://github.com/chef/chef-apply/tree/v0.6.5) (2021-04-20)
+<!-- latest_release 0.6.6 -->
+## [v0.6.6](https://github.com/chef/chef-apply/tree/v0.6.6) (2021-04-21)
 
 #### Merged Pull Requests
-- Remove the github issue lock configuration [#173](https://github.com/chef/chef-apply/pull/173) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#174](https://github.com/chef/chef-apply/pull/174) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.6.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#174](https://github.com/chef/chef-apply/pull/174) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.6.6 -->
 - Remove the github issue lock configuration [#173](https://github.com/chef/chef-apply/pull/173) ([tas50](https://github.com/tas50)) <!-- 0.6.5 -->
 - Remove the duplicate codeowners file [#172](https://github.com/chef/chef-apply/pull/172) ([tas50](https://github.com/tas50)) <!-- 0.6.4 -->
 <!-- release_rollup -->

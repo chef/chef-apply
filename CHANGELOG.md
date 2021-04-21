@@ -1,29 +1,26 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.6.7 -->
-## [v0.6.7](https://github.com/chef/chef-apply/tree/v0.6.7) (2021-04-21)
-
-#### Merged Pull Requests
-- Shorten the description of Telemetry [#171](https://github.com/chef/chef-apply/pull/171) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.6.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Shorten the description of Telemetry [#171](https://github.com/chef/chef-apply/pull/171) ([tas50](https://github.com/tas50)) <!-- 0.6.7 -->
-- Update chefstyle requirement from 1.7.4 to 1.7.5 [#174](https://github.com/chef/chef-apply/pull/174) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.6.6 -->
-- Remove the github issue lock configuration [#173](https://github.com/chef/chef-apply/pull/173) ([tas50](https://github.com/tas50)) <!-- 0.6.5 -->
-- Remove the duplicate codeowners file [#172](https://github.com/chef/chef-apply/pull/172) ([tas50](https://github.com/tas50)) <!-- 0.6.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.6.7](https://github.com/chef/chef-apply/tree/v0.6.7) (2021-04-21)
+
+#### Merged Pull Requests
+- Remove the duplicate codeowners file [#172](https://github.com/chef/chef-apply/pull/172) ([tas50](https://github.com/tas50))
+- Remove the github issue lock configuration [#173](https://github.com/chef/chef-apply/pull/173) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#174](https://github.com/chef/chef-apply/pull/174) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Shorten the description of Telemetry [#171](https://github.com/chef/chef-apply/pull/171) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v0.6.3](https://github.com/chef/chef-apply/tree/v0.6.3) (2021-04-05)
 
 #### Merged Pull Requests
 - Add code of conduct and contributing docs [#168](https://github.com/chef/chef-apply/pull/168) ([tas50](https://github.com/tas50))
 - Fix typo in error message flag [#167](https://github.com/chef/chef-apply/pull/167) ([tas50](https://github.com/tas50))
 - Update all references to Chef to be Chef Infra [#169](https://github.com/chef/chef-apply/pull/169) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.6.0](https://github.com/chef/chef-apply/tree/v0.6.0) (2021-04-04)
 

@@ -5,9 +5,13 @@ The ad-hoc execution tool for the Chef Infra ecosystem.
 
 **Umbrella Project**: [Workstation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-workstation.md)
 
-* **[Project State](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** Active
+* **[Project State](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** Deprecated
 * **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** 14 days
 * **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** 14 days
+
+## Deprecated
+
+We now recommend using [`chef-run`](https://docs.chef.io/workstation/chef_run/) instead. 
 
 ## Installation
 

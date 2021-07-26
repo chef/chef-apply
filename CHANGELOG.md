@@ -1,21 +1,19 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.7.1 -->
-## [v0.7.1](https://github.com/chef/chef-apply/tree/v0.7.1) (2021-07-26)
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.7.5 to 2.0.7 [#183](https://github.com/chef/chef-apply/pull/183) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.6.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.7.5 to 2.0.7 [#183](https://github.com/chef/chef-apply/pull/183) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.7.1 -->
-- Require Ruby 2.7 or later [#184](https://github.com/chef/chef-apply/pull/184) ([tas50](https://github.com/tas50)) <!-- 0.7.0 -->
-- Upgrade to GitHub-native Dependabot [#175](https://github.com/chef/chef-apply/pull/175) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.6.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.7.1](https://github.com/chef/chef-apply/tree/v0.7.1) (2021-07-26)
+
+#### Merged Pull Requests
+- Upgrade to GitHub-native Dependabot [#175](https://github.com/chef/chef-apply/pull/175) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require Ruby 2.7 or later [#184](https://github.com/chef/chef-apply/pull/184) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.7.5 to 2.0.7 [#183](https://github.com/chef/chef-apply/pull/183) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_stable_release -->
+
 ## [v0.6.7](https://github.com/chef/chef-apply/tree/v0.6.7) (2021-04-21)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Remove the github issue lock configuration [#173](https://github.com/chef/chef-apply/pull/173) ([tas50](https://github.com/tas50))
 - Update chefstyle requirement from 1.7.4 to 1.7.5 [#174](https://github.com/chef/chef-apply/pull/174) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Shorten the description of Telemetry [#171](https://github.com/chef/chef-apply/pull/171) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.6.3](https://github.com/chef/chef-apply/tree/v0.6.3) (2021-04-05)
 

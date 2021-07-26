@@ -41,15 +41,15 @@ module ChefApply
       def run(&block)
         @notification_handler = block
         Telemeter.timed_action_capture(self) do
-          begin
-            perform_action
-          rescue StandardError => e
-            # Give the caller a chance to clean up - if an exception is
-            # raised it'll otherwise get routed through the executing thread,
-            # providing no means of feedback for the caller's current task.
-            notify(:error, e)
-            @error = e
-          end
+
+          perform_action
+        rescue StandardError => e
+          # Give the caller a chance to clean up - if an exception is
+          # raised it'll otherwise get routed through the executing thread,
+          # providing no means of feedback for the caller's current task.
+          notify(:error, e)
+          @error = e
+
         end
         # Raise outside the block to ensure that the telemetry cpature completes
         raise @error unless @error.nil?

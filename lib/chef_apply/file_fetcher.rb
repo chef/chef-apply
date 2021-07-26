@@ -44,25 +44,25 @@ module ChefApply
         file = open(temp_path, "wb")
         ChefApply::Log.debug "Downloading: #{temp_path}"
         Net::HTTP.start(url.host) do |http|
-          begin
-            http.request_get(url.path) do |resp|
-              resp.read_body do |segment|
-                file.write(segment)
-              end
-            end
-          rescue e
-            @error = true
-            raise
-          ensure
-            file.close
-            # If any failures occurred, don't risk keeping
-            # an incomplete download that we'll see as 'cached'
-            if @error
-              FileUtils.rm_f(temp_path)
-            else
-              FileUtils.mv(temp_path, local_path)
+
+          http.request_get(url.path) do |resp|
+            resp.read_body do |segment|
+              file.write(segment)
             end
           end
+        rescue e
+          @error = true
+          raise
+        ensure
+          file.close
+          # If any failures occurred, don't risk keeping
+          # an incomplete download that we'll see as 'cached'
+          if @error
+            FileUtils.rm_f(temp_path)
+          else
+            FileUtils.mv(temp_path, local_path)
+          end
+
         end
       end
     end

@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.6.8 -->
-## [v0.6.8](https://github.com/chef/chef-apply/tree/v0.6.8) (2021-04-29)
+<!-- latest_release 0.7.0 -->
+## [v0.7.0](https://github.com/chef/chef-apply/tree/v0.7.0) (2021-07-26)
 
 #### Merged Pull Requests
-- Upgrade to GitHub-native Dependabot [#175](https://github.com/chef/chef-apply/pull/175) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require Ruby 2.7 or later [#184](https://github.com/chef/chef-apply/pull/184) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.6.7 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Require Ruby 2.7 or later [#184](https://github.com/chef/chef-apply/pull/184) ([tas50](https://github.com/tas50)) <!-- 0.7.0 -->
 - Upgrade to GitHub-native Dependabot [#175](https://github.com/chef/chef-apply/pull/175) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.6.8 -->
 <!-- release_rollup -->
 

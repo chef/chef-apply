@@ -69,11 +69,11 @@ module ChefApply
       # they will be captured in the same telemetry session.
 
       Chef::Telemeter.timed_run_capture([:redacted]) do
-        begin
-          perform_run(enforce_license: enforce_license)
-        rescue Exception => e
-          @rc = handle_run_error(e)
-        end
+
+        perform_run(enforce_license: enforce_license)
+      rescue Exception => e
+        @rc = handle_run_error(e)
+
       end
     rescue => e # can occur if exception thrown in error handling
       @rc = handle_run_error(e)

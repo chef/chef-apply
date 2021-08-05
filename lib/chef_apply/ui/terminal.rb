@@ -22,6 +22,7 @@ require_relative "../config"
 require_relative "../log"
 require_relative "plain_text_element"
 require_relative "plain_text_header"
+require 'byebug'
 
 module ChefApply
   module UI
@@ -50,6 +51,7 @@ module ChefApply
           # @option options [Hash] :style
           #   keys :top :middle and :bottom can contain Strings that are used to
           #   indent the spinners. Ignored if message is blank
+          byebug
           multispinner = get_multispinner.new("[:spinner] #{header}",
             output: @location,
             hide_cursor: true,
@@ -57,9 +59,11 @@ module ChefApply
           jobs.each do |job|
             multispinner.register(spinner_prefix(job.prefix), hide_cursor: true) do |spinner|
               reporter = StatusReporter.new(spinner, prefix: job.prefix, key: :status)
+              byebug
               job.run(reporter)
             end
           end
+          byebug
           multispinner.auto_spin
         ensure
           # Spinners hide the cursor for better appearance, so we need to make sure

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+require 'byebug'
 require_relative "base"
 require_relative "install_chef/minimum_chef_version"
 require "fileutils" unless defined?(FileUtils)
@@ -98,6 +98,8 @@ module ChefApply
           opts[:platform] = "el"
         when "suse"
           opts[:platform] = "sles"
+        when "solaris"
+          opts[:platform] = "solaris2"
         when "amazon"
           opts[:platform] = "el"
           if platform.release.to_i > 2010 # legacy Amazon version 1

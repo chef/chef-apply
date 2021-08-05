@@ -16,6 +16,7 @@
 # limitations under the License.
 #
 require "mixlib/cli" unless defined?(Mixlib::CLI)
+require 'byebug'
 
 require_relative "config"
 require "chef-config/config"
@@ -111,6 +112,7 @@ module ChefApply
         validate_params(cli_arguments)
         target_hosts = resolve_targets(cli_arguments.shift, parsed_options)
         render_cookbook_setup(cli_arguments)
+        byebug
         render_converge(target_hosts)
       end
     rescue OptionParser::InvalidOption => e # from parse_options

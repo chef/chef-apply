@@ -29,9 +29,8 @@ module ChefApply
       end
 
       def install_package(target_package_path)
-        byebug
-        # target_package_path = "/var/spool/pkg"
-        command = "pkgadd  -d #{target_package_path}"
+        # command = "pkgadd  -n -d #{target_package_path} chef"
+        command = "pkg install -g #{target_package_path} chef"
         run_command!(command)
       end
 

@@ -16,7 +16,6 @@
 # limitations under the License.
 #
 require "mixlib/cli" unless defined?(Mixlib::CLI)
-require 'byebug'
 
 require_relative "config"
 require "chef-config/config"

@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'byebug'
 require_relative "base"
 require_relative "install_chef/minimum_chef_version"
 require "fileutils" unless defined?(FileUtils)

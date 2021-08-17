@@ -18,8 +18,6 @@
 require_relative "log"
 require_relative "error"
 require "train"
-require 'byebug'
-
 module ChefApply
   class TargetHost
     attr_reader :config, :reporter, :backend, :transport_type

@@ -1,4 +1,3 @@
-require 'byebug'
 module ChefApply
   class TargetHost
     module Solaris

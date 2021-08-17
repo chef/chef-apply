@@ -3,7 +3,6 @@ module ChefApply
     module Solaris
 
       def omnibus_manifest_path
-        # TODO - if habitat install on target, this won't work
         # Note that we can't use File::Join, because that will render for the
         # CURRENT platform - not the platform of the target.
         "/opt/chef/version-manifest.json"
@@ -20,7 +19,7 @@ module ChefApply
       end
 
       def make_temp_dir
-        # We will cache this so that we only
+        # We will cache this so that we only run this once
         @tempdir ||= begin
           res = run_command!("bash -c '#{MKTEMP_COMMAND}'")
           res.stdout.chomp.strip
@@ -28,7 +27,6 @@ module ChefApply
       end
 
       def install_package(target_package_path)
-        # command = "pkgadd  -n -d #{target_package_path} chef"
         command = "pkg install -g #{target_package_path} chef"
         run_command!(command)
       end
@@ -45,7 +43,7 @@ module ChefApply
         "/var/chef-workstation"
       end
 
-      # Nothing to escape in a linux-based path
+      # Nothing to escape in a unix-based path
       def normalize_path(path)
         path
       end

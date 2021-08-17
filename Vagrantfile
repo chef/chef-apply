@@ -115,11 +115,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "solaris4" do |node|
-    node.vm.box =  "plaurin/solaris-11_3"
+    config.vm.box = "MartijnDwars/solaris11_4"
+    config.vm.box_version = "1.0.0"
     node.vm.hostname = "solaris4"
     node.vm.network "private_network", ip: "192.168.33.65"
     node.vm.network :forwarded_port, guest: 22, host: "2235", id: "ssh", auto_correct: true
-    node.ssh.password = "1vagrant"
     node.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
     node.ssh.insert_key = false
   end

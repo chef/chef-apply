@@ -145,7 +145,7 @@ module ChefApply
         require_relative "target_host/solaris"
         class << self; include ChefApply::TargetHost::Solaris; end
       when :other
-      raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
+        raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
       end
     end
 

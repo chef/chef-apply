@@ -16,8 +16,8 @@ RSpec.describe ChefApply::TargetHost::Linux do
   context "#make_temp_dir" do
     it "creates the directory using a properly formed make_temp_dir" do
       expect(subject).to receive(:run_command!)
-                             .with("bash -c '#{ChefApply::TargetHost::Solaris::MKTEMP_COMMAND}'")
-                             .and_return(instance_double("result", stdout: "/tmp/blah"))
+        .with("bash -c '#{ChefApply::TargetHost::Solaris::MKTEMP_COMMAND}'")
+        .and_return(instance_double("result", stdout: "/tmp/blah"))
       expect(subject.make_temp_dir).to eq "/tmp/blah"
     end
   end

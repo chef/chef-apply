@@ -37,22 +37,14 @@ RSpec.describe ChefApply::TargetHost::Linux do
   end
 
   context "#install_package" do
-    context "when it receives an RPM package" do
-      # solaris packages to be installed here
-      let(:expected_command) { "rpm -Uvh /my/package.rpm" }
-      it "should run the correct rpm command" do
+    context "run the correct pkg run command " do
+      let(:expected_command) { "pkg install -g /my/chef-17.3.48-1.i386.p5p chef" }
+      it "should run the correct install command" do
         expect(subject).to receive(:run_command!).with expected_command
-        subject.install_package("/my/package.rpm")
+        subject.install_package("/my/chef-17.3.48-1.i386.p5p")
 
       end
 
-    end
-    context "when it receives a DEB package" do
-      let(:expected_command) { "dpkg -i /my/package.deb" }
-      it "should run the correct dpkg command" do
-        expect(subject).to receive(:run_command!).with expected_command
-        subject.install_package("/my/package.deb")
-      end
     end
   end
 end

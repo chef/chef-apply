@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.8.0 -->
+## [v0.8.0](https://github.com/chef/chef-apply/tree/v0.8.0) (2021-08-18)
+
+#### Merged Pull Requests
+- Set solaris as target in chef-apply [#187](https://github.com/chef/chef-apply/pull/187) ([i5pranay93](https://github.com/i5pranay93))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.7.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Set solaris as target in chef-apply [#187](https://github.com/chef/chef-apply/pull/187) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.8.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

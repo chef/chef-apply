@@ -18,7 +18,6 @@
 require_relative "log"
 require_relative "error"
 require "train"
-
 module ChefApply
   class TargetHost
     attr_reader :config, :reporter, :backend, :transport_type
@@ -142,6 +141,9 @@ module ChefApply
       when :macos
         require_relative "target_host/macos"
         class << self; include ChefApply::TargetHost::MacOS; end
+      when :solaris
+        require_relative "target_host/solaris"
+        class << self; include ChefApply::TargetHost::Solaris; end
       when :other
         raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
       end
@@ -174,6 +176,8 @@ module ChefApply
         :linux
       elsif platform.darwin?
         :macos
+      elsif platform.solaris?
+        :solaris
       else
         :other
       end

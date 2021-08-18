@@ -36,6 +36,10 @@ module ChefApply
             13 => Gem::Version.new("13.10.4"),
             14 => Gem::Version.new("14.1.1"),
           },
+          solaris: {
+              13 => Gem::Version.new("13.10.4"),
+              14 => Gem::Version.new("14.1.1"),
+          },
         }.freeze
 
         def self.check!(target, check_only)

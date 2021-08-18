@@ -104,4 +104,23 @@ Vagrant.configure("2") do |config|
       virtualbox.customize ["setextradata", :id, "VBoxInternal2/EfiGopMode", "4"]
     end
   end
+
+  config.vm.define "solaris" do |node|
+    node.vm.box =  "jonatasbaldin/solaris11"
+    node.vm.hostname = "solaris"
+    node.vm.network "private_network", ip: "192.168.33.62"
+    node.vm.network :forwarded_port, guest: 22, host: "2232", id: "ssh", auto_correct: true
+    node.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+    node.ssh.insert_key = false
+  end
+
+  config.vm.define "solaris4" do |node|
+    config.vm.box = "MartijnDwars/solaris11_4"
+    config.vm.box_version = "1.0.0"
+    node.vm.hostname = "solaris4"
+    node.vm.network "private_network", ip: "192.168.33.65"
+    node.vm.network :forwarded_port, guest: 22, host: "2235", id: "ssh", auto_correct: true
+    node.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+    node.ssh.insert_key = false
+  end
 end

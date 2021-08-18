@@ -22,7 +22,6 @@ require_relative "../config"
 require_relative "../log"
 require_relative "plain_text_element"
 require_relative "plain_text_header"
-
 module ChefApply
   module UI
     class Terminal

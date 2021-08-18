@@ -2,7 +2,7 @@ require "spec_helper"
 require "chef_apply/target_host"
 require "chef_apply/target_host/solaris"
 
-RSpec.describe ChefApply::TargetHost::Linux do
+RSpec.describe ChefApply::TargetHost::Solaris do
   let(:user) { "testuser" }
   let(:host) { "mock://#{user}@example.com" }
   let(:family) { "solaris" }

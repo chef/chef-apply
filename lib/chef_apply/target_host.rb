@@ -316,7 +316,7 @@ module ChefApply
           case original_exception.message # original_exception.reason
           when /Sudo requires a password/ # :sudo_password_required
             "CHEFTRN003"
-          when /Wrong sudo password/ #:bad_sudo_password
+          when /Wrong sudo password/ # :bad_sudo_password
             "CHEFTRN004"
           when /Can't find sudo command/, /No such file/, /command not found/ # :sudo_command_not_found
             # NOTE: In the /No such file/ case, reason will be nil - we still have

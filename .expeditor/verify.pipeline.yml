@@ -32,7 +32,7 @@ steps:
   expeditor:
     executor:
       docker:
-        image: ruby:3.0-bullseye
+        image: ruby:3.0-slim-bullseye
 
 - label: run-specs-windows
   command:

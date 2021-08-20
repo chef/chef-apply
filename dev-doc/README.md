@@ -10,18 +10,16 @@ link https://docs.chef.io/workstation/chef_run/
 
 ## General development setup:
 
-clone from - https://github.com/chef/chef-apply.git
-
-**With vagrant box**
-1) repo contains vagrantfile with machines like ubuntu, windows, mac. you need to have vagrant and virtualmachine preinstalled
-2) make sure to add machine in host file e.g (in cat /etc/hosts add - 127.0.0.1 ubuntu1)
-3) vagrant status to check status of virtual box created
-4) vagrant up MACHINENAME
-5) Once machine is up, run this command format( based on user,port, and machine name) -- ```bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key```
+**With Vagrant box**
+1. Repo contains vagrantfile with machines like ubuntu, windows, mac. you need to have vagrant and VirtualBox preinstalled
+2. Make sure to add machine in host file e.g (in  /etc/hosts add - 127.0.0.1 ubuntu1)
+3. ```vagrant status``` to check status of virtual box created
+4. ```vagrant up MACHINENAME```
+5. Once machine is up, run this command format( based on user,port, and machine name) -- ```bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key```
    bundle exec is ruby command for running from current project rather than installed tool.
 
 this will install chef client on desired platform using chef apply
-To suspend vagrant machine use command - ```vagrant suspend MACHINENAME```
+To suspend Vagrant machine use command - ```vagrant suspend MACHINENAME```
 
 
 **With instance**

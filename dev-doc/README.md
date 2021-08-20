@@ -27,7 +27,7 @@ to suspend vagrant machine use command - vagrant suspend solaris4
 
 **With instance**
 
-1) bundle exec chef-run ssh://test@ipaddress directory /tmp/foo --password mypassword
+ ```bundle exec chef-run ssh://test@ipaddress directory /tmp/foo --password mypassword```
 
 
 

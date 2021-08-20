@@ -58,13 +58,13 @@ for this resource:
   https://docs.chef.io/resource_reference.html
 %```
 
+
 $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=remove
-```
-[✔] Packaging cookbook... done!
+
+```[✔] Packaging cookbook... done!
 [✔] Generating local policyfile... exporting... done!
 [✔] Applying user[test1] from resource to target.
-└── [✔] [my_user] Successfully converged user[test1].
-```
+└── [✔] [my_user] Successfully converged user[test1].```
 
 **To run test use rspec ex- bundle exec rspec spec/unit/target_host_spec.rb**
 

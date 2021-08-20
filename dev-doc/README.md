@@ -33,7 +33,7 @@ to suspend vagrant machine use command - vagrant suspend solaris4
 
 **Here is some prerunned use case, and interim statuses that chef-run displays.**
 
-$ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=create
+``` bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=create```
 
 ```
 [✔] Packaging cookbook... done!
@@ -43,15 +43,6 @@ $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-fi
 %
 ```
 
- $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=delete
-
-```
-[✔] Packaging cookbook... done!
-[✔] Generating local policyfile... exporting... done!
-[✖] Applying user[test1] from resource to target.
-└── [✖] [my_user] Failed to converge user[test1].
-
-The action 'delete' is not valid.
 
 Valid actions are:
 
@@ -61,11 +52,10 @@ For more information, please consult the documentation
 for this resource:
 
   https://docs.chef.io/resource_reference.html
-%
-```
 
 
-$ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=remove
+
+``` bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=remove```
 ```
 [✔] Packaging cookbook... done!
 [✔] Generating local policyfile... exporting... done!

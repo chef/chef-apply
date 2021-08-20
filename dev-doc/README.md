@@ -1,7 +1,7 @@
 chef-run/chef-apply is a tool to execute ad-hoc tasks on one or more target nodes using Chef Infra Client. To start with, familiarize yourself with chef-run’s arguments and flags by running chef-run -h
 link https://docs.chef.io/workstation/chef_run/
 
-## general development process :
+## General development process :
 
 1. Fork this repo and clone it to your workstation.
 2. Create a feature branch for your change.
@@ -35,16 +35,18 @@ to suspend vagrant machine use command - vagrant suspend solaris4
 
 $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=create
 
-
-```[✔] Packaging cookbook... done!
+```
+[✔] Packaging cookbook... done!
 [✔] Generating local policyfile... exporting... done!
 [✔] Applying user[test1] from resource to target.
 └── [✔] [my_user] Successfully converged user[test1].
-%```
+%
+```
 
-√ ~ $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=delete
+ $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=delete
 
-```[✔] Packaging cookbook... done!
+```
+[✔] Packaging cookbook... done!
 [✔] Generating local policyfile... exporting... done!
 [✖] Applying user[test1] from resource to target.
 └── [✖] [my_user] Failed to converge user[test1].
@@ -59,15 +61,17 @@ For more information, please consult the documentation
 for this resource:
 
   https://docs.chef.io/resource_reference.html
-%```
+%
+```
 
 
 $ bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=remove
-
-```[✔] Packaging cookbook... done!
+```
+[✔] Packaging cookbook... done!
 [✔] Generating local policyfile... exporting... done!
 [✔] Applying user[test1] from resource to target.
-└── [✔] [my_user] Successfully converged user[test1].```
+└── [✔] [my_user] Successfully converged user[test1].
+```
 
 **To run test use rspec ex- bundle exec rspec spec/unit/target_host_spec.rb**
 

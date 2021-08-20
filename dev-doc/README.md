@@ -21,8 +21,7 @@ clone from - https://github.com/chef/chef-apply.git
    bundle exec is ruby command for running from current project rather than installed tool.
 
 this will install chef client on desired platform using chef apply
-
-to suspend vagrant machine use command - vagrant suspend solaris4
+To suspend vagrant machine use command - ```vagrant suspend MACHINENAME```
 
 
 **With instance**

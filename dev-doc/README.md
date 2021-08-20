@@ -11,9 +11,9 @@ link https://docs.chef.io/workstation/chef_run/
 ## General development setup:
 
 **With Vagrant box**
-1. Repo contains vagrantfile with machines like ubuntu, windows, mac. you need to have vagrant and VirtualBox preinstalled
+1. Repo contains vagrantfile with machines like ubuntu, windows, mac. you need to have Vagrant and VirtualBox preinstalled
 2. Make sure to add machine in host file e.g (in  /etc/hosts add - 127.0.0.1 ubuntu1)
-3. ```vagrant status``` to check status of virtual box created
+3. ```vagrant status``` to check status of VirtualBox created
 4. ```vagrant up MACHINENAME```
 5. Once machine is up, run this command format( based on user,port, and machine name) -- ```bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key```
    bundle exec is ruby command for running from current project rather than installed tool.

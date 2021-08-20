@@ -8,7 +8,7 @@ link https://docs.chef.io/workstation/chef_run/
 3. Write code and tests.
 4. Push your feature branch to GitHub and open a pull request against master.
 
-## General development setup
+## General development setup:
 
 clone from - https://github.com/chef/chef-apply.git
 
@@ -17,7 +17,7 @@ clone from - https://github.com/chef/chef-apply.git
 2) make sure to add machine in host file e.g (in cat /etc/hosts add - 127.0.0.1 ubuntu1)
 3) vagrant status to check status of virtual box created
 4) vagrant up MACHINENAME
-5) once machine is up run this command -- bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key
+5) Once machine is up run this command -- ```bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key```
    bundle exec is ruby command for running from current project rather than installed tool.
 
 this will install chef client on desired platform using chef apply

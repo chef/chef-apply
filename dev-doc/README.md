@@ -63,7 +63,7 @@ for this resource:
 └── [✔] [my_user] Successfully converged user[test1].
 ```
 
-**To run test use rspec ex- bundle exec rspec spec/unit/target_host_spec.rb**
+* To run test use rspec ex- bundle exec rspec spec/unit/target_host_spec.rb**
 
-**To debug, user byebug**
+* To debug, use byebug**
 

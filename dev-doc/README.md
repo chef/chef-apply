@@ -6,7 +6,7 @@ link https://docs.chef.io/workstation/chef_run/
 1. Fork this repo and clone it to your development system.
 1. Create a feature branch for your change.
 1. Write code and tests.
-1. Push your feature branch to GitHub and open a pull request against master.
+1. Push your feature branch to GitHub and open a pull request against main.
 
 ## General development setup:
 

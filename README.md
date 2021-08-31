@@ -4,11 +4,11 @@
 
 The ad-hoc execution tool for the Chef Infra ecosystem.
 
-**Umbrella Project**: [Workstation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-workstation.md)
+**Umbrella Project**: [Workstation](https://github.com/chef/chef-oss-practices/blob/main/projects/chef-workstation.md)
 
-* **[Project State](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** Active
-* **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** 14 days
-* **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md):** 14 days
+* **[Project State](https://github.com/chef/chef-oss-practices/blob/main/repo-management/repo-states.md):** Active
+* **Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/main/repo-management/repo-states.md):** 14 days
+* **Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/main/repo-management/repo-states.md):** 14 days
 
 ## Installation
 
@@ -39,7 +39,7 @@ The general development process is:
 1. Fork this repo and clone it to your workstation.
 2. Create a feature branch for your change.
 3. Write code and tests.
-4. Push your feature branch to GitHub and open a pull request against master.
+4. Push your feature branch to GitHub and open a pull request against main.
 
 Once your repository is set up, you can start working on the code. We do utilize RSpec for test driven development, so you'll need to get a development environment running. Follow the above procedure ("Installing from Git") to get your local copy of the source running.
 

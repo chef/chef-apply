@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.8.5 -->
-## [v0.8.5](https://github.com/chef/chef-apply/tree/v0.8.5) (2021-08-27)
+<!-- latest_release 0.8.6 -->
+## [v0.8.6](https://github.com/chef/chef-apply/tree/v0.8.6) (2021-10-19)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 2.0.8 to 2.0.9 [#193](https://github.com/chef/chef-apply/pull/193) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update chefstyle requirement from 2.0.9 to 2.1.0 [#196](https://github.com/chef/chef-apply/pull/196) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.8.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 2.0.9 to 2.1.0 [#196](https://github.com/chef/chef-apply/pull/196) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.8.6 -->
 - Update chefstyle requirement from 2.0.8 to 2.0.9 [#193](https://github.com/chef/chef-apply/pull/193) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.8.5 -->
 - updating master reference to main [#192](https://github.com/chef/chef-apply/pull/192) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.8.4 -->
 - Adding dev documentation [#190](https://github.com/chef/chef-apply/pull/190) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.8.3 -->

@@ -144,6 +144,9 @@ module ChefApply
       when :solaris
         require_relative "target_host/solaris"
         class << self; include ChefApply::TargetHost::Solaris; end
+      when :aix
+        require_relative "target_host/aix"
+        class << self; include ChefApply::TargetHost::Aix; end
       when :other
         raise ChefApply::TargetHost::UnsupportedTargetOS.new(platform.name)
       end
@@ -178,6 +181,8 @@ module ChefApply
         :macos
       elsif platform.solaris?
         :solaris
+      elsif platform.aix?
+        :aix
       else
         :other
       end

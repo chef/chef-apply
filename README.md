@@ -1,4 +1,5 @@
 # Chef Apply
+
 [![Gem Version](https://badge.fury.io/rb/chef-apply.svg)](https://badge.fury.io/rb/chef-apply)
 
 The ad-hoc execution tool for the Chef Infra ecosystem.
@@ -19,12 +20,15 @@ gem 'chef-apply'
 
 And then execute:
 
-    $ bundle
+```shell
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install chef-apply
-
+```shell
+gem install chef-apply
+```
 
 ## Contributing/Development
 
@@ -39,14 +43,11 @@ The general development process is:
 
 Once your repository is set up, you can start working on the code. We do utilize RSpec for test driven development, so you'll need to get a development environment running. Follow the above procedure ("Installing from Git") to get your local copy of the source running.
 
-# License
+## License and Copyright
 
-|                      |                                          |
-|:---------------------|:-----------------------------------------|
-| **Copyright:**       | Copyright 2018, Chef Software, Inc.
-| **License:**         | Apache License, Version 2.0
+Copyright 2008-2021, Chef Software, Inc.
 
-```
+```text
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -58,5 +59,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-```
-

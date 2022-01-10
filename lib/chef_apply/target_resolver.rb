@@ -59,7 +59,7 @@ module ChefApply
       if target =~ /(.*)@(.*)/
         inline_credentials = $1
         host = $2
-        # We'll use a non-greedy match to grab everthinmg up to the first ':'
+        # We'll use a non-greedy match to grab everything up to the first ':'
         # as username if there is no :, credentials is just the username
         if inline_credentials =~ /(.+?):(.*)/
           inline_user = $1
@@ -111,7 +111,7 @@ module ChefApply
     # POSTFIX can contain further ranges itself
     # This uses a greedy match (.*) to get include every character
     # up to the last "[" in PREFIX
-    # $1 - prefix; $2 - x, $3 - y, $4 unproccessed/remaining text
+    # $1 - prefix; $2 - x, $3 - y, $4 unprocessed/remaining text
     TARGET_WITH_RANGE = /^(.*)\[([\p{Alnum}]+):([\p{Alnum}]+)\](.*)/.freeze
 
     def do_parse(targets, depth = 0)

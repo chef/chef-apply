@@ -50,7 +50,7 @@ module ChefApply
 
         # Special note:
         # config_path is pre-processed in startup.rb, and is shown here only
-        # for purpoess of rendering help text.
+        # for the purpose of rendering help text.
         klass.option :config_path,
           short: "-c PATH",
           long: "--config PATH",
@@ -138,7 +138,7 @@ module ChefApply
       end
 
       # I really don't like that mixlib-cli refers to the parsed command line flags in
-      # a hash accesed via the `config` method. Thats just such an overloaded word.
+      # a hash accessed via the `config` method. Thats just such an overloaded word.
       def parsed_options
         config
       end

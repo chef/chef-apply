@@ -271,7 +271,7 @@ RSpec.describe ChefApply::Startup do
   end
 
   describe "#load_config" do
-    context "when a custom configuraton path is provided" do
+    context "when a custom configuration path is provided" do
       let(:config_path) { nil }
       it "loads the config at the custom path" do
         expect(subject).to receive(:custom_config_path).and_return config_path

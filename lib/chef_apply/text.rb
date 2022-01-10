@@ -24,7 +24,7 @@ require_relative "text/error_translation"
 module ChefApply
   module Text
     def self._error_table
-      # Though ther may be several translations, en.yml will be the only one with
+      # Though there may be several translations, en.yml will be the only one with
       # error metadata.
       path = File.join(_translation_path, "errors", "en.yml")
       raw_yaml = File.read(path)

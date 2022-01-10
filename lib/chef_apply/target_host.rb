@@ -29,7 +29,7 @@ module ChefApply
     # We're borrowing a page from train here - because setting up a
     # reliable connection for testing is a multi-step process,
     # we'll provide this method which instantiates a TargetHost connected
-    # to a train mock backend. If the family/name provided resolves to a suported
+    # to a train mock backend. If the family/name provided resolves to a supported
     # OS, this instance will mix-in the supporting methods for the given platform;
     # otherwise those methods will raise NotImplementedError.
     def self.mock_instance(url, family: "unknown", name: "unknown",
@@ -183,7 +183,7 @@ module ChefApply
       end
     end
 
-    # TODO 2019-01-29  not expose this, it's internal implemenation. Same with #backend.
+    # TODO 2019-01-29  not expose this, it's internal implementation. Same with #backend.
     def platform
       backend.platform
     end

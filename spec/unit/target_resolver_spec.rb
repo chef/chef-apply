@@ -356,9 +356,9 @@ RSpec.describe ChefApply::TargetResolver do
 
   context "#prefix_from_target" do
     context "when no protocol is provided" do
-      let(:default_protocol) { "badproto" }
+      let(:default_protocol) { "bad_proto" }
       it "uses the default from configuration" do
-        expect(subject.prefix_from_target("host.com")).to eq %w{badproto:// host.com}
+        expect(subject.prefix_from_target("host.com")).to eq %w{bad_proto:// host.com}
       end
     end
 

@@ -13,8 +13,8 @@ module ChefApply
       end
 
       def chown(path, owner)
-        owner ||= user
-        run_command!("chown #{owner} '#{path}'")
+        # owner ||= user
+        # run_command!("chown #{owner} '#{path}'")
         nil
       end
 
@@ -27,8 +27,6 @@ module ChefApply
       end
 
       def install_package(target_package_path)
-        # command = "pkg install -g #{target_package_path} chef"
-        #  command = "installp -ld #{target_package_path}"
         command = "installp -aXYgd #{target_package_path} all"
         run_command!(command)
       end

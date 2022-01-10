@@ -2,6 +2,7 @@
 .vagrant
 *.log
 coverage/
+.bundle
 
 # Chef Workstation is the source of truth for all locked gems
 Gemfile.lock

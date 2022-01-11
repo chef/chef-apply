@@ -39,10 +39,10 @@ RSpec.describe ChefApply::TargetHost::Aix do
 
   context "#install_package" do
     context "run the correct pkg run command " do
-      let(:expected_command) { "installp -aXYgd chef-12.0.0-rc.0-1.powerpc.bff" }
+      let(:expected_command) { "installp -aXYgd chef-12.0.0-rc.0-1.powerpc.bff all" }
       it "should run the correct install command" do
         expect(subject).to receive(:run_command!).with expected_command
-        subject.install_package("/my/chef-12.0.0-rc.0-1.powerpc.bff")
+        subject.install_package("chef-12.0.0-rc.0-1.powerpc.bff")
 
       end
 

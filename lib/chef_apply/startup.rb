@@ -43,7 +43,7 @@ module ChefApply
 
       # Call this every time, so that if we add or change ~/.chef-workstation
       # directory structure, we can be sure that it exists. Even with a
-      # custom configuration, the .chef-workstation directory and subdirs
+      # custom configuration, the .chef-workstation directory and sub-dirs
       # are required.
       setup_workstation_user_directories
 
@@ -65,7 +65,7 @@ module ChefApply
       start_chef_apply(enforce_license: enforce_license)
 
     # NOTE: Because these exceptions occur outside of the
-    #       CLI handling, they won't be tracked in telemtry.
+    #       CLI handling, they won't be tracked in telemetry.
     #       We can revisit this once the pending error handling rework
     #       is underway.
     rescue ConfigPathInvalid => e
@@ -149,7 +149,7 @@ module ChefApply
     end
 
     def setup_error_handling
-      # In Ruby 2.5+ threads print out to stdout when they raise an exception. This is an agressive
+      # In Ruby 2.5+ threads print out to stdout when they raise an exception. This is an aggressive
       # attempt to ensure debugging information is not lost, but in our case it is not necessary
       # because we handle all the errors ourself. So we disable this to keep output clean.
       # See https://ruby-doc.org/core-2.5.0/Thread.html#method-c-report_on_exception
@@ -168,7 +168,7 @@ module ChefApply
     # Look for a user-supplied config path by  manually parsing the option.
     # Note that we can't use Mixlib::CLI for this.
     # To ensure that ChefApply::CLI initializes with correct
-    # option defaults, we need to have configuraton loaded before initializing it.
+    # option defaults, we need to have configuration loaded before initializing it.
     def custom_config_path
       argv.each_with_index do |arg, index|
         if arg == "--config-path" || arg == "-c"

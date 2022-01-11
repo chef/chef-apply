@@ -211,7 +211,7 @@ module ChefApply
       end
     end
 
-    # Runs a GenerateCookbook action based on recipe/resource infoprovided
+    # Runs a GenerateCookbook action based on recipe/resource info provided
     # and renders UI updates as the action reports back
     def generate_temp_cookbook(arguments, reporter)
       opts = if arguments.length == 1

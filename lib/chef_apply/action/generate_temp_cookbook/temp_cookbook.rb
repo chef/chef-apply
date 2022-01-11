@@ -69,7 +69,7 @@ module ChefApply
 
         def from_resource(resource_type, resource_name, properties)
           # Generate a cookbook containing a single default recipe with the specified
-          # resource in it. Incloud the resource type in the cookbook name so hopefully
+          # resource in it. Include the resource type in the cookbook name so hopefully
           # this gives us better reporting info in the future.
           @descriptor = "#{resource_type}[#{resource_name}]"
           @from = "resource"

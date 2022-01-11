@@ -51,7 +51,7 @@ module ChefApply
           @error = e
 
         end
-        # Raise outside the block to ensure that the telemetry cpature completes
+        # Raise outside the block to ensure that the telemetry capture completes
         raise @error unless @error.nil?
       end
 

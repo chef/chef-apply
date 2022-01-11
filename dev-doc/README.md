@@ -37,7 +37,7 @@ To suspend a Vagrant machine use
 bundle exec chef-run ssh://test@ipaddress directory /tmp/foo --password mypassword
 ```
 
-**Here is some prerunned use case, and interim statuses that chef-run displays.**
+**Here is some pre-run use cases, and interim statuses that chef-run displays.**
 
 ```shell
 bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=create
@@ -55,7 +55,7 @@ Valid actions are:
   :nothing, :create, :remove, :modify, :manage, :lock, :unlock
 
 For more information, please consult the documentation for this resource:
-  <https://docs.chef.io/resource_reference.html>
+  <https://docs.chef.io/resources>
 
 ```shell
 bundle exec chef-run ssh://my_user@host1:2222 directory /tmp/foo --identity-file ~/.ssh/id_rsa user test1 action=remove

@@ -1,0 +1,84 @@
+// cSpell Settings
+{
+  // Version of the setting file.  Always 0.1
+  "version": "0.1",
+  // language - current active spelling language
+  "language": "en",
+  "dictionaryDefinitions": [
+    {
+        "name": "chef",
+        "file": "./chef_dictionary.txt",
+        "description": "Custom Chef Dictionary"
+    }
+  ],
+  "dictionaries": ["chef"],
+  // words - list of words to be always considered correct
+  "words": [
+    "MACHINENAME",
+    "ipaddress",
+    "mypassword",
+    "unikitten",
+    "repos",
+    "demosite",
+    "tempfile",
+    "CHEFTRN",
+    "CHEFUPL",
+    "Compat",
+    "LASTEXITCODE",
+    "tempdir",
+    "errid",
+    "extname",
+    "ljust",
+    "converger",
+    "mktmpdir",
+    "levenshteinian",
+    "APPDATA",
+    "multispinner",
+    "MKTEMP",
+    "CHEFLIC",
+    "CHEFINS",
+    "CHEFVAL",
+    "mountpoint",
+    "uploader",
+    "trainerrormapper",
+    "CHEFNET",
+    "tmpdir",
+    "CHEFTARG",
+    "CHEFPOLICY",
+    "CHEFCCR",
+    "CHEFRANGE",
+    "CHEFAPI",
+    "CHEFMULTI",
+    "CHEFRMT",
+    "CHEFINT",
+    "Alnum",
+    "succ",
+    "proto"
+  ],
+  // flagWords - list of words to be always considered incorrect
+  // This is useful for offensive words and common spelling errors.
+  // For example "hte" should be "the"
+  "flagWords": [
+    "hte"
+  ],
+  "ignorePaths": [
+    "CHANGELOG.md",
+    "**/*.gemspec",
+    "**/Gemfile.lock",
+    "**/Gemfile",
+    ".expeditor/**/*",
+    "**/*.yml",
+    "**/*.toml",
+    "**/Berksfile",
+    "spec/**",
+    "cspell.json",
+    "Vagrantfile",
+    "**/chefignore"
+  ],
+  "ignoreRegExpList": [
+    // Ignore "'s" at the end of a word. If "Chef" is an accepted word, so is "Chef's".
+    "/'s\\b/",
+    // Ignore "'d" at the end of a word. If "dup" is an accepted word, so is "dup'd".
+    "/'d\\b/"
+  ]
+}

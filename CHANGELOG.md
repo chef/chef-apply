@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.8.11 -->
-## [v0.8.11](https://github.com/chef/chef-apply/tree/v0.8.11) (2022-01-11)
+<!-- latest_release 0.9.0 -->
+## [v0.9.0](https://github.com/chef/chef-apply/tree/v0.9.0) (2022-01-18)
 
 #### Merged Pull Requests
-- Add cspell config to fix spellcheck failures [#203](https://github.com/chef/chef-apply/pull/203) ([tas50](https://github.com/tas50))
+- Support AIX for chef adhoc runs [#201](https://github.com/chef/chef-apply/pull/201) ([i5pranay93](https://github.com/i5pranay93))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.8.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Support AIX for chef adhoc runs [#201](https://github.com/chef/chef-apply/pull/201) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.9.0 -->
 - Add cspell config to fix spellcheck failures [#203](https://github.com/chef/chef-apply/pull/203) ([tas50](https://github.com/tas50)) <!-- 0.8.11 -->
 - Update chefstyle requirement from 2.1.3 to 2.2.0 [#200](https://github.com/chef/chef-apply/pull/200) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.8.10 -->
 - Disable yml and md linting and fix chefstyle [#202](https://github.com/chef/chef-apply/pull/202) ([tas50](https://github.com/tas50)) <!-- 0.8.9 -->

@@ -16,5 +16,5 @@
 #
 
 module ChefApply
-  VERSION = "0.8.11".freeze
+  VERSION = "0.9.0".freeze
 end

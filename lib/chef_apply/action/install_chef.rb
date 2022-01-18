@@ -99,6 +99,8 @@ module ChefApply
           opts[:platform] = "sles"
         when "solaris"
           opts[:platform] = "solaris2"
+        when "aix"
+          opts[:platform] = "aix"
         when "amazon"
           opts[:platform] = "el"
           if platform.release.to_i > 2010 # legacy Amazon version 1

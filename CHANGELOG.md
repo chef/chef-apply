@@ -1,8 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 0.9.1 -->
+## [v0.9.1](https://github.com/chef/chef-apply/tree/v0.9.1) (2022-01-27)
+
+#### Merged Pull Requests
+- Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.9.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi)) <!-- 0.9.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

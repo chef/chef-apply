@@ -1,20 +1,18 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.9.2 -->
-## [v0.9.2](https://github.com/chef/chef-apply/tree/v0.9.2) (2022-01-28)
-
-#### Merged Pull Requests
-- adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.9.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.9.2 -->
-- Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi)) <!-- 0.9.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.9.2](https://github.com/chef/chef-apply/tree/v0.9.2) (2022-01-28)
+
+#### Merged Pull Requests
+- Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi))
+- adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93))
+<!-- latest_stable_release -->
+
 ## [v0.9.0](https://github.com/chef/chef-apply/tree/v0.9.0) (2022-01-20)
 
 #### Merged Pull Requests
@@ -29,7 +27,6 @@
 - Update chefstyle requirement from 2.1.3 to 2.2.0 [#200](https://github.com/chef/chef-apply/pull/200) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Add cspell config to fix spellcheck failures [#203](https://github.com/chef/chef-apply/pull/203) ([tas50](https://github.com/tas50))
 - Support AIX for chef adhoc runs [#201](https://github.com/chef/chef-apply/pull/201) ([i5pranay93](https://github.com/i5pranay93))
-<!-- latest_stable_release -->
 
 ## [v0.8.1](https://github.com/chef/chef-apply/tree/v0.8.1) (2021-08-18)
 

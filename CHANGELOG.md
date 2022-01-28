@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.9.1 -->
-## [v0.9.1](https://github.com/chef/chef-apply/tree/v0.9.1) (2022-01-27)
+<!-- latest_release 0.9.2 -->
+## [v0.9.2](https://github.com/chef/chef-apply/tree/v0.9.2) (2022-01-28)
 
 #### Merged Pull Requests
-- Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi))
+- adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.9.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.9.2 -->
 - Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi)) <!-- 0.9.1 -->
 <!-- release_rollup -->
 

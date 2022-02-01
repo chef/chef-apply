@@ -9,5 +9,5 @@ jobs:
     name: "Label PR when run test"
     runs-on: ubuntu-latest
     steps:
-      - name: "Do nothing. Only trigger corresponding workflow_run event"
+      - name: "Do nothing. Only trigger corresponding workflow_run event."
         run: echo

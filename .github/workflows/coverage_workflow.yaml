@@ -1,21 +1,13 @@
-name: Label when run coverage
-on: 
-  workflow_run:
-    workflows: ["run test"]
-    types: ['requested']
-
-permissions:
-  # All other permissions are set to none
-  checks: write
-  contents: read
-  pull-requests: write
-
+name: coverage workflow
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 jobs:
-  label-when-run-coverage:
-    name: "Label PR wehen run test"
+  coverage-workflow:
+    name: "Label PR when run test"
     runs-on: ubuntu-latest
     steps:
       - name: "Do nothing. Only trigger corresponding workflow_run event"
         run: echo
-
-

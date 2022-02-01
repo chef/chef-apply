@@ -1,11 +1,14 @@
----
-name: run test
+name: run coverage
+on: 
+  workflow_run:
+    workflows: ["coverage workflow"]
+    types: ['completed']
 
-"on":
-  pull_request:
-  push:
-    branches:
-      - main
+permissions:
+  # All other permissions are set to none
+  checks: write
+  contents: read
+  pull-requests: write
 
 jobs:
   coverage-test:

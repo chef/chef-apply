@@ -1,9 +1,6 @@
-name: run coverage
-on: 
-  workflow_run:
-    workflows: ["coverage workflow"]
-    types: ['completed']
-    
+---
+name: run test
+
 on:
   pull_request:
   push:

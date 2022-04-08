@@ -21,8 +21,15 @@ gemspec
 group :development do
   gem "chefstyle", "2.2.2"
   gem "rake", ">= 10.1.0"
+  gem "rake-compiler", "~> 0.9"
+  gem "mime-types", "~> 1.16"
   gem "rspec", "~> 3.0"
   gem "simplecov"
+end
+
+group :test do
+  gem "libyajl2"
+
 end
 
 group :debug do

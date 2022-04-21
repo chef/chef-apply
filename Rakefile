@@ -5,6 +5,8 @@ begin
 
   RSpec::Core::RakeTask.new(:spec) do |t|
     t.pattern = FileList["spec/**/*_spec.rb"]
+    t.verbose = false
+    t.rspec_opts = ["--color", "--format", "documentation"]
   end
 rescue LoadError
   desc "rspec is not installed, this task is disabled"

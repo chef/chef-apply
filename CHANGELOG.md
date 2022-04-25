@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.9.3 -->
-## [v0.9.3](https://github.com/chef/chef-apply/tree/v0.9.3) (2022-02-21)
+<!-- latest_release 0.9.4 -->
+## [v0.9.4](https://github.com/chef/chef-apply/tree/v0.9.4) (2022-04-25)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 2.2.0 to 2.2.2 [#214](https://github.com/chef/chef-apply/pull/214) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.9.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.9.4 -->
 - Update chefstyle requirement from 2.2.0 to 2.2.2 [#214](https://github.com/chef/chef-apply/pull/214) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.9.3 -->
 <!-- release_rollup -->
 

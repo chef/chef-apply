@@ -22,7 +22,6 @@ require "chef/telemeter"
 require "chef/telemeter/sender"
 require "chef_apply/ui/terminal"
 require "chef_apply/action/generate_temp_cookbook"
-require "chef_apply/action/install_chef"
 require "chef_apply/action/generate_temp_cookbook/temp_cookbook"
 
 require "chef-cli/ui"

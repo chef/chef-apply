@@ -1,26 +1,23 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.9.4 -->
-## [v0.9.4](https://github.com/chef/chef-apply/tree/v0.9.4) (2022-04-25)
-
-#### Merged Pull Requests
-- Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.9.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.9.4 -->
-- Update chefstyle requirement from 2.2.0 to 2.2.2 [#214](https://github.com/chef/chef-apply/pull/214) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 0.9.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.9.4](https://github.com/chef/chef-apply/tree/v0.9.4) (2022-10-20)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.2.0 to 2.2.2 [#214](https://github.com/chef/chef-apply/pull/214) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611))
+<!-- latest_stable_release -->
+
 ## [v0.9.2](https://github.com/chef/chef-apply/tree/v0.9.2) (2022-01-28)
 
 #### Merged Pull Requests
 - Integrated test coverage % report [#205](https://github.com/chef/chef-apply/pull/205) ([snehaldwivedi](https://github.com/snehaldwivedi))
 - adding a fix for failing aix [#207](https://github.com/chef/chef-apply/pull/207) ([i5pranay93](https://github.com/i5pranay93))
-<!-- latest_stable_release -->
 
 ## [v0.9.0](https://github.com/chef/chef-apply/tree/v0.9.0) (2022-01-20)
 

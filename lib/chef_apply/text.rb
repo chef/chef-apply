@@ -28,7 +28,7 @@ module ChefApply
       # error metadata.
       path = File.join(_translation_path, "errors", "en.yml")
       raw_yaml = File.read(path)
-      @error_table ||= YAML.load(raw_yaml, _translation_path, symbolize_names: true)[:errors]
+      @error_table ||= YAML.load(raw_yaml, filename: _translation_path, symbolize_names: true)[:errors]
     end
 
     def self._translation_path

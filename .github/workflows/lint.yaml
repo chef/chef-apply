@@ -31,9 +31,6 @@ jobs:
           file-url: 'https://raw.githubusercontent.com/chef/chef_dictionary/main/chef.txt'
           file-name: 'chef_dictionary.txt'
       - uses: streetsidesoftware/cspell-action@v2.12.0
-        with:
-          config: cspell.json
-          paths: "**/*"
 
   coverage-test:
     name: Coverage

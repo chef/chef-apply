@@ -56,7 +56,9 @@
     "proto",
     "installp",
     "Qube",
-    "objc"
+    "objc",
+    "kamura",
+    "carlosperate"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.
@@ -65,7 +67,6 @@
     "hte"
   ],
   "ignorePaths": [
-    ".github/workflows/*.yml",
     "CHANGELOG.md",
     "**/*.gemspec",
     "**/Gemfile.lock",

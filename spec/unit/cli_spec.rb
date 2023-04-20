@@ -224,8 +224,8 @@ RSpec.describe ChefApply::CLI do
       it "gets an action via GenerateTempCookbook.from_options and executes it " do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
-          .with(resource_type: "user",
-                resource_name: "test", resource_properties: {})
+          .with({resource_type: "user",
+                resource_name: "test", resource_properties: {}})
           .and_return(action)
         expect(action).to receive(:run)
         expect(subject.generate_temp_cookbook(%w{user test}, nil)).to eq temp_cookbook
@@ -237,7 +237,7 @@ RSpec.describe ChefApply::CLI do
       it "gets an action via GenerateTempCookbook.from_options and executes it" do
         expect(ChefApply::Action::GenerateTempCookbook)
           .to receive(:from_options)
-          .with(recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp")
+          .with({recipe_spec: "mycookbook::default", cookbook_repo_paths: "/tmp"})
           .and_return(action)
         expect(action).to receive(:run)
         subject.generate_temp_cookbook(["mycookbook::default"], nil)

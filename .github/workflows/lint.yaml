@@ -13,10 +13,10 @@ jobs:
     env:
       BUNDLE_WITHOUT: ruby_shadow:omnibus_package
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.1
         bundler-cache: true
     - uses: r7kamura/rubocop-problem-matchers-action@v1 # this shows the failures in the PR
     - run: bundle exec chefstyle
@@ -24,7 +24,7 @@ jobs:
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: carlosperate/download-file-action@v1.0.3
         id: download-custom-dictionary
         with:
@@ -37,13 +37,13 @@ jobs:
 
   coverage-test:
     name: Coverage
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up ruby 2.7
+      - uses: actions/checkout@v3
+      - name: Set up ruby 3.1
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 3.1
           bundler-cache: true
       - name: run specs
         run: bundle exec rake spec --trace
@@ -52,4 +52,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           failedThreshold: 90
-          resultPath: coverage/.last_run.json 
+          resultPath: coverage/.last_run.json

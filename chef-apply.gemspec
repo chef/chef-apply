@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Ad-hoc management of individual nodes and devices."
   spec.homepage      = "https://github.com/chef/chef-apply"
   spec.license       = "Apache-2.0"
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.1"
 
   spec.files = %w{Rakefile LICENSE warning.txt} +
     Dir.glob("Gemfile*") + # Includes Gemfile and locks
@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "mixlib-install" # URL resolver + install tool for chef products
   spec.add_dependency "r18n-desktop" # easy path to message text management via localization gem...
   spec.add_dependency "toml-rb" # This isn't ideal because mixlib-config uses 'tomlrb' but that library does not support a dumper
-  spec.add_dependency "train-core", "~> 3.0" # remote connection management over ssh, winrm
+  spec.add_dependency "train-core", ">= 3.0" # remote connection management over ssh, winrm
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI

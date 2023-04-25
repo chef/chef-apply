@@ -1,15 +1,16 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
 <!-- latest_release 0.9.5 -->
-## [v0.9.5](https://github.com/chef/chef-apply/tree/v0.9.5) (2023-03-27)
+## [v0.9.5](https://github.com/chef/chef-apply/tree/v0.9.5) (2023-04-25)
 
 #### Merged Pull Requests
-- Integrating with sonarQube [#219](https://github.com/chef/chef-apply/pull/219) ([nikhil2611](https://github.com/nikhil2611))
+- Fix yaml load error for ruby 3.1 [#220](https://github.com/chef/chef-apply/pull/220) ([Stromweld](https://github.com/Stromweld))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.9.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix yaml load error for ruby 3.1 [#220](https://github.com/chef/chef-apply/pull/220) ([Stromweld](https://github.com/Stromweld)) <!-- 0.9.5 -->
 - Integrating with sonarQube [#219](https://github.com/chef/chef-apply/pull/219) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.9.5 -->
 <!-- release_rollup -->
 

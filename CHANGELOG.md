@@ -1,27 +1,24 @@
 <!-- usage documentation: https://expeditor.chef.io/docs/reference/changelog/ -->
-<!-- latest_release 0.9.6 -->
-## [v0.9.6](https://github.com/chef/chef-apply/tree/v0.9.6) (2023-05-16)
-
-#### Merged Pull Requests
-- Minor change in Readme [#222](https://github.com/chef/chef-apply/pull/222) ([vkarve-chef](https://github.com/vkarve-chef))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.9.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Minor change in Readme [#222](https://github.com/chef/chef-apply/pull/222) ([vkarve-chef](https://github.com/vkarve-chef)) <!-- 0.9.6 -->
-- Fix yaml load error for ruby 3.1 [#220](https://github.com/chef/chef-apply/pull/220) ([Stromweld](https://github.com/Stromweld)) <!-- 0.9.5 -->
-- Integrating with sonarQube [#219](https://github.com/chef/chef-apply/pull/219) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.9.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.9.6](https://github.com/chef/chef-apply/tree/v0.9.6) (2023-05-16)
+
+#### Merged Pull Requests
+- Integrating with sonarQube [#219](https://github.com/chef/chef-apply/pull/219) ([nikhil2611](https://github.com/nikhil2611))
+- Fix yaml load error for ruby 3.1 [#220](https://github.com/chef/chef-apply/pull/220) ([Stromweld](https://github.com/Stromweld))
+- Minor change in Readme [#222](https://github.com/chef/chef-apply/pull/222) ([vkarve-chef](https://github.com/vkarve-chef))
+<!-- latest_stable_release -->
+
 ## [v0.9.4](https://github.com/chef/chef-apply/tree/v0.9.4) (2022-10-20)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 2.2.0 to 2.2.2 [#214](https://github.com/chef/chef-apply/pull/214) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Added ruby 3.0/3.1 windows/linux image [#217](https://github.com/chef/chef-apply/pull/217) ([nikhil2611](https://github.com/nikhil2611))
-<!-- latest_stable_release -->
 
 ## [v0.9.2](https://github.com/chef/chef-apply/tree/v0.9.2) (2022-01-28)
 

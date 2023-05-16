@@ -18,7 +18,7 @@ link <https://docs.chef.io/workstation/chef_run/>
 1. Make sure to add machine in host file e.g (in  /etc/hosts add - 127.0.0.1 ubuntu1)
 1. `vagrant status` to check status of VirtualBox created
 1. `vagrant up MACHINENAME`
-1. Once machine is up, run this command format( based on user,port, and machine name)
+1. Once the machine is up, run this command format( based on user,port, and machine name)
 
    ```shell
    bundle exec chef-run ssh://vagrant@ubuntu1:2235 directory /tmp/foo --identity-file ~/.vagrant.d/insecure_private_key

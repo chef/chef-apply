@@ -49,7 +49,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
-  spec.add_dependency "chef", ">= 16.0" # Needed to load cookbooks
+  if RUBY_VERSION.match?(/3.1/)
+    spec.add_dependency "chef", "~> 18.0"
+  elsif
+    spec.add_dependency "chef", ">= 16.0" # Needed to load cookbooks
+  end
   spec.add_dependency "chef-cli", ">= 2.0.10 " # Policyfile
   spec.add_dependency "chef-telemetry", ">= 1.0.2"
   spec.add_dependency "license-acceptance", ">= 1.0.11", "< 3"

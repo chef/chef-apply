@@ -51,7 +51,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
   if RUBY_VERSION.match?(/3.1/)
     spec.add_dependency "chef", "~> 18.0"
-  elsif gem.add_dependency "chef", ">= 16.0"
+  elsif spec.add_dependency "chef", ">= 16.0"
   end
   spec.add_dependency "chef-cli", ">= 2.0.10 " # Policyfile
   spec.add_dependency "chef-telemetry", ">= 1.0.2"

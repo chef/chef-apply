@@ -21,7 +21,7 @@ gemspec
 group :development do
   gem "chefstyle", "2.2.3"
   gem "rake", ">= 10.1.0"
-  gem "rspec", "~> 3.1"
+  gem "rspec", "~> 3.12"
   gem "simplecov"
 end
 

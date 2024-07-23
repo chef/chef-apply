@@ -49,7 +49,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
-  if RUBY_VERSION.match?(/3.3/)
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.1.0")
     spec.add_dependency "chef", "~> 18.0"
   else
     spec.add_dependency "chef", ">= 16.0"

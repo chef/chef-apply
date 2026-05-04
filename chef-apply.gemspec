@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Ad-hoc management of individual nodes and devices."
   spec.homepage      = "https://github.com/chef/chef-apply"
   spec.license       = "Apache-2.0"
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.3"
 
   spec.files = %w{Rakefile LICENSE warning.txt} +
     Dir.glob("Gemfile*") + # Includes Gemfile and locks
@@ -49,7 +49,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm" # winrm transports were pulled out into this plugin
   spec.add_dependency "pastel" # A color library
   spec.add_dependency "tty-spinner" # Pretty output for status updates in the CLI
-  spec.add_dependency "chef", ">= 16.0" # Needed to load cookbooks
+  spec.add_dependency "chef", "~> 18.0"
   spec.add_dependency "chef-cli", ">= 2.0.10 " # Policyfile
   spec.add_dependency "chef-telemetry", ">= 1.0.2"
   spec.add_dependency "license-acceptance", ">= 1.0.11", "< 3"
